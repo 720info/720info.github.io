@@ -14,7 +14,7 @@
 </ol>
 <h2>进入实验室</h2>
 <p>点击下方链接，即刻开启你的数学探索之旅：
-<a href="http://xxxxxx.com">xxxxxx.com</a></p>
+<a href="https://lianglitao.github.io/math/">https://lianglitao.github.io/math/</a></p>
 <hr>
 <blockquote>
 <p>魔鬼数学实验室，让数学不再枯燥，让探索充满乐趣！</p>
