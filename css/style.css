@@ -1734,9 +1734,6 @@ a.article-title:hover {
   border: 1px solid rgba(255,255,255,0.08);
 }
 .article-entry .highlight .gutter pre,
-.article-entry .gist .text-shadow(0 .gist-data .line-numbers,
-.article-entry .gist 1px .gist-data .line-numbers,
-.article-entry .gist #fff) .gist-data .line-numbers,
 .article-entry .gist .gist-file .gist-data .line-numbers {
   color: #999;
   font-size: 0.85em;
@@ -1760,12 +1757,10 @@ a.article-title:hover {
   margin: 1em 0;
   padding: 15px 20px;
   overflow: auto;
+  text-shadow: 0 1px #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
-.article-entry > pre .text-shadow(0,
-.article-entry > pre 1px,
-.article-entry > pre #fff),
-.article-entry > pre border-radius: border-radius,
-.article-entry > pre border: 1px solid #ddd,
 .article-entry > pre code {
   background: none;
   text-shadow: none;
@@ -1782,12 +1777,10 @@ a.article-title:hover {
   margin: 1em 0;
   padding: 15px 20px;
   overflow: auto;
+  text-shadow: 0 1px #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 }
-.article-entry .highlight .text-shadow(0,
-.article-entry .highlight 1px,
-.article-entry .highlight #fff),
-.article-entry .highlight border-radius: border-radius,
-.article-entry .highlight border: 1px solid #ddd,
 .article-entry .highlight code {
   background: none;
   text-shadow: none;
@@ -1852,104 +1845,46 @@ a.article-title:hover {
   border-color: #ddd;
   border-width: 1px 0;
   background: #eee;
+  text-shadow: 0 1px #fff;
 }
-.article-entry .gist .text-shadow(0,
-.article-entry .gist 1px,
-.article-entry .gist #fff),
 .article-entry .gist .gist-file {
   border: none;
   font-family: "JetBrains Mono", "Fira Code", "Source Code Pro", Consolas, Monaco, Menlo, monospace;
   margin: 0;
 }
-.article-entry .gist .text-shadow(0 .gist-data,
-.article-entry .gist 1px .gist-data,
-.article-entry .gist #fff) .gist-data,
 .article-entry .gist .gist-file .gist-data {
   background: none;
   border: none;
 }
-.article-entry .gist .text-shadow(0 .gist-data .line-numbers,
-.article-entry .gist 1px .gist-data .line-numbers,
-.article-entry .gist #fff) .gist-data .line-numbers,
 .article-entry .gist .gist-file .gist-data .line-numbers {
   background: none;
   border: none;
   padding-right: 15px;
 }
-.article-entry .gist .text-shadow(0 .gist-data .line-data,
-.article-entry .gist 1px .gist-data .line-data,
-.article-entry .gist #fff) .gist-data .line-data,
 .article-entry .gist .gist-file .gist-data .line-data {
   padding: 0 !important;
   border: none;
 }
-.article-entry .gist .text-shadow(0 .highlight,
-.article-entry .gist 1px .highlight,
-.article-entry .gist #fff) .highlight,
 .article-entry .gist .gist-file .highlight {
   margin: 0;
   padding: 0;
   border: none;
 }
-.article-entry .gist .text-shadow(0 .gist-meta,
-.article-entry .gist 1px .gist-meta,
-.article-entry .gist #fff) .gist-meta,
 .article-entry .gist .gist-file .gist-meta {
   overflow: hidden;
   background: transparent;
   color: #7f8ea3;
   font: 0.85em -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+  text-shadow: none;
+  padding: 0;
+  margin-top: 1em;
+  margin-left: 0;
+  border: none;
 }
-.article-entry .gist .text-shadow(0 .gist-meta .text-shadow(none),
-.article-entry .gist 1px .gist-meta .text-shadow(none),
-.article-entry .gist #fff) .gist-meta .text-shadow(none),
-.article-entry .gist .gist-file .gist-meta .text-shadow(none),
-.article-entry .gist .text-shadow(0 .gist-meta padding: 0,
-.article-entry .gist 1px .gist-meta padding: 0,
-.article-entry .gist #fff) .gist-meta padding: 0,
-.article-entry .gist .gist-file .gist-meta padding: 0,
-.article-entry .gist .text-shadow(0 .gist-meta margin-top: 1em,
-.article-entry .gist 1px .gist-meta margin-top: 1em,
-.article-entry .gist #fff) .gist-meta margin-top: 1em,
-.article-entry .gist .gist-file .gist-meta margin-top: 1em,
-.article-entry .gist .text-shadow(0 .gist-meta margin-left: 0,
-.article-entry .gist 1px .gist-meta margin-left: 0,
-.article-entry .gist #fff) .gist-meta margin-left: 0,
-.article-entry .gist .gist-file .gist-meta margin-left: 0,
-.article-entry .gist .text-shadow(0 .gist-meta border: none,
-.article-entry .gist 1px .gist-meta border: none,
-.article-entry .gist #fff) .gist-meta border: none,
-.article-entry .gist .gist-file .gist-meta border: none,
-.article-entry .gist .text-shadow(0 .gist-meta a,
-.article-entry .gist 1px .gist-meta a,
-.article-entry .gist #fff) .gist-meta a,
 .article-entry .gist .gist-file .gist-meta a {
   color: #6366f1;
   font-weight: normal;
 }
-.article-entry .gist .text-shadow(0 .gist-meta .text-shadow(none):hover,
-.article-entry .gist 1px .gist-meta .text-shadow(none):hover,
-.article-entry .gist #fff) .gist-meta .text-shadow(none):hover,
-.article-entry .gist .gist-file .gist-meta .text-shadow(none):hover,
-.article-entry .gist .text-shadow(0 .gist-meta padding: 0:hover,
-.article-entry .gist 1px .gist-meta padding: 0:hover,
-.article-entry .gist #fff) .gist-meta padding: 0:hover,
-.article-entry .gist .gist-file .gist-meta padding: 0:hover,
-.article-entry .gist .text-shadow(0 .gist-meta margin-top: 1em:hover,
-.article-entry .gist 1px .gist-meta margin-top: 1em:hover,
-.article-entry .gist #fff) .gist-meta margin-top: 1em:hover,
-.article-entry .gist .gist-file .gist-meta margin-top: 1em:hover,
-.article-entry .gist .text-shadow(0 .gist-meta margin-left: 0:hover,
-.article-entry .gist 1px .gist-meta margin-left: 0:hover,
-.article-entry .gist #fff) .gist-meta margin-left: 0:hover,
-.article-entry .gist .gist-file .gist-meta margin-left: 0:hover,
-.article-entry .gist .text-shadow(0 .gist-meta border: none:hover,
-.article-entry .gist 1px .gist-meta border: none:hover,
-.article-entry .gist #fff) .gist-meta border: none:hover,
-.article-entry .gist .gist-file .gist-meta border: none:hover,
-.article-entry .gist .text-shadow(0 .gist-meta a:hover,
-.article-entry .gist 1px .gist-meta a:hover,
-.article-entry .gist #fff) .gist-meta a:hover,
 .article-entry .gist .gist-file .gist-meta a:hover {
   color: #8b5cf6;
 }
