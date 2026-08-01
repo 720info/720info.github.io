@@ -33,21 +33,30 @@
     update();
   }
 
-  // ===== 2. 鼠标点击涟漪特效（淡入快，不卡） =====
+  // ===== 2. 鼠标点击涟漪特效（明显版：更大、更亮、颜色饱和） =====
   function initClickRipple() {
-    var colors = ['#60a5fa', '#818cf8', '#c084fc', '#f472b6', '#34d399'];
-    var size = 90;
+    var colors = [
+      'rgba(96, 165, 250, 0.75)',   // 蓝
+      'rgba(129, 140, 248, 0.78)',  // 靛蓝
+      'rgba(192, 132, 252, 0.78)',  // 紫
+      'rgba(244, 114, 182, 0.75)',  // 粉
+      'rgba(52, 211, 153, 0.75)',   // 绿
+      'rgba(251, 191, 36, 0.75)',   // 金
+      'rgba(248, 113, 113, 0.75)'   // 红
+    ];
+    var size = 260;   // 更大的涟漪尺寸（明显看得见）
 
     function createRipple(x, y) {
       var el = document.createElement('span');
       el.className = 'click-ripple';
       var color = colors[Math.floor(Math.random() * colors.length)];
+      // 拆出颜色通道给内外渐变都用
       el.style.cssText =
         'left:' + (x - size / 2) + 'px;' +
         'top:' + (y - size / 2) + 'px;' +
         'width:' + size + 'px;' +
         'height:' + size + 'px;' +
-        'background: radial-gradient(circle, ' + color + ' 0%, rgba(96,165,250,0) 70%);';
+        'background: radial-gradient(circle, ' + color + ' 0%, rgba(255,255,255,0.35) 45%, rgba(255,255,255,0) 72%);';
       document.body.appendChild(el);
       el.addEventListener('animationend', function () {
         el.parentNode && el.parentNode.removeChild(el);
@@ -55,7 +64,6 @@
     }
 
     document.addEventListener('click', function (e) {
-      // 避免在输入框、链接上触发太多，但点空白处也照样有
       if (e.button !== 0) return;
       createRipple(e.clientX, e.clientY);
     }, { passive: true });
