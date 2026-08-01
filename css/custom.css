@@ -322,6 +322,40 @@ article.post-block .post-body a:active,
   color: #3730a3;
   background-image: linear-gradient(transparent calc(100% - 2px), #6366f1 2px);
 }
+/* 例外：正文中 a 包裹的图标（iconfont/GitHub/社交图标等）不要被染蓝，保持原色 */
+.post-content a i.iconfont,
+.post-body a i.iconfont,
+article.post-block .post-content a i.iconfont,
+article.post-block .post-body a i.iconfont,
+.links a i.iconfont,
+.about-body a i.iconfont,
+#board .post-footer a i.iconfont,
+.post-content a svg,
+.post-body a svg,
+article.post-block .post-content a svg,
+article.post-block .post-body a svg,
+.post-content a img,
+.post-body a img {
+  color: inherit !important;
+  fill: inherit !important;
+  background-image: none !important;
+}
+/* 版权声明卡片 & 作者信息卡片 内的链接和图标：保持原样不要统一蓝 */
+#board .post-copyright a,
+#board .post-copyright i.iconfont,
+#board .post-author a,
+#board .post-author i.iconfont,
+.post-article .post-footer a,
+.post-article .post-footer i.iconfont {
+  color: inherit !important;
+  background-image: none !important;
+}
+#board .post-copyright a:hover,
+#board .post-author a:hover,
+.post-article .post-footer a:hover {
+  background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px) !important;
+  background-size: 100% 100% !important;
+}
 /* 暗色模式下正文链接颜色更亮，避免看不清 */
 @media (prefers-color-scheme: dark) {
   .post-content a, .post-body a, article.post-block .post-content a, article.post-block .post-body a,
