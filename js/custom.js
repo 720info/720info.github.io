@@ -138,12 +138,79 @@
     targets.forEach(function (el) { io.observe(el); });
   }
 
+  // ===== 4. 图片加载失败全局兜底回退（<img>失败→SVG占位，Banner背景图失败→紫蓝渐变） =====
+  function initImageFallback() {
+    var svgPlaceholder = function (w, h, text) {
+      w = w || 320; h = h || 240; text = text || '图片加载失败';
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '">' +
+        '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#8b5cf6"/>' +
+        '</linearGradient></defs>' +
+        '<rect fill="url(#g)" width="100%" height="100%"/>' +
+        '<rect fill="rgba(255,255,255,0.1)" x="8" y="8" width="' + (w - 16) + '" height="' + (h - 16) + '" rx="10"/>' +
+        '<text x="50%" y="50%" fill="#ffffff" font-family="-apple-system,BlinkMacSystemFont,\\"PingFang SC\\",sans-serif" ' +
+        'font-size="16" font-weight="600" text-anchor="middle" dominant-baseline="middle">' + text + '</text>' +
+        '</svg>';
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    };
+
+    // 4.1 <img> 标签：全局捕获 error（事件委托 + capture，兼容懒加载等各种情况）
+    window.addEventListener('error', function (e) {
+      var t = e.target;
+      if (!t || t.tagName !== 'IMG') return;
+      if (t.__fallbackDone) return;
+      t.__fallbackDone = true;
+      var w = t.getAttribute('width') || t.offsetWidth || 320;
+      var h = t.getAttribute('height') || t.offsetHeight || 240;
+      // 不污染原 DOM 的尺寸
+      t.removeAttribute('srcset');
+      t.removeAttribute('src');
+      t.setAttribute('src', svgPlaceholder(w, h, '图片加载失败'));
+      t.style.objectFit = 'cover';
+    }, true);
+
+    // 4.2 Banner 背景图兜底（Fluid 用内联 style 的 background-image，<img> error 捕获不到）
+    function fallbackBanner() {
+      var banner = document.getElementById('banner');
+      if (!banner) return;
+      var style = banner.currentStyle ? banner.currentStyle : window.getComputedStyle(banner, null);
+      var bg = style.backgroundImage || banner.style.backgroundImage || '';
+      var m = /url\(['"]?([^'")]+)['"]?\)/.exec(bg);
+      if (!m || !m[1] || /^data:/.test(m[1])) return;
+      var src = m[1];
+      var tester = new Image();
+      tester.onerror = function () {
+        // 失败 → 换成紫蓝渐变（跟主题配色一致）
+        banner.style.backgroundImage =
+          'linear-gradient(135deg, #4338ca 0%, #6366f1 40%, #7c3aed 100%) !important';
+        banner.style.backgroundImage =
+          'linear-gradient(135deg, #4338ca 0%, #6366f1 40%, #7c3aed 100%)';
+        banner.style.backgroundColor = '#6366f1';
+        banner.style.backgroundSize = 'cover';
+        banner.style.backgroundPosition = 'center';
+      };
+      tester.src = src;
+    }
+
+    // 页面加载完 + 延迟一小会（等 Fluid 动态注入 Banner 样式后）再检查
+    if (document.readyState === 'complete') {
+      setTimeout(fallbackBanner, 300);
+    } else {
+      window.addEventListener('load', function () {
+        setTimeout(fallbackBanner, 300);
+      }, { once: true });
+    }
+    // SPA 切路由时也检查一次
+    setTimeout(fallbackBanner, 1200);
+  }
+
   // ===== 启动 =====
   function boot() {
     try { initReadingProgress(); } catch (e) { /* ignore */ }
     try { initClickRipple(); } catch (e) { /* ignore */ }
     try { initLinkDelayedNavigation(); } catch (e) { /* ignore */ }
     try { initScrollFadeIn(); } catch (e) { /* ignore */ }
+    try { initImageFallback(); } catch (e) { /* ignore */ }
   }
 
   if (document.readyState === 'loading') {
