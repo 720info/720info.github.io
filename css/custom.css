@@ -1,0 +1,68 @@
+/* ===== 阅读进度条（顶部细线，蓝色渐变） ===== */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #60a5fa, #818cf8, #c084fc);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+  transition: width 0.08s ease-out;
+  pointer-events: none;
+}
+
+/* ===== 鼠标点击涟漪特效 ===== */
+.click-ripple {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  animation: click-ripple-anim 0.45s ease-out forwards;
+  will-change: transform, opacity;
+}
+@keyframes click-ripple-anim {
+  0% {
+    transform: scale(0);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* ===== 页面滚动淡入动画（轻量，不卡） ===== */
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.28s ease-out,
+    transform 0.28s ease-out;
+  will-change: opacity, transform;
+}
+.scroll-fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== 首页文章卡片 + 按钮 更柔和的阴影 ===== */
+.index-card {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.index-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -12px rgba(37, 99, 235, 0.25);
+}
+
+/* ===== 文章目录 TOC 当前项高亮更漂亮 ===== */
+.tocbot-link.is-active-link {
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.12), transparent);
+  border-left: 3px solid #6366f1 !important;
+  padding-left: 9px;
+  color: #4f46e5 !important;
+  font-weight: 600;
+}

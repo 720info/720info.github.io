@@ -430,10 +430,21 @@ sup > a::before,
   -o-transform: rotate(-135deg);
   transform: rotate(-135deg);
 }
-.navbar .dropdown-collapse,
-.top-nav-collapse,
-.navbar-col-show {
-  background-color: var(--navbar-bg-color);
+@supports (-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)) {
+  .navbar .dropdown-collapse,
+  .top-nav-collapse,
+  .navbar-col-show {
+    background: rgba(30,64,175,0.85);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px))) {
+  .navbar .dropdown-collapse,
+  .top-nav-collapse,
+  .navbar-col-show {
+    background: #1e40af;
+  }
 }
 @media (max-width: 767px) {
   .navbar {
@@ -480,7 +491,20 @@ sup > a::before,
   transform: translateY(-12px);
   transition: opacity 0.18s ease, transform 0.18s ease;
   will-change: opacity, transform;
-  background-color: var(--navbar-bg-color);
+/* 若浏览器支持 backdrop-filter，则启用毛玻璃 */
+/* 若浏览器器不支持，则使用透明 */
+}
+@supports (-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)) {
+  #mobile-grid-menu {
+    background: rgba(30,64,175,0.85);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px))) {
+  #mobile-grid-menu {
+    background: #1e40af;
+  }
 }
 #mobile-grid-menu.show {
   pointer-events: auto;
@@ -961,27 +985,27 @@ body.mobile-menu-open {
 }
 :root {
   --color-mode: "light";
-  --body-bg-color: #eee;
-  --board-bg-color: #fff;
-  --text-color: #3c4858;
-  --sec-text-color: #718096;
-  --post-text-color: #2c3e50;
-  --post-heading-color: #1a202c;
-  --post-link-color: #0366d6;
-  --link-hover-color: #30a9de;
-  --link-hover-bg-color: #f8f9fa;
-  --line-color: #eaecef;
-  --navbar-bg-color: #2f4154;
-  --navbar-text-color: #fff;
-  --subtitle-color: #fff;
-  --scrollbar-color: #c4c6c9;
-  --scrollbar-hover-color: #a6a6a6;
+  --body-bg-color: #f7f9fc;
+  --board-bg-color: #ffffff;
+  --text-color: #1f2937;
+  --sec-text-color: #64748b;
+  --post-text-color: #334155;
+  --post-heading-color: #0f172a;
+  --post-link-color: #2563eb;
+  --link-hover-color: #4f46e5;
+  --link-hover-bg-color: #eef2ff;
+  --line-color: #e2e8f0;
+  --navbar-bg-color: rgba(30, 64, 175, 0.85);
+  --navbar-text-color: #ffffff;
+  --subtitle-color: #ffffff;
+  --scrollbar-color: #94a3b8;
+  --scrollbar-hover-color: #64748b;
   --button-bg-color: transparent;
   --button-hover-bg-color: #f2f3f5;
   --highlight-bg-color: #f6f8fa;
   --inlinecode-bg-color: rgba(175,184,193,0.2);
-  --fold-title-color: #3c4858;
-  --fold-border-color: #eaecef;
+  --fold-title-color: #1f2937;
+  --fold-border-color: #e2e8f0;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -989,31 +1013,47 @@ body.mobile-menu-open {
   }
   :root:not([data-user-color-scheme]) {
     --body-bg-color: #181c27;
-    --board-bg-color: #252d38;
-    --text-color: #c4c6c9;
-    --sec-text-color: #a7a9ad;
-    --post-text-color: #c4c6c9;
-    --post-heading-color: #c4c6c9;
-    --post-link-color: #1589e9;
-    --link-hover-color: #30a9de;
-    --link-hover-bg-color: #364151;
-    --line-color: #435266;
-    --navbar-bg-color: #1f3144;
+    --board-bg-color: #1e293b;
+    --text-color: #cbd5e1;
+    --sec-text-color: #94a3b8;
+    --post-text-color: #cbd5e1;
+    --post-heading-color: #f1f5f9;
+    --post-link-color: #60a5fa;
+    --link-hover-color: #818cf8;
+    --link-hover-bg-color: #312e81;
+    --line-color: #334155;
+    --navbar-bg-color: rgba(30, 41, 59, 0.9);
     --navbar-text-color: #d0d0d0;
-    --subtitle-color: #d0d0d0;
-    --scrollbar-color: #687582;
-    --scrollbar-hover-color: #9da8b3;
+    --subtitle-color: #e0e7ff;
+    --scrollbar-color: #475569;
+    --scrollbar-hover-color: #64748b;
     --button-bg-color: transparent;
     --button-hover-bg-color: #46647e;
-    --highlight-bg-color: #303030;
+    --highlight-bg-color: #282c34;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
-    --fold-title-color: #c4c6c9;
-    --fold-border-color: #435266;
+    --fold-title-color: #cbd5e1;
+    --fold-border-color: #334155;
   }
   :root:not([data-user-color-scheme]) img {
     -webkit-filter: brightness(0.9);
     filter: brightness(0.9);
     transition: filter 0.2s ease-in-out;
+  }
+  @supports (-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)) {
+    :root:not([data-user-color-scheme]) .navbar .dropdown-collapse,
+    :root:not([data-user-color-scheme]) .top-nav-collapse,
+    :root:not([data-user-color-scheme]) .navbar-col-show {
+      background: rgba(30,41,59,0.85);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+    }
+  }
+  @supports not ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px))) {
+    :root:not([data-user-color-scheme]) .navbar .dropdown-collapse,
+    :root:not([data-user-color-scheme]) .top-nav-collapse,
+    :root:not([data-user-color-scheme]) .navbar-col-show {
+      background: #1e293b;
+    }
   }
   :root:not([data-user-color-scheme]) .license-box {
     background-color: rgba(62,75,94,0.35);
@@ -1027,31 +1067,47 @@ body.mobile-menu-open {
 @media not print {
   [data-user-color-scheme="dark"] {
     --body-bg-color: #181c27;
-    --board-bg-color: #252d38;
-    --text-color: #c4c6c9;
-    --sec-text-color: #a7a9ad;
-    --post-text-color: #c4c6c9;
-    --post-heading-color: #c4c6c9;
-    --post-link-color: #1589e9;
-    --link-hover-color: #30a9de;
-    --link-hover-bg-color: #364151;
-    --line-color: #435266;
-    --navbar-bg-color: #1f3144;
+    --board-bg-color: #1e293b;
+    --text-color: #cbd5e1;
+    --sec-text-color: #94a3b8;
+    --post-text-color: #cbd5e1;
+    --post-heading-color: #f1f5f9;
+    --post-link-color: #60a5fa;
+    --link-hover-color: #818cf8;
+    --link-hover-bg-color: #312e81;
+    --line-color: #334155;
+    --navbar-bg-color: rgba(30, 41, 59, 0.9);
     --navbar-text-color: #d0d0d0;
-    --subtitle-color: #d0d0d0;
-    --scrollbar-color: #687582;
-    --scrollbar-hover-color: #9da8b3;
+    --subtitle-color: #e0e7ff;
+    --scrollbar-color: #475569;
+    --scrollbar-hover-color: #64748b;
     --button-bg-color: transparent;
     --button-hover-bg-color: #46647e;
-    --highlight-bg-color: #303030;
+    --highlight-bg-color: #282c34;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
-    --fold-title-color: #c4c6c9;
-    --fold-border-color: #435266;
+    --fold-title-color: #cbd5e1;
+    --fold-border-color: #334155;
   }
   [data-user-color-scheme="dark"] img {
     -webkit-filter: brightness(0.9);
     filter: brightness(0.9);
     transition: filter 0.2s ease-in-out;
+  }
+  @supports (-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)) {
+    [data-user-color-scheme="dark"] .navbar .dropdown-collapse,
+    [data-user-color-scheme="dark"] .top-nav-collapse,
+    [data-user-color-scheme="dark"] .navbar-col-show {
+      background: rgba(30,41,59,0.85);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+    }
+  }
+  @supports not ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px))) {
+    [data-user-color-scheme="dark"] .navbar .dropdown-collapse,
+    [data-user-color-scheme="dark"] .top-nav-collapse,
+    [data-user-color-scheme="dark"] .navbar-col-show {
+      background: #1e293b;
+    }
   }
   [data-user-color-scheme="dark"] .license-box {
     background-color: rgba(62,75,94,0.35);
