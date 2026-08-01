@@ -63,8 +63,8 @@
       }, { once: true });
     }
 
-    document.addEventListener('click', function (e) {
-      if (e.button !== 0) return;
+    document.addEventListener('mousedown', function (e) {
+      // 左键/中键/右键都触发（只要按下就有特效——解决超链接一点就跳转看不到特效的问题）
       createRipple(e.clientX, e.clientY);
     }, { passive: true });
   }

@@ -264,3 +264,105 @@ body[data-user-color-scheme="dark"] footer {
   border-top-color: rgba(129, 140, 248, 0.5);
 }
 
+/* ===== 超链接 Hover / Active 视觉特效（让点击超链接有"反应"） ===== */
+/* 1) 正文 & 卡片区域内的普通链接：渐变下划线 + 颜色渐变 */
+main #board a,
+#board a,
+.post-content a,
+article a,
+.index-card a,
+.archive-article a,
+.page a:not(.btn):not(.page-link):not(.pagination a) {
+  position: relative;
+  color: #4f46e5;
+  text-decoration: none;
+  background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: 0 100%;
+  transition:
+    background-size 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 0.18s ease,
+    text-shadow 0.18s ease,
+    transform 0.12s ease-out;
+  will-change: background-size, color;
+}
+main #board a:hover,
+#board a:hover,
+.post-content a:hover,
+article a:hover,
+.index-card a:hover,
+.archive-article a:hover {
+  color: #4338ca;
+  background-size: 100% 100%;
+  text-shadow: 0 0 8px rgba(129, 140, 248, 0.25);
+}
+/* 按压反馈（click active 时缩一下） */
+main #board a:active,
+#board a:active,
+.post-content a:active,
+article a:active,
+.index-card a:active,
+.archive-article a:active {
+  transform: scale(0.985);
+  color: #3730a3;
+  background-image: linear-gradient(transparent calc(100% - 2px), #6366f1 2px);
+}
+/* 暗色模式下正文链接颜色更亮，避免看不清 */
+@media (prefers-color-scheme: dark) {
+  main #board a, #board a, .post-content a, article a, .index-card a, .archive-article a {
+    color: #a5b4fc;
+    background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px);
+  }
+  main #board a:hover, #board a:hover, .post-content a:hover, article a:hover {
+    color: #c7d2fe;
+  }
+  main #board a:active, #board a:active, .post-content a:active { color: #e0e7ff; }
+}
+body[data-user-color-scheme="dark"] main #board a,
+body[data-user-color-scheme="dark"] #board a,
+body[data-user-color-scheme="dark"] .post-content a,
+body[data-user-color-scheme="dark"] article a,
+body[data-user-color-scheme="dark"] .index-card a,
+body[data-user-color-scheme="dark"] .archive-article a {
+  color: #a5b4fc;
+  background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px);
+}
+body[data-user-color-scheme="dark"] main #board a:hover,
+body[data-user-color-scheme="dark"] #board a:hover { color: #c7d2fe; }
+
+/* 2) 文章卡片标题：hover 放大一点 + 颜色渐变（视觉层次更高） */
+.index-card .index-title a,
+article.post-block .post-title a {
+  background-image: none;
+  color: inherit;
+  transition: color 0.2s ease, transform 0.2s ease, letter-spacing 0.2s ease;
+}
+.index-card .index-title a:hover,
+article.post-block .post-title a:hover {
+  color: #4f46e5;
+  letter-spacing: 0.015em;
+  display: inline-block;
+}
+body[data-user-color-scheme="dark"] .index-card .index-title a:hover,
+body[data-user-color-scheme="dark"] article.post-block .post-title a:hover {
+  color: #a5b4fc;
+}
+@media (prefers-color-scheme: dark) {
+  .index-card .index-title a:hover,
+  article.post-block .post-title a:hover { color: #a5b4fc; }
+}
+
+/* 3) 导航栏链接：hover 有下划线动画（不破坏主题原有结构，只加效果，不碰颜色布局） */
+.navbar .nav-link {
+  background-image: linear-gradient(transparent calc(100% - 2px), #ffffff 2px);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: 50% 100%;
+  transition: background-size 0.28s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.12s ease-out;
+}
+.navbar .nav-link:hover {
+  background-size: 65% 100%;
+}
+.navbar .nav-link:active { transform: translateY(1px) scale(0.98); }
+
