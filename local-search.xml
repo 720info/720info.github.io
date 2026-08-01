@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>微信多开教程（Mac / Windows 双平台详解）</title>
+    <link href="/2026/07/31/%E5%BE%AE%E4%BF%A1%E5%A4%9A%E5%BC%80%E6%95%99%E7%A8%8B/"/>
+    <url>/2026/07/31/%E5%BE%AE%E4%BF%A1%E5%A4%9A%E5%BC%80%E6%95%99%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>在日常工作和生活中，我们经常需要同时使用多个微信账号——一个用于工作，一个用于生活。但微信官方客户端默认只允许登录一个账号，非常不便。本文将详细介绍 <strong>macOS</strong> 和 <strong>Windows</strong> 两大平台实现微信多开的方法。</p><h2 id="二、macOS-微信多开方法"><a href="#二、macOS-微信多开方法" class="headerlink" title="二、macOS 微信多开方法"></a>二、macOS 微信多开方法</h2><h3 id="方法一：使用终端命令（推荐，最简单）"><a href="#方法一：使用终端命令（推荐，最简单）" class="headerlink" title="方法一：使用终端命令（推荐，最简单）"></a>方法一：使用终端命令（推荐，最简单）</h3><p>这是 macOS 上最快捷的方式，无需安装任何第三方软件。</p><ol><li>打开「终端」（Terminal）应用</li><li>输入以下命令并回车：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">open -n /Applications/WeChat.app<br></code></pre></td></tr></table></figure><ol start="3"><li>每执行一次该命令，就会多打开一个微信窗口</li></ol><p><strong>提示：</strong> 如果需要同时登录 3 个微信，就执行 3 次命令即可。</p><h3 id="方法二：使用脚本一键多开"><a href="#方法二：使用脚本一键多开" class="headerlink" title="方法二：使用脚本一键多开"></a>方法二：使用脚本一键多开</h3><p>如果你觉得每次打开终端输入命令太麻烦，可以创建一个一键脚本：</p><ol><li>打开「脚本编辑器」（Script Editor）</li><li>输入以下内容：</li></ol><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-built_in">do shell script</span> <span class="hljs-string">&quot;open -n /Applications/WeChat.app&quot;</span><br></code></pre></td></tr></table></figure><ol start="3"><li>点击「文件」→「导出」</li><li>文件格式选择「应用程序」，保存到桌面</li><li>以后双击这个应用即可多开一个微信</li></ol><h3 id="方法三：创建复制版微信"><a href="#方法三：创建复制版微信" class="headerlink" title="方法三：创建复制版微信"></a>方法三：创建复制版微信</h3><p>适合需要长期同时登录多个账号的用户：</p><ol><li>打开「应用程序」文件夹，找到 WeChat.app</li><li>右键选择「复制」，得到「WeChat 副本.app」</li><li>双击「WeChat 副本.app」即可打开第二个微信</li></ol><p><strong>注意：</strong> 微信每次更新后，副本可能需要重新复制。</p><h2 id="三、Windows-微信多开方法"><a href="#三、Windows-微信多开方法" class="headerlink" title="三、Windows 微信多开方法"></a>三、Windows 微信多开方法</h2><h3 id="方法一：使用批处理脚本（推荐）"><a href="#方法一：使用批处理脚本（推荐）" class="headerlink" title="方法一：使用批处理脚本（推荐）"></a>方法一：使用批处理脚本（推荐）</h3><ol><li>在桌面新建一个文本文档</li><li>将以下内容粘贴进去：</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs batch">@echo off<br>start &quot;&quot; &quot;C:\Program Files (x86)\Tencent\WeChat\WeChat.exe&quot;<br>start &quot;&quot; &quot;C:\Program Files (x86)\Tencent\WeChat\WeChat.exe&quot;<br>exit<br></code></pre></td></tr></table></figure><ol start="3"><li>保存时将文件后缀改为 <code>.bat</code>（例如 <code>微信多开.bat</code>）</li><li>双击运行即可同时打开 2 个微信窗口</li></ol><p><strong>说明：</strong> 想要同时登录几个微信，就复制几行 <code>start</code> 命令。</p><h3 id="方法二：按住回车快速点击"><a href="#方法二：按住回车快速点击" class="headerlink" title="方法二：按住回车快速点击"></a>方法二：按住回车快速点击</h3><ol><li>确保微信完全关闭</li><li>按住键盘上的「Enter」键不放</li><li>同时用鼠标快速连续双击微信图标</li><li>松开 Enter 键，会发现多个微信窗口已打开</li></ol><h2 id="四、注意事项"><a href="#四、注意事项" class="headerlink" title="四、注意事项"></a>四、注意事项</h2><ol><li><strong>账号安全：</strong> 多开本身不会封号，但请遵守微信使用规范，避免频繁切换或批量操作</li><li><strong>消息同步：</strong> 不同微信窗口的消息是独立的，不会相互干扰</li><li><strong>更新影响：</strong> 微信版本更新后，部分多开方法可能需要重新设置</li><li><strong>资源占用：</strong> 多开微信会占用更多内存，建议根据电脑配置合理控制数量</li></ol><h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><table><thead><tr><th>平台</th><th>推荐方法</th><th>难度</th><th>稳定性</th></tr></thead><tbody><tr><td>macOS</td><td>终端命令 <code>open -n</code></td><td>⭐</td><td>⭐⭐⭐⭐⭐</td></tr><tr><td>Windows</td><td>批处理脚本 <code>.bat</code></td><td>⭐⭐</td><td>⭐⭐⭐⭐⭐</td></tr></tbody></table><p>微信多开并不是什么高深的技术，通过以上简单的方法，你也可以轻松实现工作号和生活号同时在线。希望这篇教程对你有所帮助！</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术分享</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>教程</tag>
+      
+      <tag>工具技巧</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>阑尾炎手术</title>
+    <link href="/2026/07/31/%E9%98%91%E5%B0%BE%E7%82%8E%E6%89%8B%E6%9C%AF/"/>
+    <url>/2026/07/31/%E9%98%91%E5%B0%BE%E7%82%8E%E6%89%8B%E6%9C%AF/</url>
+    
+    <content type="html"><![CDATA[<p>谁能想到，一次普通的肚子疼，最后直接躺进手术室。</p><p>上周四晚上，我约好朋友来我家里，一起用 Trae 编程，玩游戏。妈妈为我们端了一盘水果，里面有西瓜和菠萝。我把一盘全吃了，感到十分满足。</p><p>第二天上午，我的腹部隐隐作痛，和平常的肚子疼没什么区别，我并没有当回事，直到越来越疼，我躺在床上热敷了一下，时间一直到下午，我也没有丝毫好转，还有“岔气”的绞痛感。那天我没有去上我的补习班，一直到了 4 点，家人摸了摸我的肚子，基本确定了区域为右下腹部，初步判断可能是阑尾炎。晚上，我匆忙赶到医院，还有几分侥幸和不敢相信，做了抽血、B 超，最后发现就是阑尾炎，我十分绝望。数值中阑尾的直径为0.62，医生建议做手术。于是我们只好办理了住院，我躺在医院的病床上，十分绝望的哭了，我居然变成病人了。但那时我还不知道，更难熬的还在后面。</p><p>第二天8点30分，我的鼻子中被插进了一条管子，连接到胃部，随后被送到手术室。在手术室中我被麻醉，醒来后我在病房里。我的胃管被拔出，感觉很舒服。但这天晚上，麻药劲过了，我感到伤口十分痛苦。好在下一天我就可以试着慢慢下床活动，但什么也吃不了。慢慢的，我恢复得越来越好，能吃的东西也越来越多，5天后我顺利出院。健康又平凡的生活看似很普通，但也是来之不易的。</p><p>并非AI生成</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>日常生活</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>随笔</tag>
+      
+      <tag>日常</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Node.js 完整安装与环境配置教程</title>
+    <link href="/2026/07/31/Node.js-%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/"/>
+    <url>/2026/07/31/Node.js-%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<h2 id="一、什么是-Node-js"><a href="#一、什么是-Node-js" class="headerlink" title="一、什么是 Node.js"></a>一、什么是 Node.js</h2><p>Node.js 是基于 Chrome V8 引擎的 JavaScript 运行时环境，让 JS 可以脱离浏览器在服务器、本地电脑执行，常用于后端接口、脚本工具、前端工程化（Vue&#x2F;React 打包）等场景。</p><h2 id="二、下载官方安装包"><a href="#二、下载官方安装包" class="headerlink" title="二、下载官方安装包"></a>二、下载官方安装包</h2><h3 id="1-官方地址"><a href="#1-官方地址" class="headerlink" title="1. 官方地址"></a>1. 官方地址</h3><p>官网：<a href="https://nodejs.org/">https://nodejs.org/</a><br>推荐下载 <strong>LTS 长期支持版</strong>（稳定版，生产环境首选），Current 为尝鲜新版。</p><h3 id="版本区分"><a href="#版本区分" class="headerlink" title="版本区分"></a>版本区分</h3><ul><li>LTS：Long Term Support，长期维护，兼容性最好，日常开发必选</li><li>Current：最新特性版本，适合体验新API，不建议项目使用</li></ul><h2 id="三、Windows-系统安装步骤"><a href="#三、Windows-系统安装步骤" class="headerlink" title="三、Windows 系统安装步骤"></a>三、Windows 系统安装步骤</h2><ol><li>双击下载 <code>.msi</code> 安装包，一路点击 <code>Next</code></li><li>同意许可协议，选择安装路径（默认即可，不建议中文路径）</li><li>保持默认组件全部勾选：Node.js runtime、npm包管理器、Add to PATH（自动配置环境变量）</li><li>等待安装完成，点击 Finish</li></ol><h3 id="验证是否安装成功"><a href="#验证是否安装成功" class="headerlink" title="验证是否安装成功"></a>验证是否安装成功</h3><p>打开 CMD &#x2F; PowerShell，执行两条命令：</p><pre><code class="bash">node -vnpm -v</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术分享</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>随笔</tag>
+      
+      <tag>教程</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>网站上线的随笔</title>
+    <link href="/2026/07/31/%E7%BD%91%E7%AB%99%E4%B8%8A%E7%BA%BF%E7%9A%84%E9%9A%8F%E7%AC%94/"/>
+    <url>/2026/07/31/%E7%BD%91%E7%AB%99%E4%B8%8A%E7%BA%BF%E7%9A%84%E9%9A%8F%E7%AC%94/</url>
+    
+    <content type="html"><![CDATA[<p>本站今日正式发布，后续会持续更新干货文章、技术笔记与生活感悟，感谢驻足，期待长期相伴。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网站公告</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>随笔</tag>
+      
+      <tag>公告</tag>
+      
+      <tag>建站</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  
+</search>
