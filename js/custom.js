@@ -69,6 +69,49 @@
     }, { passive: true });
   }
 
+  // ===== 2.1 超链接跳转延时：让涟漪有时间扩散到一半再跳走 =====
+  function initLinkDelayedNavigation() {
+    var NAV_DELAY = 200;   // 跳转前等多少 ms（让涟漪扩散一下）
+    var navigating = false;
+
+    document.addEventListener('click', function (e) {
+      if (navigating) return;
+
+      // 找到被点击的 a 标签（用户可能点到 a 里面的 span/img 等子元素）
+      var a = e.target.closest && e.target.closest('a');
+      if (!a || !a.href) return;
+
+      var href = a.getAttribute('href') || '';
+
+      // 跳过这些情况（不延时，保持原样）：
+      //  - target=_blank / rel=external（开新窗口，本页不会跳）
+      //  - 下载链接 / 打电话 / 发邮件
+      //  - 锚点（#开头 / javascript: / mailto: / tel:）
+      //  - 按住 Cmd / Ctrl / Shift / Alt / 中键（用户想要新标签/新窗口）
+      if (a.target === '_blank') return;
+      if (a.hasAttribute('download')) return;
+      if (a.hasAttribute('rel') && /\bexternal\b/i.test(a.getAttribute('rel'))) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      if (!href || /^\s*(#|javascript:|mailto:|tel:|data:|blob:)/i.test(href)) return;
+
+      // 解析链接，判断是不是同源——只对同源链接加延时
+      try {
+        var url = new URL(a.href, location.href);
+        if (url.origin !== location.origin) return;
+      } catch (err) {
+        return;
+      }
+
+      // 拦截，延时后再跳
+      e.preventDefault();
+      navigating = true;
+      var dest = a.href;
+      setTimeout(function () {
+        location.href = dest;
+      }, NAV_DELAY);
+    }, false);
+  }
+
   // ===== 3. 滚动淡入动画（IntersectionObserver，性能好） =====
   function initScrollFadeIn() {
     if (!('IntersectionObserver' in window)) return;
@@ -99,6 +142,7 @@
   function boot() {
     try { initReadingProgress(); } catch (e) { /* ignore */ }
     try { initClickRipple(); } catch (e) { /* ignore */ }
+    try { initLinkDelayedNavigation(); } catch (e) { /* ignore */ }
     try { initScrollFadeIn(); } catch (e) { /* ignore */ }
   }
 
