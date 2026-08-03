@@ -139,7 +139,7 @@
     // Utterances 使用跨域 iframe，鼠标进入后父页面收不到 pointermove；先隐藏光晕，避免停在评论区边缘。
     document.addEventListener('pointerover', function (event) {
       var target = event.target;
-      if (target && target.closest && target.closest('#comments')) {
+      if (target && target.closest && target.closest('#comments, .site-comments')) {
         hideGlow();
       }
     }, true);
