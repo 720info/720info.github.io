@@ -102,7 +102,7 @@
 
       var now = Date.now();
       var distance = Math.hypot(x - lastX, y - lastY);
-      if (distance < 12 || now - lastParticleAt < 32) return;
+      if (distance < 8 || now - lastParticleAt < 18) return;
       lastX = x;
       lastY = y;
       lastParticleAt = now;
@@ -111,7 +111,7 @@
       particle.className = 'mouse-trail-particle';
       particle.style.left = x + 'px';
       particle.style.top = y + 'px';
-      particle.style.setProperty('--trail-size', (3 + Math.random() * 5).toFixed(1) + 'px');
+      particle.style.setProperty('--trail-size', (5 + Math.random() * 7).toFixed(1) + 'px');
       document.body.appendChild(particle);
       particle.addEventListener('animationend', function () {
         particle.remove();
