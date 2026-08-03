@@ -64,6 +64,48 @@ body[data-user-color-scheme="dark"] {
   background-color: #1e293b !important;
 }
 
+/* ===== 鼠标滑动光晕与短尾迹 ===== */
+.mouse-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  z-index: 99996;
+  border: 1px solid rgba(129, 140, 248, 0.22);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.16) 0%, rgba(96, 165, 250, 0.07) 42%, transparent 72%);
+  box-shadow: 0 0 32px rgba(99, 102, 241, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-100px, -100px, 0);
+  transition: opacity 0.22s ease;
+  will-change: transform, opacity;
+}
+.mouse-glow.is-active { opacity: 1; }
+.mouse-trail-particle {
+  position: fixed;
+  z-index: 99995;
+  width: var(--trail-size);
+  height: var(--trail-size);
+  margin: calc(var(--trail-size) / -2) 0 0 calc(var(--trail-size) / -2);
+  border-radius: 50%;
+  background: #818cf8;
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.8);
+  pointer-events: none;
+  animation: mouse-trail-fade 0.58s ease-out forwards;
+  will-change: transform, opacity;
+}
+@keyframes mouse-trail-fade {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: translateY(12px) scale(0.15); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mouse-glow,
+  .mouse-trail-particle { display: none !important; }
+}
+
 /* ===== 文章页 Banner：标题字号回到 Fluid 原始值，但位置保持偏上 ===== */
 /* 保留：让整块文字上移一点 */
 .header-inner[style*="height: 80vh"] .banner-text,
@@ -452,4 +494,3 @@ body[data-user-color-scheme="dark"] .archive-article .post-title a:hover {
   background-size: 65% 100%;
 }
 .navbar .nav-link:active { transform: translateY(1px) scale(0.98); }
-

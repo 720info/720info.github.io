@@ -69,6 +69,64 @@
     }, { passive: true });
   }
 
+  // ===== 2.2 鼠标滑动光晕与短尾迹（仅精确指针设备） =====
+  function initMouseTrail() {
+    if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var glow = document.createElement('div');
+    glow.className = 'mouse-glow';
+    glow.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(glow);
+
+    var x = -100;
+    var y = -100;
+    var lastX = x;
+    var lastY = y;
+    var framePending = false;
+    var lastParticleAt = 0;
+
+    function render() {
+      glow.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
+      framePending = false;
+    }
+
+    function onMove(event) {
+      x = event.clientX;
+      y = event.clientY;
+      glow.classList.add('is-active');
+      if (!framePending) {
+        framePending = true;
+        window.requestAnimationFrame(render);
+      }
+
+      var now = Date.now();
+      var distance = Math.hypot(x - lastX, y - lastY);
+      if (distance < 12 || now - lastParticleAt < 32) return;
+      lastX = x;
+      lastY = y;
+      lastParticleAt = now;
+
+      var particle = document.createElement('i');
+      particle.className = 'mouse-trail-particle';
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.setProperty('--trail-size', (3 + Math.random() * 5).toFixed(1) + 'px');
+      document.body.appendChild(particle);
+      particle.addEventListener('animationend', function () {
+        particle.remove();
+      }, { once: true });
+    }
+
+    document.addEventListener('pointermove', onMove, { passive: true });
+    document.addEventListener('pointerenter', function () {
+      glow.classList.add('is-active');
+    }, { passive: true });
+    document.addEventListener('pointerleave', function () {
+      glow.classList.remove('is-active');
+    }, { passive: true });
+  }
+
   // ===== 2.1 超链接跳转延时：让涟漪有时间扩散到一半再跳走 =====
   function initLinkDelayedNavigation() {
     var NAV_DELAY = 200;   // 跳转前等多少 ms（让涟漪扩散一下）
@@ -254,6 +312,7 @@
   function boot() {
     try { initReadingProgress(); } catch (e) { /* ignore */ }
     try { initClickRipple(); } catch (e) { /* ignore */ }
+    try { initMouseTrail(); } catch (e) { /* ignore */ }
     try { initLinkDelayedNavigation(); } catch (e) { /* ignore */ }
     try { initScrollFadeIn(); } catch (e) { /* ignore */ }
     try { initImageFallback(); } catch (e) { /* ignore */ }
