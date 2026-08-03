@@ -566,3 +566,71 @@ body[data-user-color-scheme="dark"] .archive-article .post-title a:hover {
   background-size: 65% 100%;
 }
 .navbar .nav-link:active { transform: translateY(1px) scale(0.98); }
+
+/* ===== 标签页标签大小统一 + 美化 ===== */
+.tagcloud a,
+#tagcloud a,
+.tag-list a,
+.tags a.tag {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  display: inline-block !important;
+  padding: 6px 14px !important;
+  margin: 6px 5px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(96, 165, 250, 0.08));
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  color: #4f46e5 !important;
+}
+.tagcloud a:hover,
+#tagcloud a:hover,
+.tag-list a:hover,
+.tags a.tag:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(96, 165, 250, 0.2));
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 6px 18px -6px rgba(99, 102, 241, 0.35);
+  color: #3730a3 !important;
+}
+/* 暗色模式适配 */
+body[data-user-color-scheme="dark"] .tagcloud a,
+body[data-user-color-scheme="dark"] #tagcloud a,
+body[data-user-color-scheme="dark"] .tag-list a,
+body[data-user-color-scheme="dark"] .tags a.tag {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.14), rgba(96, 165, 250, 0.1));
+  border-color: rgba(129, 140, 248, 0.3);
+  color: #a5b4fc !important;
+}
+body[data-user-color-scheme="dark"] .tagcloud a:hover,
+body[data-user-color-scheme="dark"] #tagcloud a:hover,
+body[data-user-color-scheme="dark"] .tag-list a:hover,
+body[data-user-color-scheme="dark"] .tags a.tag:hover {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.24), rgba(96, 165, 250, 0.18));
+  border-color: rgba(129, 140, 248, 0.45);
+  box-shadow: 0 6px 18px -6px rgba(129, 140, 248, 0.4);
+  color: #c7d2fe !important;
+}
+@media (prefers-color-scheme: dark) {
+  .tagcloud a, #tagcloud a, .tag-list a, .tags a.tag {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.14), rgba(96, 165, 250, 0.1));
+    border-color: rgba(129, 140, 248, 0.3);
+    color: #a5b4fc !important;
+  }
+  .tagcloud a:hover, #tagcloud a:hover, .tag-list a:hover, .tags a.tag:hover {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.24), rgba(96, 165, 250, 0.18));
+    border-color: rgba(129, 140, 248, 0.45);
+    color: #c7d2fe !important;
+  }
+}
+
+/* ===== 分类页分类卡片大小统一 + 美化 ===== */
+.category-list .category-list-item,
+#category .category-list-item a {
+  font-size: 16px !important;
+}
+.category-list-count,
+.category-list .category-list-count {
+  font-size: 13px !important;
+}
