@@ -85,6 +85,16 @@
     var lastY = y;
     var framePending = false;
     var lastParticleAt = 0;
+    var glowIdleTimer = 0;
+
+    function hideGlow() {
+      glow.classList.remove('is-active');
+    }
+
+    function scheduleGlowFade() {
+      window.clearTimeout(glowIdleTimer);
+      glowIdleTimer = window.setTimeout(hideGlow, 90);
+    }
 
     function render() {
       glow.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
@@ -95,6 +105,7 @@
       x = event.clientX;
       y = event.clientY;
       glow.classList.add('is-active');
+      scheduleGlowFade();
       if (!framePending) {
         framePending = true;
         window.requestAnimationFrame(render);
@@ -123,8 +134,15 @@
       glow.classList.add('is-active');
     }, { passive: true });
     document.addEventListener('pointerleave', function () {
-      glow.classList.remove('is-active');
+      hideGlow();
     }, { passive: true });
+    // Utterances 使用跨域 iframe，鼠标进入后父页面收不到 pointermove；先隐藏光晕，避免停在评论区边缘。
+    document.addEventListener('pointerover', function (event) {
+      var target = event.target;
+      if (target && target.closest && target.closest('#comments')) {
+        hideGlow();
+      }
+    }, true);
   }
 
   // ===== 2.1 超链接跳转延时：让涟漪有时间扩散到一半再跳走 =====
