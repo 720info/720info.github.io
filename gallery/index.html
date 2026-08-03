@@ -19,16 +19,16 @@
   <meta name="author" content="720 科技">
   <meta name="keywords" content="">
   
-    <meta name="description" content="3 张           小区施工     小区变得越来越好                  3 张           AI氛围编程     Vibecoing                   ← 返回相册列表   小区施工   小区变得越来越好               垃圾     很脏还挡路                公园">
+    <meta name="description" content="用镜头收藏生活，让每一帧都成为故事                      3 张           小区施工     小区变得越来越好                  3 张           AI氛围编程     Vibecoing                   ← 返回相册列表   小区施工   小区变得越来越好               垃圾     很脏还挡路">
 <meta property="og:type" content="website">
 <meta property="og:title" content="相册">
 <meta property="og:url" content="https://720info.eu.cc/gallery/index.html">
 <meta property="og:site_name" content="720 科技官网">
-<meta property="og:description" content="3 张           小区施工     小区变得越来越好                  3 张           AI氛围编程     Vibecoing                   ← 返回相册列表   小区施工   小区变得越来越好               垃圾     很脏还挡路                公园">
+<meta property="og:description" content="用镜头收藏生活，让每一帧都成为故事                      3 张           小区施工     小区变得越来越好                  3 张           AI氛围编程     Vibecoing                   ← 返回相册列表   小区施工   小区变得越来越好               垃圾     很脏还挡路">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s41.ax1x.com/2026/08/01/pm4GkWt.jpg">
-<meta property="article:published_time" content="2026-08-03T06:41:07.990Z">
-<meta property="article:modified_time" content="2026-08-03T06:41:07.990Z">
+<meta property="article:published_time" content="2026-08-03T07:04:39.649Z">
+<meta property="article:modified_time" content="2026-08-03T07:04:39.649Z">
 <meta property="article:author" content="720 科技">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://s41.ax1x.com/2026/08/01/pm4GkWt.jpg">
@@ -388,6 +388,7 @@
 <article class="page-content">
   <!-- 相册容器：默认显示概览；点卡片进入详情 -->
 <div id="alb-root">
+  <p class="alb-intro">用镜头收藏生活，让每一帧都成为故事</p>
   <div id="alb-overview" class="alb-list">
     
 <div class="alb-card" data-album-id="58682a871318">
@@ -440,6 +441,9 @@
   </figcaption>
 </figure>
   </div>
+  <div class="alb-comments" id="alb-comments-58682a871318" data-album-id="58682a871318">
+    <div class="alb-comments-hint">💬 留下你对这个相册的评论吧</div>
+  </div>
 </div>
 <div class="alb-view" id="alb-view-0d8225d6dae7">
   <div class="alb-back">← 返回相册列表</div>
@@ -468,6 +472,9 @@
   </figcaption>
 </figure>
   </div>
+  <div class="alb-comments" id="alb-comments-0d8225d6dae7" data-album-id="0d8225d6dae7">
+    <div class="alb-comments-hint">💬 留下你对这个相册的评论吧</div>
+  </div>
 </div>
   </div>
 </div>
@@ -487,6 +494,10 @@
 <style>
 /* ==== 相册布局 ==== */
 #alb-root { max-width: 1100px; margin: 0 auto; padding: 10px 6px 40px; }
+.alb-intro {
+  text-align: center; font-size: 15px; color: #64748b;
+  margin: 0 0 28px; letter-spacing: 1px; font-weight: 300;
+}
 .alb-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; }
 .alb-card {
   background: #fff; border-radius: 16px; overflow: hidden;
@@ -557,12 +568,25 @@
 #alb-lb-title { font-size: 16px; font-weight: 600; }
 #alb-lb-desc { font-size: 13px; color: #94a3b8; margin-top: 4px; }
 
+/* ==== 评论区 ==== */
+.alb-comments {
+  max-width: 800px; margin: 40px auto 0; padding-top: 24px;
+  border-top: 1px solid rgba(148, 163, 184, .2);
+}
+.alb-comments-hint {
+  text-align: center; font-size: 14px; color: #64748b;
+  padding: 20px 0; border: 1px dashed rgba(148, 163, 184, .25);
+  border-radius: 10px; background: rgba(241, 245, 249, .4);
+}
+
 /* ==== 暗色模式自适应 ==== */
 @media (prefers-color-scheme: dark) {
   .alb-card, .alb-photo { background: #1f2937; border-color: rgba(148, 163, 184, .12); }
   .alb-title, .p-title, .alb-view-title { color: #f8fafc; }
   .alb-desc, .alb-view-desc, .p-desc { color: #94a3b8; }
   .alb-cover { background: #1e293b; }
+  .alb-intro { color: #94a3b8; }
+  .alb-comments-hint { color: #94a3b8; border-color: rgba(148,163,184,.15); }
 }
 </style>
 
@@ -571,13 +595,37 @@
   var root = document.getElementById('alb-root');
   if (!root) return;
   var views = document.querySelectorAll('.alb-view');
+
+  // 动态加载 Utterances 评论（每个相册独立 issue）
+  var loadedAlbums = {};
+  function loadComments(albumId) {
+    var container = document.getElementById('alb-comments-' + albumId);
+    if (!container || loadedAlbums[albumId]) return;
+    loadedAlbums[albumId] = true;
+    container.innerHTML = '';
+    var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.setAttribute('repo', '720info/blog');
+    script.setAttribute('issue-term', 'gallery/album-' + albumId);
+    script.setAttribute('label', 'utterances');
+    script.setAttribute('theme', isDark ? 'github-dark' : 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+    container.appendChild(script);
+  }
+
   document.querySelectorAll('.alb-card').forEach(function(card) {
     card.addEventListener('click', function() {
       var id = card.getAttribute('data-album-id');
       root.classList.add('show-album');
       views.forEach(function(v) { v.style.display = 'none'; });
       var target = document.getElementById('alb-view-' + id);
-      if (target) { target.style.display = 'block'; window.scrollTo({top: 0, behavior: 'smooth'}); }
+      if (target) {
+        target.style.display = 'block';
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        loadComments(id);
+      }
     });
   });
   document.querySelectorAll('.alb-back').forEach(function(b) {
