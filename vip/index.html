@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>720 科技 VIP 会员中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --accent-color: #4f46e5;
+            --accent-hover: #4338ca;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --free-color: #94a3b8;
+            --pro-color: #3b82f6;
+            --premium-color: #8b5cf6;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #181c27;
+                --card-bg: #1e293b;
+                --text-primary: #f1f5f9;
+                --text-secondary: #94a3b8;
+                --border-color: #334155;
+                --accent-color: #818cf8;
+                --accent-hover: #6366f1;
+                --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--accent-color), var(--premium-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .status-bar {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .status-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-badge.free {
+            background: rgba(148, 163, 184, 0.15);
+            color: var(--free-color);
+        }
+
+        .status-badge.pro {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--pro-color);
+        }
+
+        .status-badge.premium {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--premium-color);
+        }
+
+        .status-actions button {
+            padding: 8px 18px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .status-actions button:hover {
+            background: var(--bg-color);
+            color: var(--text-primary);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid transparent;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--pro-color);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-5px);
+        }
+
+        .badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--pro-color);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card-header .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .card-header .price .currency {
+            font-size: 1.2rem;
+            vertical-align: top;
+            margin-right: 5px;
+        }
+
+        .card-header .price .period {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .card-header.free h3 { color: var(--free-color); }
+        .card-header.pro h3 { color: var(--pro-color); }
+        .card-header.premium h3 { color: var(--premium-color); }
+
+        .features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+        }
+
+        .features li .icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .features li .check {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .features li .cross {
+            background: var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .card-footer {
+            text-align: center;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-disabled {
+            background: var(--border-color);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .activation-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+        }
+
+        .activation-section h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .activation-section .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .activation-form {
+            display: flex;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        .activation-form input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            transition: border-color 0.3s ease;
+        }
+
+        .activation-form input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .activation-form button {
+            padding: 14px 30px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .activation-form button:hover {
+            background: var(--accent-hover);
+        }
+
+        .purchase-tip {
+            text-align: center;
+            padding: 16px;
+            background: var(--bg-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+
+        .purchase-tip a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .purchase-tip a:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            padding: 16px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .disclaimer p {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 16px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header {
+                margin-bottom: 30px;
+            }
+
+            .status-bar {
+                padding: 16px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-5px);
+            }
+
+            .activation-section {
+                padding: 24px 20px;
+            }
+
+            .activation-form {
+                flex-direction: column;
+            }
+
+            .activation-form button {
+                width: 100%;
+            }
+
+            .card-header .price {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>720 科技 VIP 会员中心</h1>
+            <p>解锁更多功能，享受更好体验</p>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-info">
+                <div>
+                    <div style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:4px;">当前会员状态</div>
+                    <div>
+                        <span id="statusLevel" class="status-badge free">免费版</span>
+                        <span id="statusText" style="margin-left:12px;color:var(--text-secondary);font-size:0.95rem;">未激活</span>
+                    </div>
+                </div>
+            </div>
+            <div class="status-actions">
+                <button id="clearBtn" onclick="clearVipStatus()" style="display:none;">清除会员状态</button>
+            </div>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="card-header free">
+                    <h3>免费版</h3>
+                    <div class="price"><span class="currency">¥</span>0<span class="period">/永久</span></div>
+                </div>
+                <ul class="features">
+                    <li><span class="icon check">✓</span> 基础博客阅读</li>
+                    <li><span class="icon check">✓</span> 基础相册浏览</li>
+                    <li><span class="icon check">✓</span> 评论互动</li>
+                    <li><span class="icon cross">✕</span> 专属资源下载</li>
+                    <li><span class="icon cross">✕</span> 代码源码</li>
+                    <li><span class="icon cross">✕</span> VIP 付费文章</li>
+                </ul>
+                <div class="card-footer">
+                    <button id="btnFree" class="btn btn-disabled" disabled>当前版本</button>
+                </div>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="badge">推荐</div>
+                <div class="card-header pro">
+                    <h3>专业版</h3>
+                    <div class="price"><span class="currency">¥</span>39<span class="period">/永久</span></div>
+                </div>
+                <ul class="features">
+                    <li><span class="icon check">✓</span> 免费版全部功能</li>
+                    <li><span class="icon check">✓</span> 专属资源下载</li>
+                    <li><span class="icon check">✓</span> 代码源码</li>
+                    <li><span class="icon check">✓</span> 专属技术教程</li>
+                    <li><span class="icon check">✓</span> 专业版付费文章</li>
+                    <li><span class="icon cross">✕</span> 1V1 技术指导</li>
+                </ul>
+                <div class="card-footer">
+                    <button id="btnPro" class="btn btn-primary" onclick="scrollToActivate()">激活解锁</button>
+                </div>
+            </div>
+
+            <div class="pricing-card">
+                <div class="card-header premium">
+                    <h3>尊享版</h3>
+                    <div class="price"><span class="currency">¥</span>69<span class="period">/永久</span></div>
+                </div>
+                <ul class="features">
+                    <li><span class="icon check">✓</span> 专业版全部功能</li>
+                    <li><span class="icon check">✓</span> 1V1 技术指导</li>
+                    <li><span class="icon check">✓</span> 需求定制开发</li>
+                    <li><span class="icon check">✓</span> 优先回复服务</li>
+                    <li><span class="icon check">✓</span> 新功能抢先体验</li>
+                    <li><span class="icon check">✓</span> 全部付费文章</li>
+                </ul>
+                <div class="card-footer">
+                    <button id="btnPremium" class="btn btn-primary" onclick="scrollToActivate()">激活解锁</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="activation-section" id="activateSection">
+            <h2>激活码验证</h2>
+            <p class="subtitle">输入您的激活码，解锁对应会员权限</p>
+            <div class="activation-form">
+                <input type="text" id="activationCode" placeholder="请输入激活码" maxlength="32">
+                <button onclick="verifyActivation()">激活</button>
+            </div>
+            <div class="purchase-tip">
+                <p>💡 购买激活码请手动添加作者微信，微信详情请查看 <a href="/about/">关于页面</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <p>我并不反对破解或瞎蒙激活码的行为，能成功也是你的本事，我也不靠这个赚钱。</p>
+    </div>
+
+    <script>
+        // ========== 真正的激活逻辑 ==========
+        // 专业版激活码：720PRO-2026
+        // 尊享版激活码：720VIP-2026
+        var ACTIVATION_CODES = {
+            '720PRO-2026': { level: 'pro', name: '专业版', display: '专业版' },
+            '720VIP-2026': { level: 'premium', name: '尊享版', display: '尊享版' }
+        };
+        var STORAGE_KEY = '720tech_vip_status';
+
+        function getVipStatus() {
+            try {
+                var raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return { level: 'free', code: '', activatedAt: null };
+                var obj = JSON.parse(raw);
+                return obj && obj.level ? obj : { level: 'free', code: '', activatedAt: null };
+            } catch (e) {
+                return { level: 'free', code: '', activatedAt: null };
+            }
+        }
+
+        function saveVipStatus(status) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(status));
+            window.dispatchEvent(new CustomEvent('vipStatusChanged', { detail: status }));
+        }
+
+        function updateUI() {
+            var st = getVipStatus();
+            var badge = document.getElementById('statusLevel');
+            var text = document.getElementById('statusText');
+            var clearBtn = document.getElementById('clearBtn');
+            var btnFree = document.getElementById('btnFree');
+            var btnPro = document.getElementById('btnPro');
+            var btnPremium = document.getElementById('btnPremium');
+
+            badge.classList.remove('free', 'pro', 'premium');
+            if (st.level === 'pro') {
+                badge.classList.add('pro');
+                badge.textContent = ACTIVATION_CODES[st.code] ? ACTIVATION_CODES[st.code].display : '专业版';
+                text.textContent = st.activatedAt ? '已激活（永久授权）' : '已激活';
+                clearBtn.style.display = '';
+                btnPro.textContent = '已激活';
+                btnPro.className = 'btn btn-success';
+                btnPro.disabled = true;
+                btnPro.onclick = null;
+            } else if (st.level === 'premium') {
+                badge.classList.add('premium');
+                badge.textContent = ACTIVATION_CODES[st.code] ? ACTIVATION_CODES[st.code].display : '尊享版';
+                text.textContent = st.activatedAt ? '已激活（永久授权）' : '已激活';
+                clearBtn.style.display = '';
+                btnPro.textContent = '已激活';
+                btnPro.className = 'btn btn-success';
+                btnPro.disabled = true;
+                btnPro.onclick = null;
+                btnPremium.textContent = '已激活';
+                btnPremium.className = 'btn btn-success';
+                btnPremium.disabled = true;
+                btnPremium.onclick = null;
+            } else {
+                badge.classList.add('free');
+                badge.textContent = '免费版';
+                text.textContent = '未激活';
+                clearBtn.style.display = 'none';
+            }
+        }
+
+        function verifyActivation() {
+            var input = document.getElementById('activationCode').value.trim();
+            if (!input) {
+                alert('⚠️ 请输入激活码');
+                return;
+            }
+            var found = null;
+            for (var k in ACTIVATION_CODES) {
+                if (ACTIVATION_CODES.hasOwnProperty(k) && k === input) {
+                    found = ACTIVATION_CODES[k];
+                    break;
+                }
+            }
+            if (found) {
+                saveVipStatus({
+                    level: found.level,
+                    code: input,
+                    activatedAt: Date.now()
+                });
+                updateUI();
+                alert('🎉 激活成功！您已解锁【' + found.display + '】全部权益（永久授权）');
+            } else {
+                alert('❌ 激活码错误，请检查后重试！\n\n提示：购买激活码请添加作者微信，详情见关于页面。');
+            }
+        }
+
+        function clearVipStatus() {
+            if (!confirm('确认清除当前会员激活状态吗？')) return;
+            localStorage.removeItem(STORAGE_KEY);
+            window.dispatchEvent(new CustomEvent('vipStatusChanged', { detail: { level: 'free' } }));
+            var btnPro = document.getElementById('btnPro');
+            btnPro.textContent = '激活解锁';
+            btnPro.className = 'btn btn-primary';
+            btnPro.disabled = false;
+            btnPro.onclick = scrollToActivate;
+            var btnPremium = document.getElementById('btnPremium');
+            btnPremium.textContent = '激活解锁';
+            btnPremium.className = 'btn btn-primary';
+            btnPremium.disabled = false;
+            btnPremium.onclick = scrollToActivate;
+            updateUI();
+            alert('✅ 会员状态已清除');
+        }
+
+        function scrollToActivate() {
+            var sec = document.getElementById('activateSection');
+            if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        document.getElementById('activationCode').addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') verifyActivation();
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>
