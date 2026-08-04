@@ -346,6 +346,36 @@
     if (required === 'free') return true;
     return false;
   }
+
+  // 找出锁定区域内的所有标题 ID（TOC 靠这些 ID 建立链接）
+  function _getLockedHeadingIds() {
+    var ids = new Set();
+    var all = document.querySelectorAll('.vip-lock-wrap');
+    all.forEach(function (wrap) {
+      if (wrap.classList.contains('is-unlocked')) return;
+      var headings = wrap.querySelectorAll('h1, h2, h3, h4, h5, h6');
+      headings.forEach(function (h) {
+        if (h.id) ids.add(h.id);
+      });
+    });
+    return ids;
+  }
+
+  // 把 TOC 里指向已锁定标题的条目隐藏
+  function syncVipToc() {
+    var toc = document.getElementById('toc');
+    if (!toc) return;
+    var ids = _getLockedHeadingIds();
+    var tocLinks = toc.querySelectorAll('a[href^="#"]');
+    tocLinks.forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      if (href.charAt(0) !== '#') return;
+      var li = a.closest('li') || a;
+      if (ids.has(href.substring(1))) li.style.display = 'none';
+      else li.style.display = '';
+    });
+  }
+
   function initVipContentLocks() {
     var wraps = document.querySelectorAll('.vip-lock-wrap');
     if (!wraps.length) return;
@@ -358,12 +388,15 @@
           wrap.classList.remove('is-unlocked');
         }
       });
+      syncVipToc();
     }
     applyAll();
     window.addEventListener('vipStatusChanged', applyAll);
     window.addEventListener('storage', function (e) {
       if (e.key === VIP_STORAGE_KEY) applyAll();
     });
+    // 兜底：TOC 可能由主题异步渲染，1.5s 后再同步一次
+    setTimeout(syncVipToc, 1500);
   }
   function initVipBadges() {
     var st = getVipStatus();
