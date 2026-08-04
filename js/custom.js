@@ -411,6 +411,136 @@
     });
   }
 
+  // ===== 5.1 VIP 评论专属标识 =====
+  // 在评论区容器上方显示一个 VIP 徽章（仅页面有评论时生效）
+  function initVipCommentBadge() {
+    var st = getVipStatus();
+    if (st.level === 'free') return;
+    var containers = document.querySelectorAll('.site-comments, #comments, .comments');
+    if (!containers.length) return;
+    var name = st.level === 'premium' ? '尊享版' : '专业版';
+    containers.forEach(function (c) {
+      if (c.querySelector('.vip-comment-badge')) return;
+      var badge = document.createElement('div');
+      badge.className = 'vip-comment-badge';
+      badge.innerHTML = '<span class="vip-cb-icon">👑</span>' +
+        '<span class="vip-cb-text">' + name + ' 会员专属标识</span>';
+      c.insertBefore(badge, c.firstChild);
+    });
+  }
+
+  // ===== 5.2 文章一键导出为 HTML =====
+  // 在文章页正文顶部加一个「导出为 HTML」按钮，前端把正文打包成单文件下载
+  function initVipExportArticle() {
+    // 需要是文章页（有 .post-content 或 .markdown-body）
+    var content = document.querySelector('.post-content, .markdown-body, article');
+    if (!content) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'vip-export-btn';
+    btn.innerHTML = '⬇️ 导出本文为 HTML';
+    btn.title = '把当前文章内容保存为独立的 HTML 文件（纯前端，不上传）';
+    btn.addEventListener('click', function () {
+      exportArticleAsHtml(content);
+    });
+    // 插到正文开头
+    var wrap = content.parentElement;
+    if (wrap) {
+      wrap.insertBefore(btn, wrap.firstChild);
+    } else {
+      content.insertBefore(btn, content.firstChild);
+    }
+  }
+
+  function exportArticleAsHtml(contentEl) {
+    try {
+      // 取文章标题
+      var title = document.querySelector('.post-title, h1') ? document.querySelector('.post-title, h1').textContent.trim() : '文章';
+      // 克隆正文，去掉交互按钮/脚本，内联样式由主题 CSS 提供不了，这里用基本排版样式
+      var clone = contentEl.cloneNode(true);
+      // 移除正文里可能藏着的脚本/iframe（评论等）
+      clone.querySelectorAll('script, iframe, .vip-export-btn, .post-tags, .post-copyright').forEach(function (n) { n.remove(); });
+      var bodyText = clone.innerHTML;
+      var html = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+        '<title>' + title + '</title>' +
+        '<style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;' +
+        'line-height:1.8;color:#1f2937;max-width:820px;margin:0 auto;padding:40px 24px;}' +
+        'img{max-width:100%;height:auto;border-radius:8px;}pre{background:#f1f5f9;padding:14px;border-radius:8px;overflow:auto;}' +
+        'code{background:#f1f5f9;padding:2px 6px;border-radius:4px;}h1,h2,h3,h4{line-height:1.4;}' +
+        'blockquote{border-left:4px solid #6366f1;padding-left:14px;color:#64748b;margin-left:0;}' +
+        'table{border-collapse:collapse;width:100%;}th,td{border:1px solid #e2e8f0;padding:8px 12px;}' +
+        '</style></head><body><h1>' + title + '</h1>' + bodyText + '</body></html>';
+      var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = title.replace(/[\\/:*?"<>|]/g, '_') + '.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    } catch (e) {
+      alert('导出失败：' + e.message);
+    }
+  }
+
+  // ===== 5.3 全部相册解锁（VIP 用户可查看 VIP 相册） =====
+  // 相册卡片带 data-vip="true" 时，非 VIP 用户点击会被拦截并提示；VIP 用户正常进入
+  function initVipAlbumUnlock() {
+    var cards = document.querySelectorAll('.alb-card[data-vip="true"]');
+    if (!cards.length) return;
+    var st = getVipStatus();
+    var isVip = st.level !== 'free';
+    function apply() {
+      var st2 = getVipStatus();
+      var isVip2 = st2.level !== 'free';
+      cards.forEach(function (card) {
+        if (isVip2) {
+          card.classList.remove('alb-locked');
+        } else {
+          card.classList.add('alb-locked');
+        }
+      });
+    }
+    apply();
+    // 拦截点击（非 VIP）
+    cards.forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        if (getVipStatus().level === 'free') {
+          e.preventDefault();
+          e.stopPropagation();
+          alert('🔒 该相册为 VIP 专属，激活专业版/尊享版即可查看全部相册。\n\n点击 /vip 即可激活。');
+        }
+      }, true);
+    });
+    window.addEventListener('vipStatusChanged', apply);
+    window.addEventListener('storage', function (e) {
+      if (e.key === VIP_STORAGE_KEY) apply();
+    });
+  }
+
+  // ===== 5.4 访客感谢名单展示 =====
+  // 在 VIP 页面（或含 .vip-thanks 的容器）展示感谢名单
+  function initVipThanksList() {
+    var container = document.querySelector('.vip-thanks');
+    if (!container) return;
+    var names = ['测试用户', '开放中'];
+    var st = getVipStatus();
+    var level = st.level;
+    var html = '<div class="vip-thanks-inner">';
+    html += '<div class="vip-thanks-title">💖 感谢每一位支持者</div>';
+    html += '<div class="vip-thanks-sub">VIP 会员让这个博客能继续下去，你们的支持是我最大的动力。</div>';
+    html += '<div class="vip-thanks-list">';
+    names.forEach(function (n) {
+      html += '<span class="vip-thanks-item">' + n + '</span>';
+    });
+    html += '</div>';
+    html += '<div class="vip-thanks-note">（名单会持续更新，激活后你的名字也可能出现在这里）</div>';
+    html += '</div>';
+    container.innerHTML = html;
+  }
+
   // ===== 启动 =====
   function boot() {
     try { initReadingProgress(); } catch (e) { /* ignore */ }
@@ -421,6 +551,10 @@
     try { initImageFallback(); } catch (e) { /* ignore */ }
     try { initVipContentLocks(); } catch (e) { /* ignore */ }
     try { initVipBadges(); } catch (e) { /* ignore */ }
+    try { initVipCommentBadge(); } catch (e) { /* ignore */ }
+    try { initVipExportArticle(); } catch (e) { /* ignore */ }
+    try { initVipAlbumUnlock(); } catch (e) { /* ignore */ }
+    try { initVipThanksList(); } catch (e) { /* ignore */ }
   }
 
   if (document.readyState === 'loading') {

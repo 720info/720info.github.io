@@ -428,6 +428,47 @@
                 font-size: 2rem;
             }
         }
+
+        /* 访客感谢名单 */
+        .vip-thanks { margin: 30px 0; }
+        .vip-thanks-inner {
+            text-align: center;
+            padding: 32px 24px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        .vip-thanks-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .vip-thanks-sub {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        .vip-thanks-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .vip-thanks-item {
+            padding: 6px 16px;
+            border-radius: 999px;
+            background: var(--card-bg);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: var(--accent-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .vip-thanks-note {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
@@ -481,7 +522,7 @@
                     <li><span class="icon check">✓</span> 免费版全部功能</li>
                     <li><span class="icon check">✓</span> 专属资源下载</li>
                     <li><span class="icon check">✓</span> 代码源码</li>
-                    <li><span class="icon check">✓</span> VIP 评论专属标识</li>
+                    <li><span class="icon check">✓</span> VIP 评论区专属标识</li>
                     <li><span class="icon check">✓</span> 专业版付费文章</li>
                     <li><span class="icon cross">✕</span> 尊享版专属区域</li>
                 </ul>
@@ -520,16 +561,19 @@
                 <p>💡 购买激活码请手动添加作者微信，微信详情请查看 <a href="/about/">关于页面</a></p>
             </div>
         </div>
+
+        <!-- 访客感谢名单（由 custom.js 的 vip-thanks 逻辑填充） -->
+        <div class="vip-thanks"></div>
     </div>
 
     <div class="disclaimer">
-        <p>我并不反对破解或瞎蒙激活码的行为，能成功也是你的本事，我也不靠这个赚钱。</p>
+        <p>我并不反对破解或尝试激活码的行为，能成功也是你的本事，我也不靠这个赚钱，做这个VIP只是为了玩。</p>
     </div>
 
     <script>
         // ========== 真正的激活逻辑 ==========
-        // 专业版激活码：720PRO-2026
-        // 尊享版激活码：720VIP-2026
+        // 专业版激活码：***********
+        // 尊享版激活码：***********
         var ACTIVATION_CODES = {
             '720PRO-2026': { level: 'pro', name: '专业版', display: '专业版' },
             '720VIP-2026': { level: 'premium', name: '尊享版', display: '尊享版' }
@@ -644,6 +688,23 @@
         document.getElementById('activationCode').addEventListener('keydown', function (e) {
             if (e.key === 'Enter') verifyActivation();
         });
+
+        // ===== 访客感谢名单展示 =====
+        function renderThanks() {
+            var box = document.querySelector('.vip-thanks');
+            if (!box) return;
+            var names = ['测试用户', '谢谢支持'];
+            var html = '<div class="vip-thanks-inner">' +
+                '<div class="vip-thanks-title">💖 感谢每一位支持者</div>' +
+                '<div class="vip-thanks-sub">VIP 会员让这个博客能继续下去，你们的支持是我最大的动力。</div>' +
+                '<div class="vip-thanks-list">' +
+                names.map(function (n) { return '<span class="vip-thanks-item">' + n + '</span>'; }).join('') +
+                '</div>' +
+                '<div class="vip-thanks-note">（名单会持续更新，激活后你的名字也可能出现在这里）</div>' +
+                '</div>';
+            box.innerHTML = html;
+        }
+        renderThanks();
 
         updateUI();
     </script>

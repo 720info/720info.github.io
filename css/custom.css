@@ -832,3 +832,124 @@ html[data-user-color-scheme="dark"] .vip-unlocked-tip {
   background: linear-gradient(135deg, #8b5cf6, #a855f7);
   box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
+
+/* ===== VIP 评论专属标识 ===== */
+.vip-comment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 18px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.12));
+  border: 1px dashed rgba(99, 102, 241, 0.4);
+  color: #4f46e5;
+}
+.vip-comment-badge .vip-cb-icon { font-size: 1rem; }
+html[data-user-color-scheme="dark"] .vip-comment-badge {
+  color: #a5b4fc;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(139, 92, 246, 0.16));
+}
+@media (prefers-color-scheme: dark) {
+  .vip-comment-badge {
+    color: #a5b4fc;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.16), rgba(139, 92, 246, 0.16));
+  }
+}
+
+/* ===== 文章一键导出为 HTML ===== */
+.vip-export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 18px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.vip-export-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.35);
+}
+
+/* ===== 相册 VIP 锁定遮罩 ===== */
+.alb-card.alb-locked { position: relative; }
+.alb-card.alb-locked::after {
+  content: '🔒 VIP 专属';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  z-index: 2;
+  pointer-events: none;
+}
+.alb-card.alb-locked .alb-cover img { filter: blur(2px); }
+
+/* ===== 访客感谢名单 ===== */
+.vip-thanks { margin: 30px 0; }
+.vip-thanks-inner {
+  text-align: center;
+  padding: 32px 24px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08));
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+.vip-thanks-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+html[data-user-color-scheme="dark"] .vip-thanks-title { color: #f1f5f9; }
+@media (prefers-color-scheme: dark) {
+  .vip-thanks-title { color: #f1f5f9; }
+}
+.vip-thanks-sub {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+.vip-thanks-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.vip-thanks-item {
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #4f46e5;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+html[data-user-color-scheme="dark"] .vip-thanks-item {
+  background: #1e293b;
+  color: #a5b4fc;
+}
+@media (prefers-color-scheme: dark) {
+  .vip-thanks-item {
+    background: #1e293b;
+    color: #a5b4fc;
+  }
+}
+.vip-thanks-note {
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
