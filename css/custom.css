@@ -634,3 +634,157 @@ body[data-user-color-scheme="dark"] .tags a.tag:hover {
 .category-list .category-list-count {
   font-size: 13px !important;
 }
+
+/* ===== VIP 付费文章内容锁定 ===== */
+.vip-lock-wrap {
+  position: relative;
+  margin: 24px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.06));
+}
+.vip-lock-wrap.is-unlocked {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: transparent;
+}
+.vip-lock-mask {
+  position: relative;
+  overflow: hidden;
+}
+.vip-lock-wrap:not(.is-unlocked) .vip-lock-mask {
+  max-height: 260px;
+}
+.vip-lock-wrap:not(.is-unlocked) .vip-lock-mask::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 120px;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.72) 45%,
+    rgba(255,255,255,0.96) 100%);
+}
+@media (prefers-color-scheme: dark) {
+  .vip-lock-wrap:not(.is-unlocked) .vip-lock-mask::after {
+    background: linear-gradient(to bottom,
+      rgba(30, 41, 59, 0) 0%,
+      rgba(30, 41, 59, 0.78) 45%,
+      rgba(30, 41, 59, 0.98) 100%);
+  }
+}
+html[data-user-color-scheme="dark"] .vip-lock-wrap:not(.is-unlocked) .vip-lock-mask::after {
+  background: linear-gradient(to bottom,
+    rgba(30, 41, 59, 0) 0%,
+    rgba(30, 41, 59, 0.78) 45%,
+    rgba(30, 41, 59, 0.98) 100%);
+}
+.vip-lock-banner {
+  position: relative;
+  z-index: 2;
+  padding: 22px 24px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.10), rgba(139, 92, 246, 0.10));
+  border-top: 1px dashed rgba(99, 102, 241, 0.28);
+}
+.vip-lock-wrap.is-unlocked .vip-lock-banner {
+  display: none;
+}
+.vip-lock-banner .vip-lock-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 20px;
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+}
+.vip-lock-banner h4 {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  color: inherit;
+}
+.vip-lock-banner p {
+  margin: 0 0 14px 0;
+  color: #64748b;
+  font-size: 0.92rem;
+}
+@media (prefers-color-scheme: dark) {
+  .vip-lock-banner p { color: #94a3b8; }
+}
+html[data-user-color-scheme="dark"] .vip-lock-banner p { color: #94a3b8; }
+.vip-lock-banner .vip-lock-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.vip-lock-banner a.vip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.18s ease;
+}
+.vip-lock-banner a.vip-btn-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff !important;
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+}
+.vip-lock-banner a.vip-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(99, 102, 241, 0.4);
+}
+.vip-lock-banner a.vip-btn-secondary {
+  background: rgba(99, 102, 241, 0.08);
+  color: #4f46e5 !important;
+  border: 1px solid rgba(99, 102, 241, 0.22);
+}
+.vip-lock-banner a.vip-btn-secondary:hover {
+  background: rgba(99, 102, 241, 0.14);
+}
+@media (prefers-color-scheme: dark) {
+  .vip-lock-banner a.vip-btn-secondary { color: #a5b4fc !important; }
+}
+html[data-user-color-scheme="dark"] .vip-lock-banner a.vip-btn-secondary { color: #a5b4fc !important; }
+.vip-unlocked-tip {
+  display: none;
+  margin: 10px 0 18px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  text-align: center;
+  background: rgba(16, 185, 129, 0.10);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+.vip-lock-wrap.is-unlocked .vip-unlocked-tip { display: block; }
+@media (prefers-color-scheme: dark) {
+  .vip-unlocked-tip { color: #34d399; }
+}
+html[data-user-color-scheme="dark"] .vip-unlocked-tip { color: #34d399; }
+
+/* ===== 文章标题右侧 VIP 小角标 ===== */
+.vip-post-badge {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  vertical-align: middle;
+  letter-spacing: 0.02em;
+}
+.vip-post-badge.pro { background: linear-gradient(135deg, #3b82f6, #6366f1); }
+.vip-post-badge.premium { background: linear-gradient(135deg, #8b5cf6, #a855f7); }

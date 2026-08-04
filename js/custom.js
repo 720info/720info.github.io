@@ -326,6 +326,58 @@
     setTimeout(fallbackBanner, 1200);
   }
 
+  // ===== 5. VIP 会员系统（localStorage） =====
+  var VIP_STORAGE_KEY = '720tech_vip_status';
+  function getVipStatus() {
+    try {
+      var raw = localStorage.getItem(VIP_STORAGE_KEY);
+      if (!raw) return { level: 'free', code: '', activatedAt: null };
+      var obj = JSON.parse(raw);
+      return obj && obj.level ? obj : { level: 'free', code: '', activatedAt: null };
+    } catch (e) {
+      return { level: 'free', code: '', activatedAt: null };
+    }
+  }
+  function hasVipLevel(required) {
+    var st = getVipStatus();
+    if (st.level === 'premium') return true;
+    if (required === 'premium') return false;
+    if (st.level === 'pro' && required === 'pro') return true;
+    if (required === 'free') return true;
+    return false;
+  }
+  function initVipContentLocks() {
+    var wraps = document.querySelectorAll('.vip-lock-wrap');
+    if (!wraps.length) return;
+    function applyAll() {
+      wraps.forEach(function (wrap) {
+        var req = (wrap.getAttribute('data-vip-level') || 'pro').toLowerCase();
+        if (hasVipLevel(req)) {
+          wrap.classList.add('is-unlocked');
+        } else {
+          wrap.classList.remove('is-unlocked');
+        }
+      });
+    }
+    applyAll();
+    window.addEventListener('vipStatusChanged', applyAll);
+    window.addEventListener('storage', function (e) {
+      if (e.key === VIP_STORAGE_KEY) applyAll();
+    });
+  }
+  function initVipBadges() {
+    var st = getVipStatus();
+    if (st.level === 'free') return;
+    var badges = document.querySelectorAll('.vip-post-badge');
+    badges.forEach(function (b) {
+      var need = (b.getAttribute('data-vip-level') || 'pro').toLowerCase();
+      if (hasVipLevel(need)) {
+        b.textContent = '已解锁';
+        b.style.opacity = '0.75';
+      }
+    });
+  }
+
   // ===== 启动 =====
   function boot() {
     try { initReadingProgress(); } catch (e) { /* ignore */ }
@@ -334,6 +386,8 @@
     try { initLinkDelayedNavigation(); } catch (e) { /* ignore */ }
     try { initScrollFadeIn(); } catch (e) { /* ignore */ }
     try { initImageFallback(); } catch (e) { /* ignore */ }
+    try { initVipContentLocks(); } catch (e) { /* ignore */ }
+    try { initVipBadges(); } catch (e) { /* ignore */ }
   }
 
   if (document.readyState === 'loading') {
