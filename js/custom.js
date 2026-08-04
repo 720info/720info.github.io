@@ -411,29 +411,38 @@
     });
   }
 
-  // ===== 5.1 VIP 评论专属标识 =====
-  // 在评论区容器上方显示一个 VIP 徽章（仅页面有评论时生效）
+  // ===== 5.1 VIP 会员专属标识（顶部导航栏） =====
+  // 在顶部导航栏的 brand 右侧显示一个 VIP 徽章，移动端也可见
   function initVipCommentBadge() {
     var st = getVipStatus();
     if (st.level === 'free') return;
-    var containers = document.querySelectorAll('.site-comments, #comments, .comments');
-    if (!containers.length) return;
+    var nav = document.getElementById('navbar');
+    if (!nav) return;
+    if (nav.querySelector('.vip-comment-badge')) return;
     var name = st.level === 'premium' ? '尊享版' : '专业版';
-    containers.forEach(function (c) {
-      if (c.querySelector('.vip-comment-badge')) return;
-      var badge = document.createElement('div');
-      badge.className = 'vip-comment-badge';
-      badge.innerHTML = '<span class="vip-cb-icon">👑</span>' +
-        '<span class="vip-cb-text">' + name + ' 会员专属标识</span>';
-      c.insertBefore(badge, c.firstChild);
-    });
+    var badge = document.createElement('a');
+    badge.className = 'vip-comment-badge';
+    badge.href = '/vip/';
+    badge.setAttribute('title', 'VIP 会员 · 点击查看会员中心');
+    badge.innerHTML = '<span class="vip-cb-icon">👑</span>' +
+      '<span class="vip-cb-text">' + name + '</span>';
+    // 追加到 brand 内部，紧贴 logo 文字，保证布局不被 space-between 打乱
+    var brand = nav.querySelector('.navbar-brand');
+    if (brand) {
+      brand.appendChild(badge);
+    } else {
+      var container = nav.querySelector('.container');
+      if (container) container.appendChild(badge);
+    }
   }
 
   // ===== 5.2 文章一键导出为 HTML =====
-  // 在文章页正文顶部加一个「导出为 HTML」按钮，前端把正文打包成单文件下载
+  // 仅在文章页（.post-content.mx-auto）且为会员时，在正文开头中间显示导出按钮
   function initVipExportArticle() {
-    // 需要是文章页（有 .post-content 或 .markdown-body）
-    var content = document.querySelector('.post-content, .markdown-body, article');
+    // 判断是否会员（非会员不显示）
+    if (getVipStatus().level === 'free') return;
+    // 必须精确命中文章页结构，避免普通页面误出现
+    var content = document.querySelector('.post-content.mx-auto .markdown-body');
     if (!content) return;
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -443,13 +452,8 @@
     btn.addEventListener('click', function () {
       exportArticleAsHtml(content);
     });
-    // 插到正文开头
-    var wrap = content.parentElement;
-    if (wrap) {
-      wrap.insertBefore(btn, wrap.firstChild);
-    } else {
-      content.insertBefore(btn, content.firstChild);
-    }
+    // 插到正文开头，并居中
+    content.insertBefore(btn, content.firstChild);
   }
 
   function exportArticleAsHtml(contentEl) {
