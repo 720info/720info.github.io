@@ -469,6 +469,123 @@
             font-size: 0.78rem;
             color: var(--text-secondary);
         }
+
+        /* 一键激活全屏遮罩 */
+        .activate-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(8px);
+        }
+        .activate-overlay.show {
+            display: flex;
+        }
+        .activate-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 50px 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .activate-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: pulse 2s infinite;
+        }
+        .activate-icon svg {
+            width: 44px;
+            height: 44px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+        }
+        .activate-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        .activate-msg {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .activate-jump {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            margin-bottom: 24px;
+            word-break: break-all;
+        }
+        .activate-countdown {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+        .activate-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        .activate-btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .activate-btn:hover {
+            background: var(--accent-hover);
+        }
+        .activate-skip {
+            display: block;
+            margin-top: 14px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: underline;
+        }
+        .activate-skip:hover {
+            color: var(--text-primary);
+        }
+        .activate-error .activate-icon {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            animation: none;
+        }
+        .activate-error .activate-title {
+            color: #ef4444;
+        }
     </style>
 </head>
 <body>
@@ -568,6 +685,21 @@
 
     <div class="disclaimer">
         <p>我做这个VIP功能就是玩玩而已，本来就没指望真的有人会购买，所以我不反对大家去破解或者尝试找激活码。技术水平有限，还请别见笑。</p>
+    </div>
+
+    <div class="activate-overlay" id="activateOverlay">
+        <div class="activate-card" id="activateCard">
+            <div class="activate-icon">
+                <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="activate-title" id="activateTitle">激活成功</div>
+            <div class="activate-msg" id="activateMsg">已激活 VIP</div>
+            <div class="activate-jump" id="activateJump" style="display:none;"></div>
+            <div class="activate-countdown" id="activateCountdown">5</div>
+            <div class="activate-hint">秒后自动跳转，您也可以点击下方按钮立即前往</div>
+            <a class="activate-btn" id="activateBtn" href="#">立即跳转</a>
+            <button class="activate-skip" id="activateSkip">留在本页</button>
+        </div>
     </div>
 
     <script>
@@ -705,6 +837,96 @@
             box.innerHTML = html;
         }
         renderThanks();
+
+        // ===== 一键激活：URL 参数自动检测 =====
+        (function handleUrlActivation() {
+            var params = new URLSearchParams(window.location.search);
+            var key = (params.get('key') || '').trim();
+            var jump = (params.get('jump') || '').trim();
+
+            if (!key) return;
+
+            var found = ACTIVATION_CODES[key];
+            var overlay = document.getElementById('activateOverlay');
+            var card = document.getElementById('activateCard');
+            var titleEl = document.getElementById('activateTitle');
+            var msgEl = document.getElementById('activateMsg');
+            var jumpEl = document.getElementById('activateJump');
+            var countdownEl = document.getElementById('activateCountdown');
+            var btn = document.getElementById('activateBtn');
+            var skipBtn = document.getElementById('activateSkip');
+
+            if (found) {
+                saveVipStatus({
+                    level: found.level,
+                    code: key,
+                    activatedAt: Date.now()
+                });
+
+                var safeJump = '';
+                if (jump && /^https?:\/\//i.test(jump)) {
+                    safeJump = jump;
+                }
+
+                titleEl.textContent = '🎉 激活成功';
+                msgEl.textContent = '已激活【' + found.display + '】，正在跳转到您想看的页面...';
+
+                if (safeJump) {
+                    jumpEl.style.display = 'block';
+                    jumpEl.textContent = '跳转目标：' + safeJump;
+                    btn.href = safeJump;
+                    btn.style.display = 'inline-block';
+                } else {
+                    jumpEl.style.display = 'none';
+                    btn.style.display = 'none';
+                }
+
+                card.classList.remove('activate-error');
+                overlay.classList.add('show');
+
+                if (safeJump) {
+                    var seconds = 5;
+                    countdownEl.textContent = seconds;
+                    var timer = setInterval(function () {
+                        seconds--;
+                        if (seconds <= 0) {
+                            clearInterval(timer);
+                            window.location.href = safeJump;
+                        } else {
+                            countdownEl.textContent = seconds;
+                        }
+                    }, 1000);
+
+                    skipBtn.onclick = function () {
+                        clearInterval(timer);
+                        overlay.classList.remove('show');
+                        history.replaceState(null, '', window.location.pathname);
+                    };
+
+                    btn.onclick = function () {
+                        clearInterval(timer);
+                    };
+                } else {
+                    countdownEl.textContent = '✓';
+                    skipBtn.style.display = 'none';
+                }
+            } else {
+                titleEl.textContent = '❌ 激活码无效';
+                msgEl.textContent = '您输入的激活码不存在，请检查后重试';
+                jumpEl.style.display = 'none';
+                btn.style.display = 'none';
+                countdownEl.textContent = '—';
+                skipBtn.style.display = 'block';
+                skipBtn.textContent = '关闭';
+                card.classList.add('activate-error');
+                overlay.classList.add('show');
+
+                skipBtn.onclick = function () {
+                    overlay.classList.remove('show');
+                    history.replaceState(null, '', window.location.pathname);
+                };
+            }
+        })();
 
         updateUI();
     </script>
