@@ -27,8 +27,8 @@
 <meta property="og:description" content="👋 Hi，我是 720 科技 本站点基于 Hexo + Fluid 搭建，主要用于记录技术笔记、日常随笔和工具教程。  ✨ 这个博客用来做什么？ 🛠 技术分享：Node.js、Python、前端开发、服务器运维、建站踩坑记录 📝 日常随笔：生活中的小事、随想、手术日记等 🧰 工具教程：各种实用软件、命令行、开发技巧  💡 站点特色 🎨 紫蓝渐变现代风主题 📱 响应式设计，移动端完美适">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://s41.ax1x.com/2026/08/01/pm4GkWt.jpg">
-<meta property="article:published_time" content="2026-08-04T01:30:35.583Z">
-<meta property="article:modified_time" content="2026-08-04T01:30:35.583Z">
+<meta property="article:published_time" content="2026-08-05T02:43:29.188Z">
+<meta property="article:modified_time" content="2026-08-05T02:43:29.188Z">
 <meta property="article:author" content="720 科技">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://s41.ax1x.com/2026/08/01/pm4GkWt.jpg">
@@ -474,6 +474,40 @@
 
   </div>
 
+  
+    <!-- Comments -->
+    <article id="comments" lazyload>
+      
+      
+        
+      
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.7.15/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://delightful-sherbet-867da0.netlify.app/.netlify/functions/twikoo","region":null,"path":null},
+          {
+            el: '#twikoo',
+            path: '',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
   
 </article>
 
