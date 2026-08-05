@@ -5,8 +5,8 @@
   
   <entry>
     <title>Trae 会员 Pro 个人实测</title>
-    <link href="/blog/2026/08/04/untitled/"/>
-    <url>/blog/2026/08/04/untitled/</url>
+    <link href="/2026/08/04/untitled/"/>
+    <url>/2026/08/04/untitled/</url>
     
     <content type="html"><![CDATA[<p>声明：我几乎不用代码自动补全，基本上什么活都是直接堆给 AI。<br><img src="https://img.tofaka.com/autoupload/f/cd7ca/default/%E6%88%AA%E5%B1%8F2026-08-04_08.49.36.png" alt="会员权益"></p><h2 id="实际体验（优点很少）"><a href="#实际体验（优点很少）" class="headerlink" title="实际体验（优点很少）"></a>实际体验（优点很少）</h2><p>58元（首月）Pro会员权益只有三个：不排队 + 4000积分&#x2F;月 +  Seed模型2.5折。<br>不排队确实很有用，平时写代码或者提问不需要问个问题等半天，直接就出来了。<br>AI 的智商恒定不变，不会开会员就变得更聪明。</p><p>我平常打算是这样用：</p><ul><li>改UI啥的这种轻活：扔 <strong>SeedCode（折后0.03倍率）</strong>，压低成本（因为积分不是特别充裕）。</li><li>需要从头开发，或者深度重构：才切 <strong>Seed2.1‑Turbo（折后0.1倍率）</strong>。</li></ul><p>这样4000 积分够我用了。</p><h2 id="主要槽点，性价比拉胯"><a href="#主要槽点，性价比拉胯" class="headerlink" title="主要槽点，性价比拉胯"></a>主要槽点，性价比拉胯</h2><ol><li><p><strong>4000积分看着不少，但Vibe‑Coding消耗很快</strong><br>氛围编程是多轮大上下文来回迭代，对于高频编程人士，哪怕尽量选低倍率SeedCode，任务一复杂，积分掉得也超快。何况偶尔切几次Seed2.1‑Turbo，4000积分并不抗造，很容易月中就没了（但对于我绝对够用）。</p></li><li><p><strong>订阅打包模式对我这种使用模式很不友好</strong><br>我不是天天高强度VibeCoding。因为我还要上学。<br>对我来说<strong>按量计费会更合适</strong>：忙的时候多消耗多花钱，闲的时候一分钱不花。现在这种打包订阅，等于我为很多自己用不到的额度在付费。</p></li><li><p>老问题依旧存在<br>AI幻觉不会因为开Pro消失，生成出来的逻辑依旧要自己审核。会员只解决排队和积分额度，不解决模型本身的可靠性问题。</p></li></ol><h2 id="个人总结"><a href="#个人总结" class="headerlink" title="个人总结"></a>个人总结</h2><ul><li>适合买Pro：每天中频编程且任务比较复杂的。</li><li><strong>不适合我：间歇性Vibe‑Coding，用量波动大。又不想为闲置的订阅权益持续付费。如果支持纯按量，会比现在的Pro订阅对我友好得多。</strong></li></ul><p>工具能用，但针对氛围编程长上下文迭代场景，这套订阅套餐性价比偏低。建议大家先估算自身每月消耗再决定要不要开通。</p><p><strong>如果追求灵活按量结算，也有不少人会选择ChatGPT中转服务，一般都很便宜。</strong></p><blockquote><p>⚠️风险提醒：这类第三方中转渠道属于灰色服务，没有统一监管，存在对话代码泄露、虚假算力、突然跑路等隐患，请自行甄别风险。本文无任何引流、推广，仅作工具对比讨论。</p></blockquote>]]></content>
     
@@ -34,8 +34,8 @@
   
   <entry>
     <title>Codex 与 Trae 实测体验对比</title>
-    <link href="/blog/2026/08/03/Codex-%E4%B8%8E-Trae-%E5%AE%9E%E6%B5%8B%E4%BD%93%E9%AA%8C%E5%AF%B9%E6%AF%94/"/>
-    <url>/blog/2026/08/03/Codex-%E4%B8%8E-Trae-%E5%AE%9E%E6%B5%8B%E4%BD%93%E9%AA%8C%E5%AF%B9%E6%AF%94/</url>
+    <link href="/2026/08/03/Codex-%E4%B8%8E-Trae-%E5%AE%9E%E6%B5%8B%E4%BD%93%E9%AA%8C%E5%AF%B9%E6%AF%94/"/>
+    <url>/2026/08/03/Codex-%E4%B8%8E-Trae-%E5%AE%9E%E6%B5%8B%E4%BD%93%E9%AA%8C%E5%AF%B9%E6%AF%94/</url>
     
     <content type="html"><![CDATA[<p>闲来无事体验了 Codex，整体使用感受和 Trae 相差不大，部分场景下 Codex 表现更出色。</p><h2 id="一、公益版-Codex-平台信息"><a href="#一、公益版-Codex-平台信息" class="headerlink" title="一、公益版 Codex 平台信息"></a>一、公益版 Codex 平台信息</h2><p>使用的是公益性质 Codex 网站：<br>注册链接：<a href="https://new.sharedchat.cc/list/#/register?i=x8Afc">https://new.sharedchat.cc/list/#/register?i=x8Afc</a></p><h3 id="额度与限制"><a href="#额度与限制" class="headerlink" title="额度与限制"></a>额度与限制</h3><ul><li>每日赠送 50 美元调用额度，日常使用完全足够</li><li>限制条件较多，单日可使用的有效时长很短</li></ul><h2 id="二、实战项目对比：2D版我的世界"><a href="#二、实战项目对比：2D版我的世界" class="headerlink" title="二、实战项目对比：2D版我的世界"></a>二、实战项目对比：2D版我的世界</h2><p>分别使用 Codex、Trae 开发 2D 版本我的世界，最终结果 <strong>Codex 完胜 Trae</strong>。</p><p>项目源代码下载地址：<br><a href="https://wwamw.lanzouv.com/iSbDd40b8zrg">https://wwamw.lanzouv.com/iSbDd40b8zrg</a></p><p>二编：Trae开始<strong>积分机制</strong>，想白嫖更费劲了，海外版的Trae<strong>赠金也越来越少</strong>。有时间试试Qoder吧。</p>]]></content>
     
@@ -63,8 +63,8 @@
   
   <entry>
     <title>小区施工记</title>
-    <link href="/blog/2026/08/03/%E5%B0%8F%E5%8C%BA%E6%96%BD%E5%B7%A5%E8%AE%B0/"/>
-    <url>/blog/2026/08/03/%E5%B0%8F%E5%8C%BA%E6%96%BD%E5%B7%A5%E8%AE%B0/</url>
+    <link href="/2026/08/03/%E5%B0%8F%E5%8C%BA%E6%96%BD%E5%B7%A5%E8%AE%B0/"/>
+    <url>/2026/08/03/%E5%B0%8F%E5%8C%BA%E6%96%BD%E5%B7%A5%E8%AE%B0/</url>
     
     <content type="html"><![CDATA[<p>早晨 10 点，我坐在电脑前闲来无事，像往常一样去除自行车，决定在楼溜达一圈，小区的施工一直断断续续持续了1 年多，最近两天小区里面的施工又热闹了起来，心想，该干的都干了，施工应该收尾了吧，我好看看完美的小区。</p><img src="https://s41.ax1x.com/2026/08/03/pm5duyn.jpg" alt="pm5duyn.jpg" border="0" />结果我一出单元门，门外的场景让我震惊，刺鼻的混凝土气味，嘈杂的施工声，小区里面处处都围上了警戒线。我骑车向 10 号楼方向走，发现原本平整的街道上，赫然堆着一座小山似的建筑垃圾，碎砖块，水泥块，混着泥土，乱糟糟的堆在路中间。我骑车绕了过去，心里不由得很疑惑：“不是说这些垃圾会清走吗？怎么还是在这里越堆越大？”<p>我去上车继续向 10 号楼方向前进，情况肥肠(修正：非常)“壮观”，以前只是小范围的修补，刷漆，现在倒好，整个广场都被围上了警戒线。<br>（这张图片不小心被我删了）</p><img src="https://s41.ax1x.com/2026/08/03/pm5wE0x.jpg" alt="pm5wE0x.jpg" border="0" />围栏歪歪扭扭，一眼都望不到头，我走近看了看，一处地下室入口有几个工人正在忙碌，我并不知道他们在忙什么，总之阵势比昨天强了好几倍。<img src="https://s41.ax1x.com/2026/08/03/pm5dUyR.jpg" alt="pm5dUyR.jpg" border="0" />刚刚建好的漫步机，太极推揉机又被红白相间的警戒线为了起来，地上散落着几个鼓鼓囊囊的袋子，几个大爷大妈在旁边聊着：“这得修到什么时候啊？”<p>骑车的兴致彻底是没了，只好推着车往家里走，一边走路，一边心想：“这片地挖开了，这里开始涂油漆，这里铺砖，那里又开始建滑梯，出行真不方便。”但我转念一想，这些施工难道不是为了让小区更好吗？</p><p>刚搬来的时候，小区地面坑坑洼洼，全是小石头，下雨天到处积水，老人小孩很容易就在那崴着脚，或者摔倒。记得有一次我也摔在了小区地板石子上，两只手心一直出血，去药店买了碘伏擦拭才有所好转，那真的很疼，而且不止一个两个人在那里摔倒过。反观现在，骑车比以前更方便，空间非常开阔，还有很多娱乐设施可以玩，虽然不是“完美”，但是比之前好了太多。</p><p>只是不知道，这种“快结束了”的日子，还要持续多久呢？</p>]]></content>
     
@@ -90,8 +90,8 @@
   
   <entry>
     <title>哈尔滨中央大街</title>
-    <link href="/blog/2026/08/02/%E5%93%88%E5%B0%94%E6%BB%A8%E4%B8%AD%E5%A4%AE%E5%A4%A7%E8%A1%97/"/>
-    <url>/blog/2026/08/02/%E5%93%88%E5%B0%94%E6%BB%A8%E4%B8%AD%E5%A4%AE%E5%A4%A7%E8%A1%97/</url>
+    <link href="/2026/08/02/%E5%93%88%E5%B0%94%E6%BB%A8%E4%B8%AD%E5%A4%AE%E5%A4%A7%E8%A1%97/"/>
+    <url>/2026/08/02/%E5%93%88%E5%B0%94%E6%BB%A8%E4%B8%AD%E5%A4%AE%E5%A4%A7%E8%A1%97/</url>
     
     <content type="html"><![CDATA[<p>今天是我阑尾炎手术后第 19 天，经过长时间的静养回复(8月3日修正：恢复)，我觉得我已经康复的差不多了，状态也十分良好。妈妈看我这么自信，决定带我去中央大街溜达，放松一下身心，顺道吃点特色美食，喝点饮品，于是我就这样同意了。</p><p>乘坐地铁我们来到中央大街的园区，我们先是在街边选择了一家餐厅，想着先解决解决晚餐问题，这里的菜品确实名不虚传，鸭肉卷饼很鲜香，烤肉，菠萝包等食品味道也确实不错，只不过人很多，所以声音比较大，让我们吃的有些不愉快。一出门我吃得很撑，感觉自己的身体都变得沉甸甸的。走起路来也弯下了腰，显得很笨拙。来来回回这么多次，我已经看腻了中央大街标志性面包石，只是一言不发地向前一步步走着，走的格外慢，害怕牵扯到和伤口，有事还需要弯下腰，显得非常笨拙。</p><p>温柔的晚风拂过我的脸颊，吹散了心中的疲惫与忧愁，也吹散了夏日的炎热，我顺着街道一直往下走，走过地下通道来到了著名的防洪纪念塔，这里有举办的演出可以观看，所以格外热闹。只不过人员非常拥挤，走走过过很不方便。我很快就放弃了站在这附近看演出的想法，继续朝着旁边走去。</p><p>我在路边的蜜雪冰城店铺里点了一杯芋圆葡萄，虽然味道依旧很不错，但是因为吃饭吃了太多，我喝了两口就喝不下去了，而且一直在打嗝，只好作罢。</p><p>本来觉得自己很有精气神，完全可以走遍整个中央大街，但毕竟还没有完全康复，走到到这里就已经严重体力不支，一步道也走不动了，所以我们只好开始返程。</p><p>这次旅行再一次让我体会到了身体健康的重要性，虽说没有那么完美，但却放松了我的身心，让我感觉十分愉快。慢慢休养，一天比一天更健康！</p><p>不是 AI 生成的（确实有一点点 AI 的辅助）</p>]]></content>
     
@@ -117,8 +117,8 @@
   
   <entry>
     <title>微信多开教程（Mac / Windows 双平台详解）</title>
-    <link href="/blog/2026/07/31/%E5%BE%AE%E4%BF%A1%E5%A4%9A%E5%BC%80%E6%95%99%E7%A8%8B/"/>
-    <url>/blog/2026/07/31/%E5%BE%AE%E4%BF%A1%E5%A4%9A%E5%BC%80%E6%95%99%E7%A8%8B/</url>
+    <link href="/2026/07/31/%E5%BE%AE%E4%BF%A1%E5%A4%9A%E5%BC%80%E6%95%99%E7%A8%8B/"/>
+    <url>/2026/07/31/%E5%BE%AE%E4%BF%A1%E5%A4%9A%E5%BC%80%E6%95%99%E7%A8%8B/</url>
     
     <content type="html"><![CDATA[<h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>在日常工作和生活中，我们经常需要同时使用多个微信账号——一个用于工作，一个用于生活。但微信官方客户端默认只允许登录一个账号，非常不便。本文将详细介绍 <strong>macOS</strong> 和 <strong>Windows</strong> 两大平台实现微信多开的方法。</p><h2 id="二、macOS-微信多开方法"><a href="#二、macOS-微信多开方法" class="headerlink" title="二、macOS 微信多开方法"></a>二、macOS 微信多开方法</h2><h3 id="方法一：使用终端命令（推荐，最简单）"><a href="#方法一：使用终端命令（推荐，最简单）" class="headerlink" title="方法一：使用终端命令（推荐，最简单）"></a>方法一：使用终端命令（推荐，最简单）</h3><p>这是 macOS 上最快捷的方式，无需安装任何第三方软件。</p><ol><li>打开「终端」（Terminal）应用</li><li>输入以下命令并回车：</li></ol><!-- vip:lock --><div class="vip-lock-wrap" data-vip-level="pro">  <div class="vip-unlocked-tip">✅ 您已解锁本专业版内容</div>  <div class="vip-lock-mask">  <!-- vip:content --><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">open -n /Applications/WeChat.app<br></code></pre></td></tr></table></figure>  <!-- vip:contentend -->  </div>  <div class="vip-lock-banner">    <div class="vip-lock-icon">🔒</div>    <h4>本内容为 专业版 VIP 专属</h4>    <p>升级会员解锁全部内容，支持永久授权 · 一次购买终身使用</p>    <div class="vip-lock-actions">      <a class="vip-btn vip-btn-primary" href="/vip/">🔑 立即激活会员</a>      <a class="vip-btn vip-btn-secondary" href="/about/">💬 联系作者微信</a>    </div>  </div></div><!-- vip:lockend --><ol start="3"><li>每执行一次该命令，就会多打开一个微信窗口</li></ol><p><strong>提示：</strong> 如果需要同时登录 3 个微信，就执行 3 次命令即可。</p><h3 id="方法二：使用脚本一键多开"><a href="#方法二：使用脚本一键多开" class="headerlink" title="方法二：使用脚本一键多开"></a>方法二：使用脚本一键多开</h3><p>如果你觉得每次打开终端输入命令太麻烦，可以创建一个一键脚本：</p><ol><li>打开「脚本编辑器」（Script Editor）</li><li>输入以下内容：</li></ol><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-built_in">do shell script</span> <span class="hljs-string">&quot;open -n /Applications/WeChat.app&quot;</span><br></code></pre></td></tr></table></figure><ol start="3"><li>点击「文件」→「导出」</li><li>文件格式选择「应用程序」，保存到桌面</li><li>以后双击这个应用即可多开一个微信</li></ol><h3 id="方法三：创建复制版微信"><a href="#方法三：创建复制版微信" class="headerlink" title="方法三：创建复制版微信"></a>方法三：创建复制版微信</h3><p>适合需要长期同时登录多个账号的用户：</p><ol><li>打开「应用程序」文件夹，找到 WeChat.app</li><li>右键选择「复制」，得到「WeChat 副本.app」</li><li>双击「WeChat 副本.app」即可打开第二个微信</li></ol><p><strong>注意：</strong> 微信每次更新后，副本可能需要重新复制。</p><h2 id="三、Windows-微信多开方法"><a href="#三、Windows-微信多开方法" class="headerlink" title="三、Windows 微信多开方法"></a>三、Windows 微信多开方法</h2><h3 id="方法一：使用批处理脚本（推荐）"><a href="#方法一：使用批处理脚本（推荐）" class="headerlink" title="方法一：使用批处理脚本（推荐）"></a>方法一：使用批处理脚本（推荐）</h3><ol><li>在桌面新建一个文本文档</li><li>将以下内容粘贴进去：</li></ol><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs batch">@echo off<br>start &quot;&quot; &quot;C:\Program Files (x86)\Tencent\WeChat\WeChat.exe&quot;<br>start &quot;&quot; &quot;C:\Program Files (x86)\Tencent\WeChat\WeChat.exe&quot;<br>exit<br></code></pre></td></tr></table></figure><ol start="3"><li>保存时将文件后缀改为 <code>.bat</code>（例如 <code>微信多开.bat</code>）</li><li>双击运行即可同时打开 2 个微信窗口</li></ol><p><strong>说明：</strong> 想要同时登录几个微信，就复制几行 <code>start</code> 命令。</p><h3 id="方法二：按住回车快速点击"><a href="#方法二：按住回车快速点击" class="headerlink" title="方法二：按住回车快速点击"></a>方法二：按住回车快速点击</h3><ol><li>确保微信完全关闭</li><li>按住键盘上的「Enter」键不放</li><li>同时用鼠标快速连续双击微信图标</li><li>松开 Enter 键，会发现多个微信窗口已打开</li></ol><h2 id="四、注意事项"><a href="#四、注意事项" class="headerlink" title="四、注意事项"></a>四、注意事项</h2><ol><li><strong>账号安全：</strong> 多开本身不会封号，但请遵守微信使用规范，避免频繁切换或批量操作</li><li><strong>消息同步：</strong> 不同微信窗口的消息是独立的，不会相互干扰</li><li><strong>更新影响：</strong> 微信版本更新后，部分多开方法可能需要重新设置</li><li><strong>资源占用：</strong> 多开微信会占用更多内存，建议根据电脑配置合理控制数量</li></ol><h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><table><thead><tr><th>平台</th><th>推荐方法</th><th>难度</th><th>稳定性</th></tr></thead><tbody><tr><td>macOS</td><td>终端命令 <code>open -n</code></td><td>⭐</td><td>⭐⭐⭐⭐⭐</td></tr><tr><td>Windows</td><td>批处理脚本 <code>.bat</code></td><td>⭐⭐</td><td>⭐⭐⭐⭐⭐</td></tr></tbody></table><p>微信多开并不是什么高深的技术，通过以上简单的方法，你也可以轻松实现工作号和生活号同时在线。希望这篇教程对你有所帮助！</p>]]></content>
     
@@ -144,8 +144,8 @@
   
   <entry>
     <title>阑尾炎手术</title>
-    <link href="/blog/2026/07/31/%E9%98%91%E5%B0%BE%E7%82%8E%E6%89%8B%E6%9C%AF/"/>
-    <url>/blog/2026/07/31/%E9%98%91%E5%B0%BE%E7%82%8E%E6%89%8B%E6%9C%AF/</url>
+    <link href="/2026/07/31/%E9%98%91%E5%B0%BE%E7%82%8E%E6%89%8B%E6%9C%AF/"/>
+    <url>/2026/07/31/%E9%98%91%E5%B0%BE%E7%82%8E%E6%89%8B%E6%9C%AF/</url>
     
     <content type="html"><![CDATA[<p>谁能想到，一次普通的肚子疼，最后直接躺进手术室。</p><p>上周四晚上，我约好朋友来我家里，一起用 Trae 编程，玩游戏。妈妈为我们端了一盘水果，里面有西瓜和菠萝。我把一盘全吃了，感到十分满足。</p><p>第二天上午，我的腹部隐隐作痛，和平常的肚子疼没什么区别，我并没有当回事，直到越来越疼，我躺在床上热敷了一下，时间一直到下午，我也没有丝毫好转，还有“岔气”的绞痛感。那天我没有去上我的补习班，一直到了 4 点，家人摸了摸我的肚子，基本确定了区域为右下腹部，初步判断可能是阑尾炎。晚上，我匆忙赶到医院，还有几分侥幸和不敢相信，做了抽血、B 超，最后发现就是阑尾炎，我十分绝望。数值中阑尾的直径为0.62，医生建议做手术。于是我们只好办理了住院，我躺在医院的病床上，十分绝望的哭了，我居然变成病人了。但那时我还不知道，更难熬的还在后面。</p><p>第二天8点30分，我的鼻子中被插进了一条管子，连接到胃部，随后被送到手术室。在手术室中我被麻醉，醒来后我在病房里。我的胃管被拔出，感觉很舒服。但这天晚上，麻药劲过了，我感到伤口十分痛苦。好在下一天我就可以试着慢慢下床活动，但什么也吃不了。慢慢的，我恢复得越来越好，能吃的东西也越来越多，5天后我顺利出院。健康又平凡的生活看似很普通，但也是来之不易的。</p><p>并非AI生成</p>]]></content>
     
@@ -171,8 +171,8 @@
   
   <entry>
     <title>Node.js 完整安装与环境配置教程</title>
-    <link href="/blog/2026/07/31/Node.js-%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/"/>
-    <url>/blog/2026/07/31/Node.js-%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/</url>
+    <link href="/2026/07/31/Node.js-%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/"/>
+    <url>/2026/07/31/Node.js-%E5%AE%8C%E6%95%B4%E5%AE%89%E8%A3%85%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/</url>
     
     <content type="html"><![CDATA[<h2 id="一、什么是-Node-js"><a href="#一、什么是-Node-js" class="headerlink" title="一、什么是 Node.js"></a>一、什么是 Node.js</h2><p>Node.js 是基于 Chrome V8 引擎的 JavaScript 运行时环境，让 JS 可以脱离浏览器在服务器、本地电脑执行，常用于后端接口、脚本工具、前端工程化（Vue&#x2F;React 打包）等场景。</p><h2 id="二、下载官方安装包"><a href="#二、下载官方安装包" class="headerlink" title="二、下载官方安装包"></a>二、下载官方安装包</h2><h3 id="1-官方地址"><a href="#1-官方地址" class="headerlink" title="1. 官方地址"></a>1. 官方地址</h3><p>官网：<!-- vip:lock --></p><div class="vip-lock-wrap" data-vip-level="pro">  <div class="vip-unlocked-tip">✅ 您已解锁本专业版内容</div>  <div class="vip-lock-mask">  <!-- vip:content -->https://nodejs.org/  <!-- vip:contentend -->  </div>  <div class="vip-lock-banner">    <div class="vip-lock-icon">🔒</div>    <h4>本内容为 专业版 VIP 专属</h4>    <p>升级会员解锁全部内容，支持永久授权 · 一次购买终身使用</p>    <div class="vip-lock-actions">      <a class="vip-btn vip-btn-primary" href="/vip/">🔑 立即激活会员</a>      <a class="vip-btn vip-btn-secondary" href="/about/">💬 联系作者微信</a>    </div>  </div></div><!-- vip:lockend -->推荐下载 **LTS 长期支持版**（稳定版，生产环境首选），Current 为尝鲜新版。<h3 id="版本区分"><a href="#版本区分" class="headerlink" title="版本区分"></a>版本区分</h3><ul><li>LTS：Long Term Support，长期维护，兼容性最好，日常开发必选</li><li>Current：最新特性版本，适合体验新API，不建议项目使用</li></ul><h2 id="三、Windows-系统安装步骤"><a href="#三、Windows-系统安装步骤" class="headerlink" title="三、Windows 系统安装步骤"></a>三、Windows 系统安装步骤</h2><ol><li>双击下载 <code>.msi</code> 安装包，一路点击 <code>Next</code></li><li>同意许可协议，选择安装路径（默认即可，不建议中文路径）</li><li>保持默认组件全部勾选：Node.js runtime、npm包管理器、Add to PATH（自动配置环境变量）</li><li>等待安装完成，点击 Finish</li></ol><h3 id="验证是否安装成功"><a href="#验证是否安装成功" class="headerlink" title="验证是否安装成功"></a>验证是否安装成功</h3><p>打开 CMD &#x2F; PowerShell，执行两条命令：</p><pre><code class="bash">node -vnpm -v</code></pre>]]></content>
     
@@ -198,8 +198,8 @@
   
   <entry>
     <title>网站上线的随笔</title>
-    <link href="/blog/2026/07/31/%E7%BD%91%E7%AB%99%E4%B8%8A%E7%BA%BF%E7%9A%84%E9%9A%8F%E7%AC%94/"/>
-    <url>/blog/2026/07/31/%E7%BD%91%E7%AB%99%E4%B8%8A%E7%BA%BF%E7%9A%84%E9%9A%8F%E7%AC%94/</url>
+    <link href="/2026/07/31/%E7%BD%91%E7%AB%99%E4%B8%8A%E7%BA%BF%E7%9A%84%E9%9A%8F%E7%AC%94/"/>
+    <url>/2026/07/31/%E7%BD%91%E7%AB%99%E4%B8%8A%E7%BA%BF%E7%9A%84%E9%9A%8F%E7%AC%94/</url>
     
     <content type="html"><![CDATA[<p>本站今日正式发布，后续会持续更新干货文章、技术笔记与生活感悟，感谢驻足，期待长期相伴。</p>]]></content>
     
