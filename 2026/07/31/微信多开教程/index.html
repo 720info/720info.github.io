@@ -8,8 +8,8 @@
 <head>
   <meta charset="UTF-8">
 
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
-  <link rel="icon" href="/img/fluid.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/fluid.png">
+  <link rel="icon" href="/blog/img/fluid.png">
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
@@ -22,15 +22,15 @@
     <meta name="description" content="一、前言在日常工作和生活中，我们经常需要同时使用多个微信账号——一个用于工作，一个用于生活。但微信官方客户端默认只允许登录一个账号，非常不便。本文将详细介绍 macOS 和 Windows 两大平台实现微信多开的方法。 二、macOS 微信多开方法方法一：使用终端命令（推荐，最简单）这是 macOS 上最快捷的方式，无需安装任何第三方软件。  打开「终端」（Terminal）应用 输入以下命令并回">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微信多开教程（Mac &#x2F; Windows 双平台详解）">
-<meta property="og:url" content="https://720info.eu.cc/2026/07/31/%E5%BE%AE%E4%BF%A1%E5%A4%9A%E5%BC%80%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:url" content="https://720info.github.io/blog/2026/07/31/%E5%BE%AE%E4%BF%A1%E5%A4%9A%E5%BC%80%E6%95%99%E7%A8%8B/index.html">
 <meta property="og:site_name" content="720 科技官网">
 <meta property="og:description" content="一、前言在日常工作和生活中，我们经常需要同时使用多个微信账号——一个用于工作，一个用于生活。但微信官方客户端默认只允许登录一个账号，非常不便。本文将详细介绍 macOS 和 Windows 两大平台实现微信多开的方法。 二、macOS 微信多开方法方法一：使用终端命令（推荐，最简单）这是 macOS 上最快捷的方式，无需安装任何第三方软件。  打开「终端」（Terminal）应用 输入以下命令并回">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-07-31T14:30:00.000Z">
 <meta property="article:modified_time" content="2026-07-31T14:30:00.000Z">
 <meta property="article:author" content="720 科技">
-<meta property="article:tag" content="教程">
 <meta property="article:tag" content="工具技巧">
+<meta property="article:tag" content="教程">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -61,33 +61,33 @@
 <link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
 
 
-<link  rel="stylesheet" href="/css/main.css" />
+<link  rel="stylesheet" href="/blog/css/main.css" />
 
 
-  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  <link id="highlight-css" rel="stylesheet" href="/blog/css/highlight.css" />
   
-    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+    <link id="highlight-css-dark" rel="stylesheet" href="/blog/css/highlight-dark.css" />
   
 
 
 
   
-<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/blog/css/custom.css">
 
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"720info.eu.cc","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"720info.github.io","root":"/blog/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/blog/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-  <script  src="/js/utils.js" ></script>
-  <script  src="/js/color-schema.js" ></script>
+  <script  src="/blog/js/utils.js" ></script>
+  <script  src="/blog/js/color-schema.js" ></script>
   
 
 
@@ -104,7 +104,7 @@
 <div class="header-inner" style="height: 80vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand" href="/">
+    <a class="navbar-brand" href="/blog/">
       <strong>720 科技官网</strong>
     </a>
 
@@ -123,7 +123,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/" target="_self">
+              <a class="nav-link" href="/blog/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
                 <span>首页</span>
               </a>
@@ -145,7 +145,7 @@
                   
                   
                   
-                  <a class="dropdown-item" href="/archives/" target="_self">
+                  <a class="dropdown-item" href="/blog/archives/" target="_self">
                     <i class="iconfont icon-archive-fill"></i>
                     <span>归档</span>
                   </a>
@@ -153,7 +153,7 @@
                   
                   
                   
-                  <a class="dropdown-item" href="/categories/" target="_self">
+                  <a class="dropdown-item" href="/blog/categories/" target="_self">
                     <i class="iconfont icon-category-fill"></i>
                     <span>分类</span>
                   </a>
@@ -161,7 +161,7 @@
                   
                   
                   
-                  <a class="dropdown-item" href="/tags/" target="_self">
+                  <a class="dropdown-item" href="/blog/tags/" target="_self">
                     <i class="iconfont icon-tags-fill"></i>
                     <span>标签</span>
                   </a>
@@ -175,7 +175,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/gallery/" target="_self">
+              <a class="nav-link" href="/blog/gallery/" target="_self">
                 <i class="iconfont icon-images"></i>
                 <span>相册</span>
               </a>
@@ -187,7 +187,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/" target="_self">
+              <a class="nav-link" href="/blog/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
                 <span>关于</span>
               </a>
@@ -199,7 +199,7 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/links/" target="_self">
+              <a class="nav-link" href="/blog/links/" target="_self">
                 <i class="iconfont icon-link-fill"></i>
                 <span>友链</span>
               </a>
@@ -237,7 +237,7 @@
           
           
             <div class="col-4 mobile-grid-cell">
-              <a href="/" target="_self">
+              <a href="/blog/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-home-fill"></i>
                   <span>首页</span>
@@ -256,7 +256,7 @@
               
               
               <div class="col-4 mobile-grid-cell">
-                <a href="/archives/" target="_self">
+                <a href="/blog/archives/" target="_self">
                   <div class="mobile-grid-item">
                     <i class="iconfont icon-archive-fill"></i>
                     <span>归档</span>
@@ -268,7 +268,7 @@
               
               
               <div class="col-4 mobile-grid-cell">
-                <a href="/categories/" target="_self">
+                <a href="/blog/categories/" target="_self">
                   <div class="mobile-grid-item">
                     <i class="iconfont icon-category-fill"></i>
                     <span>分类</span>
@@ -280,7 +280,7 @@
               
               
               <div class="col-4 mobile-grid-cell">
-                <a href="/tags/" target="_self">
+                <a href="/blog/tags/" target="_self">
                   <div class="mobile-grid-item">
                     <i class="iconfont icon-tags-fill"></i>
                     <span>标签</span>
@@ -295,7 +295,7 @@
           
           
             <div class="col-4 mobile-grid-cell">
-              <a href="/gallery/" target="_self">
+              <a href="/blog/gallery/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-images"></i>
                   <span>相册</span>
@@ -309,7 +309,7 @@
           
           
             <div class="col-4 mobile-grid-cell">
-              <a href="/about/" target="_self">
+              <a href="/blog/about/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-user-fill"></i>
                   <span>关于</span>
@@ -323,7 +323,7 @@
           
           
             <div class="col-4 mobile-grid-cell">
-              <a href="/links/" target="_self">
+              <a href="/blog/links/" target="_self">
                 <div class="mobile-grid-item">
                   <i class="iconfont icon-link-fill"></i>
                   <span>友链</span>
@@ -563,7 +563,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="category-chain-item">技术分享</a>
+  <a href="/blog/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/" class="category-chain-item">技术分享</a>
   
   
 
@@ -578,9 +578,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+        <a href="/blog/tags/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/" class="print-no-link">#工具技巧</a>
       
-        <a href="/tags/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/" class="print-no-link">#工具技巧</a>
+        <a href="/blog/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
       
     </div>
   
@@ -593,7 +593,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>微信多开教程（Mac / Windows 双平台详解）</div>
-      <div>https://720info.eu.cc/2026/07/31/微信多开教程/</div>
+      <div>https://720info.github.io/blog/2026/07/31/微信多开教程/</div>
     </div>
     <div class="license-meta">
       
@@ -637,7 +637,7 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/08/02/%E5%93%88%E5%B0%94%E6%BB%A8%E4%B8%AD%E5%A4%AE%E5%A4%A7%E8%A1%97/" title="哈尔滨中央大街">
+                      <a href="/blog/2026/08/02/%E5%93%88%E5%B0%94%E6%BB%A8%E4%B8%AD%E5%A4%AE%E5%A4%A7%E8%A1%97/" title="哈尔滨中央大街">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">哈尔滨中央大街</span>
                         <span class="visible-mobile">上一篇</span>
@@ -647,7 +647,7 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2026/07/31/%E9%98%91%E5%B0%BE%E7%82%8E%E6%89%8B%E6%9C%AF/" title="阑尾炎手术">
+                      <a href="/blog/2026/07/31/%E9%98%91%E5%B0%BE%E7%82%8E%E6%89%8B%E6%9C%AF/" title="阑尾炎手术">
                         <span class="hidden-mobile">阑尾炎手术</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -837,8 +837,8 @@
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
-<script  src="/js/events.js" ></script>
-<script  src="/js/plugins.js" ></script>
+<script  src="/blog/js/events.js" ></script>
+<script  src="/blog/js/plugins.js" ></script>
 
 
   <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
@@ -860,7 +860,7 @@
 
 
   
-    <script  src="/js/img-lazyload.js" ></script>
+    <script  src="/blog/js/img-lazyload.js" ></script>
   
 
 
@@ -1023,7 +1023,7 @@
 
   <script>Fluid.plugins.imageCaption();</script>
 
-  <script  src="/js/local-search.js" ></script>
+  <script  src="/blog/js/local-search.js" ></script>
 
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
@@ -1031,13 +1031,13 @@
 
 
   
-<script src="/js/custom.js"></script>
+<script src="/blog/js/custom.js"></script>
 
 
 
 <!-- 主题的启动项，将它保持在最底部 -->
 <!-- the boot of the theme, keep it at the bottom -->
-<script  src="/js/boot.js" ></script>
+<script  src="/blog/js/boot.js" ></script>
 
 
   
