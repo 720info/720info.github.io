@@ -1,0 +1,636 @@
+/* ===== 阅读进度条（顶部细线，蓝色渐变） ===== */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #60a5fa, #818cf8, #c084fc);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
+  transition: width 0.08s ease-out;
+  pointer-events: none;
+}
+
+/* ===== 首页 Banner：消除箭头底部白边（只改箭头位置 + 下卡片圆角，不碰 banner 高度） ===== */
+/* Fluid 实际类名：箭头外层是 .scroll-down-bar，图标是 i.icon-arrowdown */
+#banner .scroll-down-bar {
+  position: absolute;
+  bottom: 0 !important;
+  left: 0;
+  right: 0;
+  margin-bottom: 0 !important;
+  padding-bottom: 16px !important;
+  z-index: 3;
+}
+#banner .scroll-down-bar i {
+  display: block;
+}
+/* 关键！去掉文章列表 board 顶部的圆角——圆角外侧的背景色就是"白边"来源 */
+main #board {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  -webkit-border-top-left-radius: 0 !important;
+  -webkit-border-top-right-radius: 0 !important;
+  margin-top: 0 !important;
+}
+/* 容器不要顶部留空 */
+main > .container.nopadding-x-md,
+main {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+main #board {
+  padding-top: 28px !important;
+}
+/* board 子元素也不要顶部圆角 */
+main #board > .container:first-of-type,
+main #board > .row:first-of-type,
+main #board .index-card:first-of-type {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+/* 终极保险：把 header-inner(100vh首页) 之后的 main 顶部 1~2px gap，
+   用 body 背景色"盖住"——在浅色模式让 main 顶部与 board 背景色同值 */
+body {
+  background-color: #ffffff !important;
+}
+/* 暗色模式下 body 背景也与 board_dark 一致 */
+@media (prefers-color-scheme: dark) {
+  body { background-color: #1e293b !important; }
+}
+body[data-user-color-scheme="dark"] {
+  background-color: #1e293b !important;
+}
+
+/* ===== 鼠标滑动光晕与短尾迹 ===== */
+.mouse-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 190px;
+  height: 190px;
+  margin: -95px 0 0 -95px;
+  z-index: 99996;
+  border: 1px solid rgba(129, 140, 248, 0.42);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.27) 0%, rgba(96, 165, 250, 0.13) 42%, transparent 72%);
+  box-shadow: 0 0 42px rgba(99, 102, 241, 0.24), 0 0 90px rgba(96, 165, 250, 0.12);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-100px, -100px, 0);
+  transition: opacity 0.22s ease;
+  will-change: transform, opacity;
+}
+.mouse-glow.is-active { opacity: 1; }
+.mouse-trail-particle {
+  position: fixed;
+  z-index: 99995;
+  width: var(--trail-size);
+  height: var(--trail-size);
+  margin: calc(var(--trail-size) / -2) 0 0 calc(var(--trail-size) / -2);
+  border-radius: 50%;
+  background: #a5b4fc;
+  box-shadow: 0 0 14px rgba(129, 140, 248, 0.95), 0 0 24px rgba(96, 165, 250, 0.5);
+  pointer-events: none;
+  animation: mouse-trail-fade 0.78s ease-out forwards;
+  will-change: transform, opacity;
+}
+@keyframes mouse-trail-fade {
+  0% { opacity: 0.95; transform: scale(1.15); }
+  100% { opacity: 0; transform: translateY(18px) scale(0.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mouse-glow,
+  .mouse-trail-particle { display: none !important; }
+}
+
+/* ===== 全站统一评论区外框与加载状态 ===== */
+#comments,
+#alb-root .site-comments {
+  position: relative;
+  margin-top: 2.5rem !important;
+  padding: 1.25rem clamp(1rem, 3vw, 2rem) 1.5rem;
+  border: 1px solid rgba(99, 102, 241, 0.16);
+  border-radius: 8px;
+  background: rgba(248, 250, 252, 0.86);
+  box-shadow: 0 14px 34px rgba(30, 41, 59, 0.08);
+  overflow: hidden;
+}
+#alb-root .site-comments { max-width: 100%; }
+#comments::before,
+#alb-root .site-comments::before {
+  content: '评论区';
+  display: block;
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.14);
+  color: #3730a3;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+#comments .utterances,
+#alb-root .site-comments .utterances {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+#comments .utterances-frame,
+#alb-root .site-comments .utterances-frame {
+  min-height: 150px;
+}
+#alb-root .site-comments .alb-comments-hint {
+  padding: 1.25rem 0;
+  border: 0;
+  background: transparent;
+  color: #64748b;
+  text-align: center;
+  font-size: 0.9rem;
+}
+@media (prefers-color-scheme: dark) {
+  #comments,
+  #alb-root .site-comments {
+    border-color: rgba(129, 140, 248, 0.3);
+    background: rgba(15, 23, 42, 0.7);
+    box-shadow: 0 14px 34px rgba(2, 6, 23, 0.3);
+  }
+  #comments::before,
+  #alb-root .site-comments::before {
+    color: #c7d2fe;
+    border-bottom-color: rgba(129, 140, 248, 0.24);
+  }
+  #alb-root .site-comments .alb-comments-hint { color: #94a3b8; }
+}
+html[data-user-color-scheme="dark"] #comments,
+html[data-user-color-scheme="dark"] #alb-root .site-comments {
+  border-color: rgba(129, 140, 248, 0.3);
+  background: rgba(15, 23, 42, 0.7);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, 0.3);
+}
+html[data-user-color-scheme="dark"] #comments::before,
+html[data-user-color-scheme="dark"] #alb-root .site-comments::before {
+  color: #c7d2fe;
+  border-bottom-color: rgba(129, 140, 248, 0.24);
+}
+html[data-user-color-scheme="dark"] #alb-root .site-comments .alb-comments-hint {
+  color: #94a3b8;
+}
+
+/* ===== 文章页 Banner：标题字号回到 Fluid 原始值，但位置保持偏上 ===== */
+/* 保留：让整块文字上移一点 */
+.header-inner[style*="height: 80vh"] .banner-text,
+.header-inner[style*="height:80vh"] .banner-text {
+  margin-top: -6vh !important;
+}
+/* 字号字重完全复原——删除之前手动放大/加粗的样式 */
+/* 副标题（元信息）保持原间距，不要额外加大 */
+.header-inner[style*="height: 80vh"] .banner-text,
+.header-inner[style*="height:80vh"] .banner-text {
+  max-width: 86vw !important;
+  width: 100% !important;
+}
+/* 文章页 board 也顶部无圆角（和白边问题同样处理） */
+.post-article + main #board,
+.post #board,
+body:has(.header-inner[style*="80vh"]) main #board {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+/* ===== 鼠标点击涟漪特效（明显版）===== */
+/* 外层主涟漪：大、亮、扩散远 */
+.click-ripple {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  animation: click-ripple-anim 0.85s ease-out forwards;
+  will-change: transform, opacity;
+  box-shadow:
+    0 0 28px rgba(96, 165, 250, 0.55),
+    0 0 56px rgba(129, 140, 248, 0.35),
+    inset 0 0 18px rgba(255, 255, 255, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.65);
+}
+/* 内层高亮小圈：让点击点有个"爆心"更明显 */
+.click-ripple::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.85);
+}
+@keyframes click-ripple-anim {
+  0% {
+    transform: scale(0.15);
+    opacity: 1;
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* ===== 页面滚动淡入动画（轻量，不卡） ===== */
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.28s ease-out,
+    transform 0.28s ease-out;
+  will-change: opacity, transform;
+}
+.scroll-fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== 首页文章卡片 + 按钮 更柔和的阴影 ===== */
+.index-card {
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.index-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -12px rgba(37, 99, 235, 0.25);
+}
+
+/* ===== 文章目录 TOC 当前项高亮更漂亮 ===== */
+.tocbot-link.is-active-link {
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.12), transparent);
+  border-left: 3px solid #6366f1 !important;
+  padding-left: 9px;
+  color: #4f46e5 !important;
+  font-weight: 600;
+}
+
+/* ===== 页脚美化（紫蓝渐变 + 毛玻璃 + 现代排版） ===== */
+footer {
+  position: relative;
+  margin-top: 36px;
+  padding: 0;
+  background:
+    linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 70%, #6366f1 100%);
+  border-top: 1px solid rgba(99, 102, 241, 0.35);
+  color: #e0e7ff;
+  overflow: hidden;
+  z-index: 1;
+}
+/* 亮色背景斑点：让渐变不那么单调 */
+footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(129, 140, 248, 0.35), transparent 60%),
+    radial-gradient(900px 500px at 95% 10%, rgba(192, 132, 252, 0.3), transparent 60%),
+    radial-gradient(700px 400px at 50% 120%, rgba(96, 165, 250, 0.28), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+footer * {
+  position: relative;
+  z-index: 1;
+}
+footer .footer-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 44px 22px 32px 22px;
+  text-align: center;
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+}
+footer .footer-content {
+  line-height: 2;
+  font-size: 15px;
+}
+footer .footer-content p:first-child,
+footer .footer-content > p:first-of-type {
+  font-size: 15.5px;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+  margin-bottom: 14px !important;
+  font-weight: 500;
+}
+/* 链接：白色半透明 + 下划线 hover */
+footer a {
+  color: #dbeafe !important;
+  text-decoration: none;
+  transition: color 0.18s ease, text-shadow 0.18s ease, transform 0.18s ease;
+  font-weight: 500;
+}
+footer a:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(191, 219, 254, 0.6);
+}
+/* 爱心图标：持续跳动动画 */
+footer i.iconfont.icon-love {
+  display: inline-block;
+  color: #f43f5e !important;
+  margin: 0 6px;
+  animation: footer-heart-beat 1.15s ease-in-out infinite;
+  filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.55));
+}
+@keyframes footer-heart-beat {
+  0%, 100% { transform: scale(1); }
+  20%      { transform: scale(1.22); }
+  40%      { transform: scale(0.95); }
+  60%      { transform: scale(1.1); }
+  80%      { transform: scale(0.98); }
+}
+/* 统计一行：更纤细柔和 */
+footer .statistics {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(224, 231, 255, 0.16);
+  font-size: 13.5px;
+  color: rgba(224, 231, 255, 0.85);
+  letter-spacing: 0.02em;
+}
+footer .statistics span + span {
+  margin-left: 18px;
+}
+footer .statistics #busuanzi_value_site_pv,
+footer .statistics #busuanzi_value_site_uv {
+  color: #ffffff;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 3px;
+}
+/* 暗色模式适配（本来就是深色，只微调对比度） */
+@media (prefers-color-scheme: dark) {
+  footer { border-top-color: rgba(129, 140, 248, 0.5); }
+}
+body[data-user-color-scheme="dark"] footer {
+  border-top-color: rgba(129, 140, 248, 0.5);
+}
+
+/* ===== 超链接 Hover / Active 视觉特效（让点击超链接有"反应"） ===== */
+/* 1) 只给正文/文章内容内的普通链接加蓝色 + 下划线动画（不要误伤卡片标题、导航、日期等） */
+.post-content a,
+.post-body a,
+article.post-block .post-content a,
+article.post-block .post-body a,
+.links a,
+.about-body a,
+#toc a,
+.toc a,
+.page-body a,
+#board .pagination a.page-link,
+#board .post-footer a {
+  position: relative;
+  color: #4f46e5;
+  text-decoration: none;
+  background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: 0 100%;
+  transition:
+    background-size 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 0.18s ease,
+    text-shadow 0.18s ease,
+    transform 0.12s ease-out;
+  will-change: background-size, color;
+}
+.post-content a:hover,
+.post-body a:hover,
+article.post-block .post-content a:hover,
+article.post-block .post-body a:hover,
+.links a:hover,
+.about-body a:hover,
+#toc a:hover,
+.toc a:hover,
+.page-body a:hover,
+#board .pagination a.page-link:hover,
+#board .post-footer a:hover {
+  color: #4338ca;
+  background-size: 100% 100%;
+  text-shadow: 0 0 8px rgba(129, 140, 248, 0.25);
+}
+/* 按压反馈（click active 时缩一下） */
+.post-content a:active,
+.post-body a:active,
+article.post-block .post-content a:active,
+article.post-block .post-body a:active,
+.links a:active,
+.about-body a:active,
+#toc a:active,
+.toc a:active,
+.page-body a:active,
+#board .pagination a.page-link:active,
+#board .post-footer a:active {
+  transform: scale(0.985);
+  color: #3730a3;
+  background-image: linear-gradient(transparent calc(100% - 2px), #6366f1 2px);
+}
+/* 例外：正文中 a 包裹的图标（iconfont/GitHub/社交图标等）不要被染蓝，保持原色 */
+.post-content a i.iconfont,
+.post-body a i.iconfont,
+article.post-block .post-content a i.iconfont,
+article.post-block .post-body a i.iconfont,
+.links a i.iconfont,
+.about-body a i.iconfont,
+#board .post-footer a i.iconfont,
+.post-content a svg,
+.post-body a svg,
+article.post-block .post-content a svg,
+article.post-block .post-body a svg,
+.post-content a img,
+.post-body a img {
+  color: inherit !important;
+  fill: inherit !important;
+  background-image: none !important;
+}
+/* 版权声明卡片 & 作者信息卡片 内的链接和图标：保持原样不要统一蓝 */
+#board .post-copyright a,
+#board .post-copyright i.iconfont,
+#board .post-author a,
+#board .post-author i.iconfont,
+.post-article .post-footer a,
+.post-article .post-footer i.iconfont {
+  color: inherit !important;
+  background-image: none !important;
+}
+#board .post-copyright a:hover,
+#board .post-author a:hover,
+.post-article .post-footer a:hover {
+  background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px) !important;
+  background-size: 100% 100% !important;
+}
+/* 暗色模式下正文链接颜色更亮，避免看不清 */
+@media (prefers-color-scheme: dark) {
+  .post-content a, .post-body a, article.post-block .post-content a, article.post-block .post-body a,
+  .links a, .about-body a, #toc a, .toc a, .page-body a {
+    color: #a5b4fc;
+    background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px);
+  }
+  .post-content a:hover, .post-body a:hover, article.post-block .post-content a:hover {
+    color: #c7d2fe;
+  }
+  .post-content a:active, .post-body a:active { color: #e0e7ff; }
+}
+body[data-user-color-scheme="dark"] .post-content a,
+body[data-user-color-scheme="dark"] .post-body a,
+body[data-user-color-scheme="dark"] article.post-block .post-content a,
+body[data-user-color-scheme="dark"] article.post-block .post-body a,
+body[data-user-color-scheme="dark"] .links a,
+body[data-user-color-scheme="dark"] .about-body a,
+body[data-user-color-scheme="dark"] #toc a,
+body[data-user-color-scheme="dark"] .toc a,
+body[data-user-color-scheme="dark"] .page-body a {
+  color: #a5b4fc;
+  background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px);
+}
+body[data-user-color-scheme="dark"] .post-content a:hover { color: #c7d2fe; }
+
+/* 2) 文章卡片标题：只加 hover 字距变化 + 变主题色，不统一染蓝（保持主题原有黑白灰） */
+.index-card .index-title a,
+.index-card .post-title a,
+article.post-block .post-title a,
+.archive-article a,
+.archive-article .post-title a {
+  color: inherit;
+  background-image: none;
+  text-decoration: none;
+  transition: color 0.2s ease, letter-spacing 0.2s ease;
+}
+.index-card .index-title a:hover,
+.index-card .post-title a:hover,
+article.post-block .post-title a:hover,
+.archive-article a:hover,
+.archive-article .post-title a:hover {
+  color: #4f46e5;
+  letter-spacing: 0.015em;
+}
+body[data-user-color-scheme="dark"] .index-card .index-title a:hover,
+body[data-user-color-scheme="dark"] article.post-block .post-title a:hover,
+body[data-user-color-scheme="dark"] .archive-article .post-title a:hover {
+  color: #a5b4fc;
+}
+@media (prefers-color-scheme: dark) {
+  .index-card .index-title a:hover,
+  .index-card .post-title a:hover,
+  article.post-block .post-title a:hover,
+  .archive-article .post-title a:hover { color: #a5b4fc; }
+}
+/* 卡片内的 meta（日期/分类/标签/阅读全文）：保持主题原色，只加下划线 hover 动效，不统一蓝 */
+.index-card .post-meta a,
+.index-card .post-meta__tags a,
+.index-card .post-button a,
+.index-card .more a,
+.archive-article .post-meta a,
+.archive-article .post-meta__tags a,
+#board a.post-category,
+#board a.post-tag {
+  color: inherit;
+  background-image: linear-gradient(transparent calc(100% - 2px), #818cf8 2px);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: 0 100%;
+  transition: background-size 0.25s ease, color 0.18s ease, transform 0.12s ease-out;
+}
+.index-card .post-meta a:hover,
+.index-card .post-meta__tags a:hover,
+.index-card .post-button a:hover,
+.index-card .more a:hover,
+.archive-article .post-meta a:hover,
+.archive-article .post-meta__tags a:hover,
+#board a.post-category:hover,
+#board a.post-tag:hover {
+  background-size: 100% 100%;
+  color: #4f46e5;
+}
+
+/* 3) 导航栏链接：hover 有下划线动画（不破坏主题原有结构，只加效果，不碰颜色布局） */
+.navbar .nav-link {
+  background-image: linear-gradient(transparent calc(100% - 2px), #ffffff 2px);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: 50% 100%;
+  transition: background-size 0.28s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.12s ease-out;
+}
+.navbar .nav-link:hover {
+  background-size: 65% 100%;
+}
+.navbar .nav-link:active { transform: translateY(1px) scale(0.98); }
+
+/* ===== 标签页标签大小统一 + 美化 ===== */
+.tagcloud a,
+#tagcloud a,
+.tag-list a,
+.tags a.tag {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  display: inline-block !important;
+  padding: 6px 14px !important;
+  margin: 6px 5px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(96, 165, 250, 0.08));
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  color: #4f46e5 !important;
+}
+.tagcloud a:hover,
+#tagcloud a:hover,
+.tag-list a:hover,
+.tags a.tag:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(96, 165, 250, 0.2));
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 6px 18px -6px rgba(99, 102, 241, 0.35);
+  color: #3730a3 !important;
+}
+/* 暗色模式适配 */
+body[data-user-color-scheme="dark"] .tagcloud a,
+body[data-user-color-scheme="dark"] #tagcloud a,
+body[data-user-color-scheme="dark"] .tag-list a,
+body[data-user-color-scheme="dark"] .tags a.tag {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.14), rgba(96, 165, 250, 0.1));
+  border-color: rgba(129, 140, 248, 0.3);
+  color: #a5b4fc !important;
+}
+body[data-user-color-scheme="dark"] .tagcloud a:hover,
+body[data-user-color-scheme="dark"] #tagcloud a:hover,
+body[data-user-color-scheme="dark"] .tag-list a:hover,
+body[data-user-color-scheme="dark"] .tags a.tag:hover {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.24), rgba(96, 165, 250, 0.18));
+  border-color: rgba(129, 140, 248, 0.45);
+  box-shadow: 0 6px 18px -6px rgba(129, 140, 248, 0.4);
+  color: #c7d2fe !important;
+}
+@media (prefers-color-scheme: dark) {
+  .tagcloud a, #tagcloud a, .tag-list a, .tags a.tag {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.14), rgba(96, 165, 250, 0.1));
+    border-color: rgba(129, 140, 248, 0.3);
+    color: #a5b4fc !important;
+  }
+  .tagcloud a:hover, #tagcloud a:hover, .tag-list a:hover, .tags a.tag:hover {
+    background: linear-gradient(135deg, rgba(129, 140, 248, 0.24), rgba(96, 165, 250, 0.18));
+    border-color: rgba(129, 140, 248, 0.45);
+    color: #c7d2fe !important;
+  }
+}
+
+/* ===== 分类页分类卡片大小统一 + 美化 ===== */
+.category-list .category-list-item,
+#category .category-list-item a {
+  font-size: 16px !important;
+}
+.category-list-count,
+.category-list .category-list-count {
+  font-size: 13px !important;
+}
