@@ -31,30 +31,39 @@
   }
 
   /* ========== 1. 文章底部社交分享栏 ========== */
+  // 说明：网页端无法直接唤起微信/QQ 的原生分享面板。
+  // 因此：能调用系统分享（navigator.share）时优先弹系统面板；微信走二维码+引导转发；QQ/微博走官方分享页。
   function initShareBar() {
     if (!hasContent()) return;
     var content = document.querySelector(POST_CONTENT);
     var share = document.createElement('div');
     share.className = 'b-share';
-    var url = encodeURIComponent(location.href);
-    var title = encodeURIComponent(document.title);
+    var encUrl = encodeURIComponent(location.href);
+    var encTitle = encodeURIComponent(document.title);
+    // 仅支持系统分享的浏览器才显示「分享」按钮
+    var sysBtn = (typeof navigator.share === 'function')
+      ? '<button class="b-share__btn b-share__btn--sys" data-share="system">📤 系统分享</button>'
+      : '';
     share.innerHTML =
       '<div class="b-share__title">💬 觉得有用？分享给更多人～</div>' +
       '<div class="b-share__btns">' +
-      '  <button class="b-share__btn b-share__btn--wechat" data-share="wechat">💬 微信</button>' +
+      sysBtn +
+      '  <button class="b-share__btn b-share__btn--wechat" data-share="wechat">📱 微信</button>' +
       '  <button class="b-share__btn b-share__btn--qzone" data-share="qzone">☁️ QQ空间</button>' +
       '  <button class="b-share__btn b-share__btn--weibo" data-share="weibo">🅝 微博</button>' +
       '  <button class="b-share__btn b-share__btn--copy" data-share="copy">🔗 复制链接</button>' +
-      '</div>';
+      '</div>' +
+      '<div class="b-share__hint">小提示：网页里没法直接唤起微信/QQ 分享面板，可用系统「分享」；微信请点「微信」扫码后转发。</div>';
     content.parentNode.insertBefore(share, content.nextSibling);
 
-    // 微信二维码弹层
+    // 微信二维码浮层（引导转发）
     var mask = document.createElement('div');
     mask.className = 'b-share__qrmask';
     mask.innerHTML =
       '<div class="b-share__qrbox">' +
+      '<h4 class="b-share__qrtitle">用微信扫一扫</h4>' +
       '<img id="b-shareqr-img" alt="微信二维码" />' +
-      '<p>打开微信「扫一扫」分享这篇文章</p>' +
+      '<p class="b-share__qrtips">扫码打开文章后，点右上角 <b>···</b><br/>再选择「发送给朋友 / 分享到朋友圈」</p>' +
       '<button class="b-share__qrclose">关 闭</button>' +
       '</div>';
     document.body.appendChild(mask);
@@ -66,43 +75,52 @@
       okTip = document.createElement('span');
       okTip.className = 'b-share__ok';
       okTip.textContent = msg;
-      var box = share.querySelector('.b-share__btns');
-      box.appendChild(okTip);
-      setTimeout(function () { okTip && okTip.remove(); }, 1800);
+      share.querySelector('.b-share__btns').appendChild(okTip);
+      setTimeout(function () { okTip && okTip.remove(); }, 2000);
+    }
+
+    function copyText(text, done) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { legacyCopy(text, done); });
+      } else { legacyCopy(text, done); }
+    }
+    function legacyCopy(text, done) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;left:0;top:0;';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        done();
+      } catch (err) { /* ignore */ }
     }
 
     share.addEventListener('click', function (e) {
       var btn = e.target.closest('.b-share__btn');
       if (!btn) return;
       var type = btn.getAttribute('data-share');
-      var win = null;
-      if (type === 'wechat') {
-        qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + location.href;
+      if (type === 'system') {
+        if (navigator.share) {
+          navigator.share({
+            title: document.title,
+            text: document.title,
+            url: location.href
+          }).catch(function () { /* 用户取消 */ });
+        }
+      } else if (type === 'wechat') {
+        qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(location.href);
         mask.classList.add('is-open');
       } else if (type === 'qzone') {
-        win = window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + url + '&title=' + title);
+        var w = window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encUrl + '&title=' + encTitle);
+        if (w) { w.opener = null; } else { copyText(location.href, function () { toast('弹窗被拦截，已复制链接'); }); }
       } else if (type === 'weibo') {
-        win = window.open('https://service.weibo.com/share/share.php?url=' + url + '&title=' + title);
+        var wb = window.open('https://service.weibo.com/share/share.php?url=' + encUrl + '&title=' + encTitle);
+        if (wb) { wb.opener = null; } else { copyText(location.href, function () { toast('弹窗被拦截，已复制链接'); }); }
       } else if (type === 'copy') {
-        var done = function () { toast('✅ 链接已复制'); };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(location.href).then(done, function () { fallbackCopy(); });
-        } else { fallbackCopy(); }
-        function fallbackCopy() {
-          try {
-            var ta = document.createElement('textarea');
-            ta.value = location.href;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            ta.remove();
-            done();
-          } catch (err) { /* ignore */ }
-        }
+        copyText(location.href, function () { toast('✅ 链接已复制'); });
       }
-      if (win) { win.opener = null; }
     });
     mask.addEventListener('click', function (e) {
       if (e.target === mask || e.target.closest('.b-share__qrclose')) {

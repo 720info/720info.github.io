@@ -169,6 +169,8 @@ html[data-user-color-scheme="dark"] .code-mac {
   left: 8px;
   bottom: 6px;
   z-index: 99980;
+  width: 170px;
+  height: 262px;          /* 固定盒：顶部留控制条，下方放看板娘 */
   display: none;          /* 等 canvas 就绪后再显示 */
   pointer-events: none;   /* 空白处不挡页面点击 */
 }
@@ -184,14 +186,14 @@ html[data-user-color-scheme="dark"] .code-mac {
   cursor: grab;
 }
 #b-l2d canvas:active { cursor: grabbing; }
-/* 控制条按钮组：悬浮在看板娘上方 */
+/* 控制条按钮组：常驻显示在看板娘头顶，作为清晰的关闭/缩放入口 */
 #b-l2d .b-l2d__bar {
   position: absolute;
-  left: 0;
-  bottom: 100%;
+  top: 4px;
+  left: 4px;
+  z-index: 6;             /* 始终盖在看板娘之上，可见可点 */
   display: flex;
   gap: 6px;
-  margin-bottom: 8px;
   padding: 5px;
   background: #fff;
   border: 1px solid rgba(99, 102, 241, 0.22);
@@ -306,3 +308,32 @@ html::-webkit-scrollbar-thumb {
   border-radius: 999px;
 }
 html::-webkit-scrollbar-track { background: transparent; }
+
+/* ===== 8. 分享栏增强（系统分享 / 提示 / 二维码标题） ===== */
+.b-share__btn--sys {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+.b-share__hint {
+  margin-top: 0.7rem;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+.b-share__qrmask .b-share__qrbox { padding: 1.6rem 2rem 1.4rem; }
+.b-share__qrtitle {
+  margin: 0 0 0.9rem;
+  font-size: 1.05rem;
+  color: #0f172a;
+}
+.b-share__qrtips {
+  margin: 0.85rem 0 0;
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.7;
+}
+.b-share__qrtips b { color: #4f46e5; }
+@media (prefers-color-scheme: dark) {
+  .b-share__qrtitle { color: #e2e8f0; }
+  .b-share__qrtips { color: #94a3b8; }
+  .b-share__qrtips b { color: #c7d2fe; }
+}
