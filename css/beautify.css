@@ -162,12 +162,69 @@ html[data-user-color-scheme="dark"] .code-mac {
 }
 #banner .banner-text { z-index: 2; position: relative; }
 
-/* ===== 4. 看板娘（成熟方案：oh-my-live2d） ===== */
-/* 库自带右键状态栏控制菜单（拖动/缩放/透明度/动作/隐藏）。
-   默认在右下，这里改为固定在左下角，避免和右下角的音乐按钮重叠。 */
-.oml2d {
+/* ===== 4. 看板娘（L2Dwidget + shizuku，纯本地控制条） ===== */
+/* 左下角容器：整体作为看板娘的定位锚点，可被拖动 */
+#b-l2d {
+  position: fixed;
+  left: 8px;
+  bottom: 6px;
+  z-index: 99980;
+  display: none;          /* 等 canvas 就绪后再显示 */
+  pointer-events: none;   /* 空白处不挡页面点击 */
+}
+#b-l2d canvas,
+#b-l2d #live2dcanvas {
+  position: absolute !important;
   left: 0 !important;
+  bottom: 0 !important;
+  top: auto !important;
   right: auto !important;
+  pointer-events: auto;            /* 看板娘本体可被点击/拖动 */
+  transform-origin: bottom left;
+  cursor: grab;
+}
+#b-l2d canvas:active { cursor: grabbing; }
+/* 控制条按钮组：悬浮在看板娘上方 */
+#b-l2d .b-l2d__bar {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 5px;
+  background: #fff;
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  border-radius: 10px;
+  box-shadow: 0 8px 22px rgba(30, 41, 59, 0.14);
+  pointer-events: auto;
+}
+#b-l2d .b-l2d__btn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+#b-l2d .b-l2d__btn:hover { background: #6366f1; color: #fff; }
+#b-l2d .b-l2d__btn:active { transform: scale(0.92); }
+#b-l2d .b-l2d__close { color: #e11d48; }
+body[data-user-color-scheme="dark"] #b-l2d .b-l2d__bar,
+html[data-user-color-scheme="dark"] #b-l2d .b-l2d__bar {
+  background: #1f2937;
+  border-color: rgba(129, 140, 248, 0.3);
+}
+body[data-user-color-scheme="dark"] #b-l2d .b-l2d__btn,
+html[data-user-color-scheme="dark"] #b-l2d .b-l2d__btn {
+  background: #312e81;
+  color: #e0e7ff;
 }
 
 /* ===== 5. 音乐播放器（右下角悬浮可折叠） ===== */

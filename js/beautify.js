@@ -161,31 +161,88 @@
     });
   }
 
-  /* ========== 5. 看板娘（成熟方案：oh-my-live2d + koharu 模型，走 jsDelivr CDN） ========== */
-  // 自带控制菜单：可拖动、缩放(+/-)、透明度、切换动作、点菜单「隐藏」即可关闭。
-  // 若 CDN 加载失败则静默不显示，不影响其它功能。
+  /* ========== 5. 看板娘（方案：L2Dwidget + shizuku 模型，纯本地控制） ========== */
+  // 该看板娘仅加载指定模型与本地控制逻辑，无任何联网菜单与外部跳转链接。
+  // 拖动 / 缩放 / 关闭控制条全部由本文件实现，没有任何会跳转的链接。
   function initLive2d() {
-    var OML2D_JS = 'https://cdn.jsdelivr.net/npm/oh-my-live2d@0.19.3/dist/index.min.js';
-    var KOHARU = 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json';
-    loadScript(OML2D_JS, function () {
-      var OML2D = window.OML2D;
-      if (!OML2D || !OML2D.loadOml2d) return;
-      OML2D.loadOml2d({
-        primaryColor: '#6366f1',
-        sayHello: false,
-        modelStatus: false,
-        models: [{
-          path: KOHARU,
-          scale: 0.18,
-          position: [0, 40],
-          stageStyle: { height: 460 }
-        }],
-        tips: {
-          style: { left: '-22px', top: '-60px' },
-          content: { default: ['初次见面，欢迎来到 720 科技 ~', '🎈 拖动我可以换个位置', '还支持缩放、透明度和关闭哦'] }
-        }
+    // 先造一个左下角的容器（含控制条），等 canvas 生成后移进去
+    if (!document.getElementById('b-l2d')) {
+      var wrap = document.createElement('div');
+      wrap.id = 'b-l2d';
+      wrap.innerHTML =
+        '<div class="b-l2d__bar">' +
+        '<button class="b-l2d__btn b-l2d__in"  title="放大">＋</button>' +
+        '<button class="b-l2d__btn b-l2d__out" title="缩小">－</button>' +
+        '<button class="b-l2d__btn b-l2d__close" title="关闭看板娘">✕</button>' +
+        '</div>';
+      document.body.appendChild(wrap);
+    }
+    loadScript('https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js', function () {
+      var L2Dwidget = window.L2Dwidget;
+      if (!L2Dwidget) return;
+      L2Dwidget.init({
+        model: {
+          jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json',
+          scale: 1
+        },
+        display: { superSample: 2, position: 'custom', width: 150, height: 235 },
+        mobile: { show: false },
+        react: { opacityDefault: 0.75, opacityOnHover: 1 },
+        dialog: { enable: false }
       });
+      wireI2dControls();
     }, function () { /* 库加载失败，不显示 */ });
+  }
+
+  // 轮询等 canvas 生成后绑定控制条（拖动 / 缩放 / 关闭）
+  function wireI2dControls() {
+    var tries = 0;
+    var timer = setInterval(function () {
+      var canvas = document.getElementById('live2dcanvas');
+      if (!canvas) {
+        if (++tries > 60) { clearInterval(timer); return; }
+        return;
+      }
+      clearInterval(timer);
+      var ctl = document.getElementById('b-l2d');
+      if (!ctl || ctl.getAttribute('data-ready') === '1') return;
+      ctl.setAttribute('data-ready', '1');
+      ctl.style.display = 'block';
+      ctl.appendChild(canvas); // 把 canvas 移进容器统一控制
+
+      var zoom = 1;
+      ctl.querySelector('.b-l2d__in').addEventListener('click', function () {
+        zoom = Math.min(zoom * 1.18, 2.5);
+        canvas.style.transform = 'scale(' + zoom + ')';
+      });
+      ctl.querySelector('.b-l2d__out').addEventListener('click', function () {
+        zoom = Math.max(zoom / 1.18, 0.5);
+        canvas.style.transform = 'scale(' + zoom + ')';
+      });
+      ctl.querySelector('.b-l2d__close').addEventListener('click', function () {
+        ctl.style.display = 'none';
+      });
+
+      // 拖动：按住看板娘拖动，整体移动容器
+      var startX = 0, startY = 0, originX = 0, originY = 0, dragging = false;
+      canvas.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        dragging = true;
+        startX = e.clientX; startY = e.clientY;
+        var r = ctl.getBoundingClientRect();
+        originX = r.left; originY = r.top;
+        ctl.style.left = originX + 'px';
+        ctl.style.top = originY + 'px';
+        ctl.style.bottom = 'auto';
+        ctl.style.right = 'auto';
+      });
+      document.addEventListener('mousemove', function (e) {
+        if (!dragging) return;
+        ctl.style.left = (originX + e.clientX - startX) + 'px';
+        ctl.style.top = (originY + e.clientY - startY) + 'px';
+      });
+      document.addEventListener('mouseup', function () { dragging = false; });
+    }, 200);
   }
 
   /* ========== 6. 音乐播放器（右下角，仅当音频资源可用才展示） ========== */
