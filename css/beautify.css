@@ -170,8 +170,8 @@ html[data-user-color-scheme="dark"] .code-mac {
   bottom: 6px;
   z-index: 99980;
   width: 170px;
-  height: 262px;          /* 固定盒：顶部留控制条，下方放看板娘 */
-  display: none;          /* 等 canvas 就绪后再显示 */
+  height: 262px;          /* 固定盒：下方放看板娘 */
+  display: block;         /* 容器一直存在，canvas 就绪后移入 */
   pointer-events: none;   /* 空白处不挡页面点击 */
 }
 #b-l2d canvas,
@@ -186,47 +186,76 @@ html[data-user-color-scheme="dark"] .code-mac {
   cursor: grab;
 }
 #b-l2d canvas:active { cursor: grabbing; }
-/* 控制条按钮组：常驻显示在看板娘头顶，作为清晰的关闭/缩放入口 */
-#b-l2d .b-l2d__bar {
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  z-index: 6;             /* 始终盖在看板娘之上，可见可点 */
-  display: flex;
-  gap: 6px;
-  padding: 5px;
-  background: #fff;
-  border: 1px solid rgba(99, 102, 241, 0.22);
-  border-radius: 10px;
-  box-shadow: 0 8px 22px rgba(30, 41, 59, 0.14);
+/* 看板娘独立设置页：双击看板娘打开的全屏弹层 */
+.b-l2d-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99990;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
   pointer-events: auto;
 }
-#b-l2d .b-l2d__btn {
-  width: 24px;
-  height: 24px;
-  padding: 0;
+.b-l2d-modal.is-open { display: flex; }
+.b-l2d-modal__card {
+  position: relative;
+  width: 320px;
+  max-width: calc(100vw - 32px);
+  padding: 22px 24px 20px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+}
+.b-l2d-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 30px;
+  height: 30px;
   border: 0;
-  border-radius: 7px;
+  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.b-l2d-modal__close:hover { background: #f1f5f9; color: #0f172a; }
+.b-l2d-modal__title { margin: 0 0 6px; font-size: 1.1rem; font-weight: 700; color: #0f172a; }
+.b-l2d-modal__group { margin-top: 14px; }
+.b-l2d-modal__label {
+  margin-bottom: 6px;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.b-l2d-modal__pick { display: block; padding: 5px 0; font-size: 0.88rem; color: #334155; cursor: pointer; }
+.b-l2d-modal__pick input { margin-right: 8px; vertical-align: -2px; }
+.b-l2d-modal__range { width: 100%; accent-color: #6366f1; }
+.b-l2d-modal__actions { margin-top: 18px; }
+.b-l2d-modal__hide {
+  width: 100%;
+  height: 38px;
+  border: 0;
+  border-radius: 10px;
   background: #eef2ff;
   color: #4f46e5;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  line-height: 1;
-  transition: background 0.15s ease, transform 0.1s ease;
+  transition: background 0.15s ease;
 }
-#b-l2d .b-l2d__btn:hover { background: #6366f1; color: #fff; }
-#b-l2d .b-l2d__btn:active { transform: scale(0.92); }
-#b-l2d .b-l2d__close { color: #e11d48; }
-body[data-user-color-scheme="dark"] #b-l2d .b-l2d__bar,
-html[data-user-color-scheme="dark"] #b-l2d .b-l2d__bar {
-  background: #1f2937;
-  border-color: rgba(129, 140, 248, 0.3);
-}
-body[data-user-color-scheme="dark"] #b-l2d .b-l2d__btn,
-html[data-user-color-scheme="dark"] #b-l2d .b-l2d__btn {
-  background: #312e81;
-  color: #e0e7ff;
+.b-l2d-modal__hide:hover { background: #e11d48; color: #fff; }
+@media (prefers-color-scheme: dark) {
+  .b-l2d-modal__card { background: #1f2937; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+  .b-l2d-modal__title { color: #e2e8f0; }
+  .b-l2d-modal__pick { color: #cbd5e1; }
+  .b-l2d-modal__close { color: #94a3b8; }
+  .b-l2d-modal__close:hover { background: #374151; color: #f1f5f9; }
+  .b-l2d-modal__hide { background: #312e81; color: #e0e7ff; }
 }
 
 /* ===== 5. 音乐播放器（右下角悬浮可折叠） ===== */

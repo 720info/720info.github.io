@@ -113,7 +113,8 @@
         qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(location.href);
         mask.classList.add('is-open');
       } else if (type === 'qzone') {
-        var w = window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encUrl + '&title=' + encTitle);
+        // 使用 https 官方接口，避免 http 被浏览器标记为不安全
+        var w = window.open('https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encUrl + '&title=' + encTitle + '&summary=' + encTitle);
         if (w) { w.opener = null; } else { copyText(location.href, function () { toast('弹窗被拦截，已复制链接'); }); }
       } else if (type === 'weibo') {
         var wb = window.open('https://service.weibo.com/share/share.php?url=' + encUrl + '&title=' + encTitle);
@@ -179,41 +180,68 @@
     });
   }
 
-  /* ========== 5. 看板娘（方案：L2Dwidget + shizuku 模型，纯本地控制） ========== */
-  // 该看板娘仅加载指定模型与本地控制逻辑，无任何联网菜单与外部跳转链接。
-  // 拖动 / 缩放 / 关闭控制条全部由本文件实现，没有任何会跳转的链接。
+  /* ========== 5. 看板娘（L2Dwidget：双击看板娘进入独立设置页） ========== */
+  // 模型仅来自外链 CDN，无任何联网菜单与跳转；切模型后刷新页生效，加载失败自动回退默认模型。
+  var B_L2D_KEY = 'b-l2d-model';
+  var SHIZUKU_JSON = 'https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json';
+  var MODEL_22_JSON = 'https://cdn.jsdelivr.net/gh/52cik/bilibili-haruna@master/assets/haruna/22/model.2017.tomo-bukatsu.low.json';
+
+  // 一次性搭建容器 + 独立设置页（先隐藏，双击看板娘时打开）
+  function buildL2dShell() {
+    var wrap = document.createElement('div');
+    wrap.id = 'b-l2d';
+    document.body.appendChild(wrap);
+    var ms = document.createElement('div');
+    ms.id = 'b-l2d-settings';
+    ms.className = 'b-l2d-modal';
+    ms.innerHTML =
+      '<div class="b-l2d-modal__card">' +
+      '<button class="b-l2d-modal__close" title="返回">×</button>' +
+      '<h3 class="b-l2d-modal__title">看板娘设置</h3>' +
+      '<div class="b-l2d-modal__group"><div class="b-l2d-modal__label">换装</div>' +
+      '<label class="b-l2d-modal__pick"><input type="radio" name="b-l2d-model" value="shizuku"> 小紫衣</label>' +
+      '<label class="b-l2d-modal__pick"><input type="radio" name="b-l2d-model" value="22"> B站22娘</label></div>' +
+      '<div class="b-l2d-modal__group"><div class="b-l2d-modal__label">大小</div>' +
+      '<input class="b-l2d-modal__range" type="range" min="0.5" max="2.5" step="0.1" value="1"></div>' +
+      '<div class="b-l2d-modal__actions">' +
+      '<button class="b-l2d-modal__hide">隐藏看板娘</button>' +
+      '</div>' +
+      '</div>';
+    document.body.appendChild(ms);
+  }
+
   function initLive2d() {
-    // 先造一个左下角的容器（含控制条），等 canvas 生成后移进去
-    if (!document.getElementById('b-l2d')) {
-      var wrap = document.createElement('div');
-      wrap.id = 'b-l2d';
-      wrap.innerHTML =
-        '<div class="b-l2d__bar">' +
-        '<button class="b-l2d__btn b-l2d__in"  title="放大">＋</button>' +
-        '<button class="b-l2d__btn b-l2d__out" title="缩小">－</button>' +
-        '<button class="b-l2d__btn b-l2d__close" title="关闭看板娘">✕</button>' +
-        '</div>';
-      document.body.appendChild(wrap);
-    }
+    if (!document.getElementById('b-l2d')) buildL2dShell();
+    var model = localStorage.getItem(B_L2D_KEY) || 'shizuku';
+    bootL2d(model);
+    // 回退兜底：若选了 B站22娘但加载失败出现不了，自动切回默认娘，避免一进站就是空的
+    setTimeout(function () {
+      if (model === '22' && !document.getElementById('live2dcanvas')) {
+        localStorage.removeItem(B_L2D_KEY);
+        bootL2d('shizuku');
+      }
+    }, 6000);
+  }
+
+  function bootL2d(model) {
+    var is22 = (model === '22');
+    var jsonPath = is22 ? MODEL_22_JSON : SHIZUKU_JSON;
     loadScript('https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js', function () {
       var L2Dwidget = window.L2Dwidget;
       if (!L2Dwidget) return;
       L2Dwidget.init({
-        model: {
-          jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json',
-          scale: 1
-        },
-        display: { superSample: 2, position: 'custom', width: 150, height: 235 },
+        model: { jsonPath: jsonPath, scale: is22 ? 0.9 : 1 },
+        display: { superSample: 2, position: 'custom', width: is22 ? 170 : 150, height: is22 ? 250 : 235 },
         mobile: { show: false },
         react: { opacityDefault: 0.75, opacityOnHover: 1 },
         dialog: { enable: false }
       });
-      wireI2dControls();
+      wireL2dControls();
     }, function () { /* 库加载失败，不显示 */ });
   }
 
-  // 轮询等 canvas 生成后绑定控制条（拖动 / 缩放 / 关闭）
-  function wireI2dControls() {
+  // 等 canvas 生成后：移入容器 + 绑定「双击看板娘打开设置页」等交互
+  function wireL2dControls() {
     var tries = 0;
     var timer = setInterval(function () {
       var canvas = document.getElementById('live2dcanvas');
@@ -223,25 +251,51 @@
       }
       clearInterval(timer);
       var ctl = document.getElementById('b-l2d');
+      var ms = document.getElementById('b-l2d-settings');
       if (!ctl || ctl.getAttribute('data-ready') === '1') return;
       ctl.setAttribute('data-ready', '1');
-      ctl.style.display = 'block';
       ctl.appendChild(canvas); // 把 canvas 移进容器统一控制
 
-      var zoom = 1;
-      ctl.querySelector('.b-l2d__in').addEventListener('click', function () {
-        zoom = Math.min(zoom * 1.18, 2.5);
-        canvas.style.transform = 'scale(' + zoom + ')';
-      });
-      ctl.querySelector('.b-l2d__out').addEventListener('click', function () {
-        zoom = Math.max(zoom / 1.18, 0.5);
-        canvas.style.transform = 'scale(' + zoom + ')';
-      });
-      ctl.querySelector('.b-l2d__close').addEventListener('click', function () {
-        ctl.style.display = 'none';
+      // 双击看板娘 → 打开独立设置页
+      canvas.addEventListener('dblclick', function () {
+        ms.classList.add('is-open');
+        var cur = localStorage.getItem(B_L2D_KEY) || 'shizuku';
+        Array.prototype.forEach.call(ms.querySelectorAll('input[name="b-l2d-model"]'), function (r) {
+          r.checked = (r.value === cur);
+        });
+        ms.querySelector('.b-l2d-modal__range').value = localStorage.getItem('b-l2d-zoom') || '1';
       });
 
-      // 拖动：按住看板娘拖动，整体移动容器
+      // 设置页关闭：点 × 或遮罩
+      ms.querySelector('.b-l2d-modal__close').addEventListener('click', closeSettings);
+      ms.addEventListener('click', function (e) { if (e.target === ms) closeSettings(); });
+      function closeSettings() { ms.classList.remove('is-open'); }
+
+      // 换装：选中即保存并刷新（Live2D 单实例，刷新最稳）
+      Array.prototype.forEach.call(ms.querySelectorAll('input[name="b-l2d-model"]'), function (r) {
+        r.addEventListener('change', function () {
+          localStorage.setItem(B_L2D_KEY, r.value);
+          location.reload();
+        });
+      });
+
+      // 大小：滑杆实时缩放并记住
+      var rng = ms.querySelector('.b-l2d-modal__range');
+      applyZoom(parseFloat(localStorage.getItem('b-l2d-zoom') || '1'));
+      rng.addEventListener('input', function () { applyZoom(parseFloat(rng.value)); });
+      function applyZoom(z) {
+        z = Math.max(0.5, Math.min(2.5, z));
+        canvas.style.transform = 'scale(' + z + ')';
+        localStorage.setItem('b-l2d-zoom', String(z));
+      }
+
+      // 隐藏看板娘
+      ms.querySelector('.b-l2d-modal__hide').addEventListener('click', function () {
+        ctl.style.display = 'none';
+        closeSettings();
+      });
+
+      // 拖动：按住看板娘整体移动容器
       var startX = 0, startY = 0, originX = 0, originY = 0, dragging = false;
       canvas.addEventListener('mousedown', function (e) {
         e.preventDefault();
