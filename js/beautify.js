@@ -365,63 +365,6 @@
     snd.src = META_URL;
   }
 
-  /* ========== 7. 文章底部赞赏/打赏卡片（扫码占位；填了收款码 URL 会自动替换为图片） ========== */
-  // 这里默认是占位卡片，等你把微信 / 支付宝的收款码图片外链告诉我，我再填进下面两个 URL 就行。
-  var REWARD_WECHAT_QR = ''; // 微信赞赏码（图床外链）
-  var REWARD_ALIPAY_QR = ''; // 支付宝红包码（图床外链）
-  function initReward() {
-    if (!hasContent()) return;
-    var content = document.querySelector(POST_CONTENT);
-    var card = document.createElement('div');
-    card.className = 'b-reward';
-    var hasQr = !!(REWARD_WECHAT_QR || REWARD_ALIPAY_QR);
-    card.innerHTML =
-      '<div class="b-reward__title">💖 如果这篇文章对你有帮助</div>' +
-      '<div class="b-reward__desc">' + (hasQr ? '微信或支付宝扫一扫，请我喝杯咖啡 ☕️' : '可联系作者（或把收款码图片外链告诉我，这里会自动替换为可扫码卡片）') + '</div>' +
-      '<div class="b-reward__btns">' +
-      '  <button class="b-reward__btn b-reward__btn--wechat" data-type="wechat">💚 微信赞赏</button>' +
-      '  <button class="b-reward__btn b-reward__btn--alipay" data-type="alipay">💙 支付宝红包</button>' +
-      '</div>';
-    // 放分享栏前面，保持阅读流：赞赏 → 分享
-    var shareBar = content.parentNode.querySelector('.b-share');
-    if (shareBar) content.parentNode.insertBefore(card, shareBar);
-    else content.parentNode.insertBefore(card, content.nextSibling);
-
-    var mask = document.createElement('div');
-    mask.className = 'b-reward__mask';
-    mask.innerHTML =
-      '<div class="b-reward__qrbox">' +
-      '<button class="b-reward__close" title="关闭">×</button>' +
-      '<h4 class="b-reward__qrtitle" id="b-reward-title">扫码支持</h4>' +
-      '<img id="b-reward-img" alt="打赏二维码" />' +
-      '<p class="b-reward__qrdesc">感谢你的支持～</p>' +
-      '</div>';
-    document.body.appendChild(mask);
-    var qrImg = mask.querySelector('#b-reward-img');
-    var qrTitle = mask.querySelector('#b-reward-title');
-
-    card.addEventListener('click', function (e) {
-      var btn = e.target.closest('.b-reward__btn');
-      if (!btn) return;
-      var type = btn.getAttribute('data-type');
-      var url = type === 'wechat' ? REWARD_WECHAT_QR : REWARD_ALIPAY_QR;
-      qrTitle.textContent = type === 'wechat' ? '💚 微信赞赏' : '💙 支付宝红包';
-      if (url) {
-        qrImg.style.display = '';
-        qrImg.src = url;
-        qrImg.nextElementSibling.textContent = '长按保存或扫码即可；金额随意，心意最重要～';
-      } else {
-        qrImg.style.display = 'none';
-        qrImg.removeAttribute('src');
-        qrImg.nextElementSibling.textContent = '尚未配置该通道的收款码，请把收款码图片外链告诉作者以启用。';
-      }
-      mask.classList.add('is-open');
-    });
-    mask.addEventListener('click', function (e) {
-      if (e.target === mask || e.target.closest('.b-reward__close')) mask.classList.remove('is-open');
-    });
-  }
-
   /* ========== 启动 ========== */
   function boot() {
     try { initShareBar(); } catch (e) { /* ignore */ }
@@ -429,7 +372,6 @@
     try { initParticles(); } catch (e) { /* ignore */ }
     try { initLive2d(); } catch (e) { /* ignore */ }
     try { initMusic(); } catch (e) { /* ignore */ }
-    try { initReward(); } catch (e) { /* ignore */ }
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot, { once: true });
