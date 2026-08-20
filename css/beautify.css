@@ -1,0 +1,299 @@
+/* =========================================================================
+   720info 博客「美化增强包」
+   说明：本文件全部为新增的加强美观样式，不改动主题原有文件。
+   如需整体回退：恢复 _beautify_backup/_config.fluid.yml.orig，
+   再删除本文件与 /js/beautify.js 即可。
+   配色统一沿用站内紫蓝系（#6366f1 等）。
+   ========================================================================= */
+
+/* ===== 1. 文章底部「社交分享栏」 ===== */
+.b-share {
+  margin: 2.2rem 0 0.6rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid rgba(99, 102, 241, 0.16);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(96, 165, 250, 0.05));
+}
+.b-share__title {
+  margin: 0 0 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3730a3;
+  letter-spacing: 0.03em;
+}
+.b-share__btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.b-share__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: #6366f1;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+  user-select: none;
+}
+.b-share__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -8px rgba(99, 102, 241, 0.55);
+}
+.b-share__btn:active { transform: scale(0.96); }
+.b-share__btn--wechat { background: #07c160; }
+.b-share__btn--qzone  { background: #ffca08; color: #333; }
+.b-share__btn--weibo  { background: #e6162d; }
+.b-share__btn--copy   { background: #64748b; }
+.b-share__ok {
+  animation: b-share-ok 0.6s ease forwards;
+  font-size: 0.8rem;
+  color: #07c160;
+  font-weight: 600;
+}
+
+/* 微信二维码弹层 */
+.b-share__qrmask {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100000;
+}
+.b-share__qrmask.is-open { display: flex; }
+.b-share__qrbox {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.6rem 2rem 1.4rem;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+.b-share__qrbox img { width: 200px; height: 200px; border-radius: 8px; }
+.b-share__qrbox p { margin: 0.8rem 0 0; font-size: 0.9rem; color: #475569; }
+.b-share__qrclose {
+  margin-top: 0.9rem;
+  padding: 0.35rem 1.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-weight: 600;
+  cursor: pointer;
+}
+@keyframes b-share-ok { from { opacity: 0; } to { opacity: 1; } }
+
+/* 暗色适配 */
+@media (prefers-color-scheme: dark) {
+  .b-share { border-color: rgba(129, 140, 248, 0.3); }
+  .b-share__title { color: #c7d2fe; }
+  .b-share__qrbox { background: #1e293b; }
+  .b-share__qrbox p { color: #94a3b8; }
+  .b-share__qrclose { background: #312e81; color: #e0e7ff; }
+}
+
+/* ===== 2. 代码块武装：macOS 三色点 + 语言徽章 ===== */
+/* 顶栏三色点 */
+article .post-content pre,
+article .post-body pre {
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  padding-top: 2.4rem !important;
+}
+/* 用于语言徽章的通用布局（JS 在 pre 内插入 .code-mac 顶栏） */
+.code-mac {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.4rem;
+  display: flex;
+  align-items: center;
+  padding: 0 0.9rem;
+  background: rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  /* 三个小圆点 */
+  gap: 0;
+}
+.code-mac::before {
+  content: '';
+  display: flex;
+  gap: 6px;
+  height: 12px;
+  background-image: radial-gradient(circle at center,
+    #ff5f57 0 5px, transparent 5px),
+    radial-gradient(circle at center, #febc2e 0 5px, transparent 5px),
+    radial-gradient(circle at center, #28c840 0 5px, transparent 5px);
+  background-size: 22px 12px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  top: 0;
+  width: 60px;
+  height: 13px;
+}
+.code-mac .code-lang {
+  margin-left: auto;
+  font-size: 0.72rem;
+  color: #64748b;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+article .post-content pre:hover { box-shadow: 0 10px 28px -14px rgba(30, 41, 59, 0.28); }
+body[data-user-color-scheme="dark"] .code-mac,
+html[data-user-color-scheme="dark"] .code-mac {
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ===== 3. Banner 粒子层（装饰，不挡文字、不影响点击） ===== */
+#banner .banner-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;              /* 图片之上、banner 文字之下由各自 z-index 决定 */
+  pointer-events: none;    /* 不挡滚动箭头和菜单 */
+}
+#banner .banner-text { z-index: 2; position: relative; }
+
+/* ===== 4. 看板娘（右下角轻量小助手） ===== */
+.b-mascot {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 4.6rem;
+  z-index: 99990;
+  display: flex;
+  align-items: flex-end;
+  cursor: pointer;
+}
+.b-mascot__bubble {
+  max-width: 220px;
+  margin-right: 0.7rem;
+  padding: 0.6rem 0.7rem;
+  background: #fff;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px 12px 0 12px;
+  color: #334155;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  box-shadow: 0 8px 24px rgba(30, 41, 59, 0.12);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+.b-mascot:hover .b-mascot__bubble,
+.b-mascot.is-bubble .b-mascot__bubble {
+  opacity: 1;
+  transform: none;
+}
+.b-mascot__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  color: #fff;
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.4);
+  user-select: none;
+  animation: b-mascot-float 3.6s ease-in-out infinite;
+}
+@keyframes b-mascot-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-8px) rotate(2deg); }
+}
+body[data-user-color-scheme="dark"] .b-mascot__bubble,
+html[data-user-color-scheme="dark"] .b-mascot__bubble {
+  background: #1f2937;
+  border-color: rgba(129, 140, 248, 0.3);
+  color: #e2e8f0;
+}
+
+/* ===== 5. 音乐播放器（右下角悬浮可折叠） ===== */
+.b-music {
+  position: fixed;
+  right: 1.1rem;
+  bottom: 1.1rem;
+  z-index: 99991;
+}
+.b-music__toggle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 0;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.45);
+  transition: transform 0.2s ease;
+}
+.b-music__toggle:hover { transform: scale(1.08) rotate(6deg); }
+.b-music__panel {
+  position: absolute;
+  right: 0;
+  bottom: 3.4rem;
+  width: 300px;
+  background: #fff;
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgba(30, 41, 59, 0.2);
+  padding: 0.6rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  pointer-events: none;
+}
+.b-music.is-open .b-music__panel { opacity: 1; transform: none; pointer-events: auto; }
+.b-music__panel .ap-arrow { display: none; }
+body[data-user-color-scheme="dark"] .b-music__panel,
+html[data-user-color-scheme="dark"] .b-music__panel {
+  background: #1f2937;
+  border-color: rgba(129, 140, 248, 0.3);
+}
+
+/* ===== 6. 回到顶部按钮加强 ===== */
+/* Fluid 的返回顶部按钮，改成圆润渐变 + 悬浮动效 */
+#scroll-top,
+.scroll-top,
+.back-to-top,
+.site-scroll-top {
+  border-radius: 50% !important;
+  width: 46px !important;
+  height: 46px !important;
+  line-height: 46px !important;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.45) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  opacity: 0 !important;
+}
+#scroll-top.show,
+#scroll-top.active,
+.scroll-top.show,
+.back-to-top.show {
+  opacity: 1 !important;
+}
+#scroll-top:hover,
+.scroll-top:hover,
+.back-to-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px rgba(99, 102, 241, 0.6) !important;
+}
+
+/* ===== 7. 滚动条美化（可选，紫蓝） ===== */
+html::-webkit-scrollbar { width: 9px; height: 9px; }
+html::-webkit-scrollbar-thumb {
+  background: linear-gradient(#818cf8, #c084fc);
+  border-radius: 999px;
+}
+html::-webkit-scrollbar-track { background: transparent; }
