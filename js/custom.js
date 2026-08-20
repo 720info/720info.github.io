@@ -351,23 +351,41 @@
     try { injectFooterIcons(); } catch (e) { /* ignore */ }
   }
 
-  // 把页脚 Fluid 默认生成的工信部备案链接替换为萌果备案查询
+  // 页脚备案处理：
+  //   1) 把 Fluid 默认生成的工信部链接替换为「萌果备案 (萌ICP备20260117号)」
+  //   2) 在同一行追加第二个备案：「假ICP备1202622号 → fakeicp.top 查询页」
   function fixBeianLink() {
+    var MOE_URL = 'https://icp.gov.moe/?keyword=20260117';
+    var FAKE_URL = 'https://fakeicp.top/query.html?number=1202622';
+    var FAKE_LABEL = '假ICP备1202622号';
+
     var link = document.querySelector('#footer .beian-icp a, #footer .beian a, #footer a[href*="beian.miit.gov.cn"]');
+    var container = document.querySelector('#footer .beian-icp, #footer .beian');
     if (link) {
-      link.href = 'https://icp.gov.moe/?keyword=20260117';
+      link.href = MOE_URL;
       link.setAttribute('target', '_blank');
       link.setAttribute('rel', 'noopener noreferrer nofollow');
-    } else {
-      // 兜底：把文本节点换成可点击 a（防止主题没渲染链接时只能看到纯文字）
-      var txt = document.querySelector('#footer .beian-icp, #footer .beian');
-      if (txt && txt.textContent && txt.textContent.indexOf('萌ICP备') !== -1 && !txt.querySelector('a')) {
-        var html = txt.innerHTML;
-        txt.innerHTML = html.replace(
-          /萌ICP备\d+号/,
-          '<a href="https://icp.gov.moe/?keyword=20260117" target="_blank" rel="noopener noreferrer nofollow">$&</a>'
-        );
-      }
+    } else if (container && container.textContent && container.textContent.indexOf('萌ICP备') !== -1) {
+      var html = container.innerHTML;
+      container.innerHTML = html.replace(
+        /萌ICP备\d+号/,
+        '<a href="' + MOE_URL + '" target="_blank" rel="noopener noreferrer nofollow">$&</a>'
+      );
+    }
+
+    // 追加假ICP备案号（加在同一行末尾，不重复追加）
+    if (container && container.innerHTML.indexOf(FAKE_LABEL) === -1) {
+      var spacer = document.createTextNode('　|　');
+      var fakeA = document.createElement('a');
+      fakeA.href = FAKE_URL;
+      fakeA.target = '_blank';
+      fakeA.rel = 'noopener noreferrer nofollow';
+      fakeA.textContent = FAKE_LABEL;
+      // 样式跟旁边备案号保持一致
+      fakeA.style.color = 'inherit';
+      fakeA.style.textDecoration = 'none';
+      container.appendChild(spacer);
+      container.appendChild(fakeA);
     }
   }
 
