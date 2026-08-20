@@ -347,6 +347,42 @@
     try { initLinkDelayedNavigation(); } catch (e) { /* ignore */ }
     try { initScrollFadeIn(); } catch (e) { /* ignore */ }
     try { initImageFallback(); } catch (e) { /* ignore */ }
+    try { fixBeianLink(); } catch (e) { /* ignore */ }
+    try { injectFooterIcons(); } catch (e) { /* ignore */ }
+  }
+
+  // 把页脚 Fluid 默认生成的工信部备案链接替换为萌果备案查询
+  function fixBeianLink() {
+    var link = document.querySelector('#footer .beian-icp a, #footer .beian a, #footer a[href*="beian.miit.gov.cn"]');
+    if (link) {
+      link.href = 'https://icp.gov.moe/?keyword=20260117';
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener noreferrer nofollow');
+    } else {
+      // 兜底：把文本节点换成可点击 a（防止主题没渲染链接时只能看到纯文字）
+      var txt = document.querySelector('#footer .beian-icp, #footer .beian');
+      if (txt && txt.textContent && txt.textContent.indexOf('萌ICP备') !== -1 && !txt.querySelector('a')) {
+        var html = txt.innerHTML;
+        txt.innerHTML = html.replace(
+          /萌ICP备\d+号/,
+          '<a href="https://icp.gov.moe/?keyword=20260117" target="_blank" rel="noopener noreferrer nofollow">$&</a>'
+        );
+      }
+    }
+  }
+
+  // 页脚末尾补 Sitemap 和 RSS 📡 图标（跟随 Fluid 暗色模式）
+  function injectFooterIcons() {
+    var target = document.querySelector('#footer .copyright, #footer .footer-content, #footer > .container > div:last-child, #footer');
+    if (!target) return;
+    var mount = (target.id === 'footer') ? target : target;
+    var node = document.createElement('div');
+    node.className = 'custom-footer-icons';
+    node.style.cssText = 'margin-top:8px;font-size:0.8rem;color:#94a3b8;';
+    node.innerHTML =
+      '<a href="/sitemap.xml" target="_blank" rel="noopener noreferrer nofollow" style="color:#94a3b8;margin-right:14px;text-decoration:none;">🗺 Sitemap</a>' +
+      '<a href="/atom.xml" target="_blank" rel="noopener noreferrer nofollow" style="color:#94a3b8;text-decoration:none;">📡 RSS 订阅</a>';
+    mount.appendChild(node);
   }
 
   if (document.readyState === 'loading') {

@@ -366,3 +366,90 @@ html::-webkit-scrollbar-track { background: transparent; }
   .b-share__qrtips { color: #94a3b8; }
   .b-share__qrtips b { color: #c7d2fe; }
 }
+
+/* ===== 9. 文章底部赞赏卡片 ===== */
+.b-reward {
+  margin-top: 40px;
+  padding: 22px 22px 20px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f8fafc, #eef2ff 60%, #f5f3ff);
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  text-align: center;
+}
+.b-reward__title { font-size: 1.05rem; font-weight: 700; color: #0f172a; }
+.b-reward__desc {
+  margin: 8px auto 14px;
+  font-size: 0.86rem;
+  color: #64748b;
+  max-width: 440px;
+  line-height: 1.7;
+}
+.b-reward__btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.b-reward__btn {
+  height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.b-reward__btn--wechat { background: #10b981; color: #fff; box-shadow: 0 8px 18px rgba(16,185,129,.32); }
+.b-reward__btn--wechat:hover { transform: translateY(-2px); box-shadow: 0 12px 22px rgba(16,185,129,.45); }
+.b-reward__btn--alipay { background: #2563eb; color: #fff; box-shadow: 0 8px 18px rgba(37,99,235,.32); }
+.b-reward__btn--alipay:hover { transform: translateY(-2px); box-shadow: 0 12px 22px rgba(37,99,235,.45); }
+
+/* 赞赏二维码弹层 */
+.b-reward__mask {
+  position: fixed; inset: 0; z-index: 99992;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  pointer-events: auto;
+}
+.b-reward__mask.is-open { display: flex; }
+.b-reward__qrbox {
+  position: relative;
+  width: 320px; max-width: 100%;
+  padding: 26px 22px 20px;
+  background: #fff;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+}
+.b-reward__close {
+  position: absolute; top: 10px; right: 10px;
+  width: 30px; height: 30px; border: 0; border-radius: 8px;
+  background: transparent; color: #64748b;
+  font-size: 1.1rem; cursor: pointer; line-height: 1;
+}
+.b-reward__close:hover { background: #f1f5f9; color: #0f172a; }
+.b-reward__qrtitle { margin: 0 0 10px; font-size: 1rem; font-weight: 700; color: #0f172a; }
+.b-reward__qrbox img {
+  max-width: 220px;
+  width: 100%;
+  border-radius: 12px;
+  border: 6px solid #fff;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+}
+.b-reward__qrdesc { margin: 10px 0 0; font-size: 0.85rem; color: #64748b; line-height: 1.7; }
+
+@media (prefers-color-scheme: dark) {
+  .b-reward { background: linear-gradient(135deg, #111827, #1e1b4b 60%, #312e81); border-color: rgba(129,140,248,.3); }
+  .b-reward__title { color: #f1f5f9; }
+  .b-reward__desc { color: #cbd5e1; }
+  .b-reward__qrbox { background: #1f2937; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+  .b-reward__qrtitle { color: #e2e8f0; }
+  .b-reward__close { color: #94a3b8; }
+  .b-reward__close:hover { background: #374151; color: #f1f5f9; }
+  .b-reward__qrdesc { color: #94a3b8; }
+}

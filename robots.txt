@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /js/
+Disallow: /css/
+Disallow: /img/
+Disallow: /*?s=
+
+Sitemap: https://720info.github.io/sitemap.xml
