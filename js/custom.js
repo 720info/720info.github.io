@@ -352,41 +352,55 @@
   }
 
   // 页脚备案处理：
-  //   1) 把 Fluid 默认生成的工信部链接替换为「萌果备案 (萌ICP备20260117号)」
-  //   2) 在同一行追加第二个备案：「假ICP备1202622号 → fakeicp.top 查询页」
+  //   1) 把 Fluid 默认渲染的工信部备案改成「萌ICP备20260117号 → 萌果备案查询」
+  //   2) 在同一行追加「假ICP备1202622号 → fakeicp.top 查询页」，中间用竖线分隔
+  //   3) 两行下面加一段免责声明，明确不是工信部 ICP 备案（避免误解）
   function fixBeianLink() {
-    var MOE_URL = 'https://icp.gov.moe/?keyword=20260117';
-    var FAKE_URL = 'https://fakeicp.top/query.html?number=1202622';
-    var FAKE_LABEL = '假ICP备1202622号';
+    var MOE = { label: '萌ICP备20260117号', url: 'https://icp.gov.moe/?keyword=20260117', tag: '萌果社区' };
+    var FAKE = { label: '假ICP备1202622号', url: 'https://fakeicp.top/query.html?number=1202622', tag: '假ICP 查询' };
+    var DISCLAIMER = '⚠️ 以上均为个人/社区娱乐性备案，不是中华人民共和国工业和信息化部 ICP 备案，仅作信息展示。';
 
-    var link = document.querySelector('#footer .beian-icp a, #footer .beian a, #footer a[href*="beian.miit.gov.cn"]');
-    var container = document.querySelector('#footer .beian-icp, #footer .beian');
-    if (link) {
-      link.href = MOE_URL;
-      link.setAttribute('target', '_blank');
-      link.setAttribute('rel', 'noopener noreferrer nofollow');
-    } else if (container && container.textContent && container.textContent.indexOf('萌ICP备') !== -1) {
-      var html = container.innerHTML;
-      container.innerHTML = html.replace(
-        /萌ICP备\d+号/,
-        '<a href="' + MOE_URL + '" target="_blank" rel="noopener noreferrer nofollow">$&</a>'
-      );
+    var beian = document.querySelector('#footer .beian');
+    if (!beian) return;
+    // 已经改造过的不再重复追加（用自定义 class 当锚）
+    if (beian.classList.contains('b-beian')) return;
+    beian.classList.add('b-beian');
+
+    // 清掉 Fluid 原来那段老结构（就一个 <span>+<a>），重写成两号并列 + 免责声明
+    while (beian.firstChild) beian.removeChild(beian.firstChild);
+
+    var line = document.createElement('div');
+    line.className = 'b-beian-line';
+
+    function makeAnchor(info) {
+      var a = document.createElement('a');
+      a.href = info.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer nofollow';
+      a.title = info.tag + ' 验证查询：' + info.label;
+      var text = document.createElement('span');
+      text.className = 'b-beian-label';
+      text.textContent = info.label;
+      var tag = document.createElement('span');
+      tag.className = 'b-beian-tag';
+      tag.textContent = info.tag;
+      a.appendChild(text);
+      a.appendChild(tag);
+      return a;
     }
 
-    // 追加假ICP备案号（加在同一行末尾，不重复追加）
-    if (container && container.innerHTML.indexOf(FAKE_LABEL) === -1) {
-      var spacer = document.createTextNode('　|　');
-      var fakeA = document.createElement('a');
-      fakeA.href = FAKE_URL;
-      fakeA.target = '_blank';
-      fakeA.rel = 'noopener noreferrer nofollow';
-      fakeA.textContent = FAKE_LABEL;
-      // 样式跟旁边备案号保持一致
-      fakeA.style.color = 'inherit';
-      fakeA.style.textDecoration = 'none';
-      container.appendChild(spacer);
-      container.appendChild(fakeA);
-    }
+    line.appendChild(makeAnchor(MOE));
+    var sep = document.createElement('span');
+    sep.className = 'b-beian-sep';
+    sep.textContent = '·';
+    line.appendChild(sep);
+    line.appendChild(makeAnchor(FAKE));
+    beian.appendChild(line);
+
+    var disc = document.createElement('p');
+    disc.className = 'b-beian-disclaimer';
+    disc.textContent = DISCLAIMER;
+    beian.appendChild(disc);
   }
 
   // 页脚末尾补 Sitemap 和 RSS 📡 图标（跟随 Fluid 暗色模式）
