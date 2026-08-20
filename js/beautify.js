@@ -132,21 +132,24 @@
 
   /* ========== 2.（已移除）Banner 头图轮换：按你要求保留原定头图，不做随机替换 ========== */
 
-  /* ========== 3. 代码块顶栏：macOS 三色点 + 语言徽章 ========== */
+  /* ========== 3. 代码块顶栏：macOS 三色点 + 语言徽章（仅限代码块，不打到纯文本段落上） ========== */
   function initCodeMac() {
     var pres = document.querySelectorAll(POST_CONTENT + ' pre');
     if (!pres.length) return;
     Array.prototype.forEach.call(pres, function (pre) {
       if (pre.querySelector('.code-mac')) return;
       var code = pre.querySelector('code');
+      // 仅在真正的代码块（带明确语言类的 code）上显示顶栏；
+      // 防止把正文第一个普通段落/未加语言标识的文字误装饰成 "TEXT 语言徽章 + 红点"。
       var lang = '';
       if (code) {
         var m = /lang-(x-|)([a-zA-Z0-9+#_-]+)/.exec(code.className || '');
         lang = m ? m[2] : '';
       }
+      if (!lang) return;
       var mac = document.createElement('div');
       mac.className = 'code-mac';
-      mac.innerHTML = '<span class="code-lang">' + (lang ? lang : 'TEXT') + '</span>';
+      mac.innerHTML = '<span class="code-lang">' + lang + '</span>';
       pre.insertBefore(mac, pre.firstChild);
     });
   }
@@ -181,10 +184,18 @@
   }
 
   /* ========== 5. 看板娘（L2Dwidget：双击看板娘进入独立设置页） ========== */
-  // 模型仅来自外链 CDN，无任何联网菜单与跳转；切模型后刷新页生效，加载失败自动回退默认模型。
+  // 模型均来自 jsDelivr CDN 官方包，纯本地控制无外部跳转。
+  // 每个模型配置了独立基准缩放（baseScale），滑杆=1 时保证各娘视觉尺寸相近；
+  // 实际 canvas 缩放 = baseScale × 用户滑杆值。
   var B_L2D_KEY = 'b-l2d-model';
-  var SHIZUKU_JSON = 'https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json';
-  var MODEL_22_JSON = 'https://cdn.jsdelivr.net/gh/52cik/bilibili-haruna@master/assets/haruna/22/model.2017.tomo-bukatsu.low.json';
+  var L2D_MODELS = {
+    shizuku:  { name: '小紫衣',          path: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-shizuku@1.0.5/assets/shizuku.model.json',                   baseScale: 1.0,  baseW: 150, baseH: 235 },
+    '22':      { name: 'B站22娘',         path: 'https://cdn.jsdelivr.net/gh/52cik/bilibili-haruna@master/assets/haruna/22/model.2017.tomo-bukatsu.low.json', baseScale: 0.72, baseW: 170, baseH: 250 },
+    hijiki:   { name: '黑猫娘',          path: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json',                     baseScale: 1.12, baseW: 150, baseH: 235 },
+    tororo:   { name: '白猫娘',          path: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-tororo@1.0.5/assets/tororo.model.json',                     baseScale: 1.12, baseW: 150, baseH: 235 },
+    z16:      { name: '御姐 z16',        path: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-z16@1.0.5/assets/z16.model.json',                         baseScale: 1.2,  baseW: 150, baseH: 235 },
+    epsilon2: { name: 'Epsilon 礼服娘',  path: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-epsilon2_1@1.0.5/assets/Epsilon2.1.model.json',           baseScale: 0.86, baseW: 150, baseH: 235 }
+  };
 
   // 一次性搭建容器 + 独立设置页（先隐藏，双击看板娘时打开）
   function buildL2dShell() {
@@ -194,15 +205,17 @@
     var ms = document.createElement('div');
     ms.id = 'b-l2d-settings';
     ms.className = 'b-l2d-modal';
+    var picks = '';
+    Object.keys(L2D_MODELS).forEach(function (k) {
+      picks += '<label class="b-l2d-modal__pick"><input type="radio" name="b-l2d-model" value="' + k + '"> ' + L2D_MODELS[k].name + '</label>';
+    });
     ms.innerHTML =
       '<div class="b-l2d-modal__card">' +
       '<button class="b-l2d-modal__close" title="返回">×</button>' +
       '<h3 class="b-l2d-modal__title">看板娘设置</h3>' +
-      '<div class="b-l2d-modal__group"><div class="b-l2d-modal__label">换装</div>' +
-      '<label class="b-l2d-modal__pick"><input type="radio" name="b-l2d-model" value="shizuku"> 小紫衣</label>' +
-      '<label class="b-l2d-modal__pick"><input type="radio" name="b-l2d-model" value="22"> B站22娘</label></div>' +
+      '<div class="b-l2d-modal__group"><div class="b-l2d-modal__label">换装</div>' + picks + '</div>' +
       '<div class="b-l2d-modal__group"><div class="b-l2d-modal__label">大小</div>' +
-      '<input class="b-l2d-modal__range" type="range" min="0.5" max="2.5" step="0.1" value="1"></div>' +
+      '<input class="b-l2d-modal__range" type="range" min="0.5" max="2.5" step="0.05" value="1"></div>' +
       '<div class="b-l2d-modal__actions">' +
       '<button class="b-l2d-modal__hide">隐藏看板娘</button>' +
       '</div>' +
@@ -212,36 +225,38 @@
 
   function initLive2d() {
     if (!document.getElementById('b-l2d')) buildL2dShell();
-    var model = localStorage.getItem(B_L2D_KEY) || 'shizuku';
-    bootL2d(model);
-    // 回退兜底：若选了 B站22娘但加载失败出现不了，自动切回默认娘，避免一进站就是空的
+    var modelKey = localStorage.getItem(B_L2D_KEY) || 'shizuku';
+    if (!L2D_MODELS[modelKey]) modelKey = 'shizuku';
+    bootL2d(modelKey);
+    // 兜底：如果选定模型在 6s 内仍没产出 canvas（资源挂了/被跨域拦），自动回退默认娘
     setTimeout(function () {
-      if (model === '22' && !document.getElementById('live2dcanvas')) {
-        localStorage.removeItem(B_L2D_KEY);
+      if (modelKey !== 'shizuku' && !document.getElementById('live2dcanvas')) {
+        localStorage.setItem(B_L2D_KEY, 'shizuku');
         bootL2d('shizuku');
       }
     }, 6000);
   }
 
-  function bootL2d(model) {
-    var is22 = (model === '22');
-    var jsonPath = is22 ? MODEL_22_JSON : SHIZUKU_JSON;
+  function bootL2d(modelKey) {
+    var cfg = L2D_MODELS[modelKey];
     loadScript('https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js', function () {
       var L2Dwidget = window.L2Dwidget;
       if (!L2Dwidget) return;
+      // 注意这里的 model.scale 是 Live2D 库内部缩放，只对每个模型自己的基准做微调；
+      // 真正跨模型统一尺寸的是画布外层：baseScale × 滑杆
       L2Dwidget.init({
-        model: { jsonPath: jsonPath, scale: is22 ? 0.9 : 1 },
-        display: { superSample: 2, position: 'custom', width: is22 ? 170 : 150, height: is22 ? 250 : 235 },
+        model: { jsonPath: cfg.path, scale: 1 },
+        display: { superSample: 2, position: 'custom', width: cfg.baseW, height: cfg.baseH },
         mobile: { show: false },
         react: { opacityDefault: 0.75, opacityOnHover: 1 },
         dialog: { enable: false }
       });
-      wireL2dControls();
+      wireL2dControls(cfg);
     }, function () { /* 库加载失败，不显示 */ });
   }
 
   // 等 canvas 生成后：移入容器 + 绑定「双击看板娘打开设置页」等交互
-  function wireL2dControls() {
+  function wireL2dControls(cfg) {
     var tries = 0;
     var timer = setInterval(function () {
       var canvas = document.getElementById('live2dcanvas');
@@ -254,19 +269,19 @@
       var ms = document.getElementById('b-l2d-settings');
       if (!ctl || ctl.getAttribute('data-ready') === '1') return;
       ctl.setAttribute('data-ready', '1');
-      ctl.appendChild(canvas); // 把 canvas 移进容器统一控制
+      ctl.appendChild(canvas);
 
-      // 双击看板娘 → 打开独立设置页
+      // 双击看板娘 → 打开独立设置页，同步当前娘与滑杆
       canvas.addEventListener('dblclick', function () {
         ms.classList.add('is-open');
         var cur = localStorage.getItem(B_L2D_KEY) || 'shizuku';
         Array.prototype.forEach.call(ms.querySelectorAll('input[name="b-l2d-model"]'), function (r) {
           r.checked = (r.value === cur);
         });
-        ms.querySelector('.b-l2d-modal__range').value = localStorage.getItem('b-l2d-zoom') || '1';
+        ms.querySelector('.b-l2d-modal__range').value = parseFloat(localStorage.getItem('b-l2d-zoom') || '1').toFixed(2);
       });
 
-      // 设置页关闭：点 × 或遮罩
+      // 关闭设置页：× 或遮罩
       ms.querySelector('.b-l2d-modal__close').addEventListener('click', closeSettings);
       ms.addEventListener('click', function (e) { if (e.target === ms) closeSettings(); });
       function closeSettings() { ms.classList.remove('is-open'); }
@@ -280,12 +295,14 @@
       });
 
       // 大小：滑杆实时缩放并记住
+      // 这里的关键：最终 scale = 模型基准 cfg.baseScale × 用户滑杆值
+      // 这样滑杆在 1 时所有娘视觉大小接近，滑杆再放大缩小都按比例
       var rng = ms.querySelector('.b-l2d-modal__range');
       applyZoom(parseFloat(localStorage.getItem('b-l2d-zoom') || '1'));
       rng.addEventListener('input', function () { applyZoom(parseFloat(rng.value)); });
       function applyZoom(z) {
         z = Math.max(0.5, Math.min(2.5, z));
-        canvas.style.transform = 'scale(' + z + ')';
+        canvas.style.transform = 'scale(' + (cfg.baseScale * z) + ')';
         localStorage.setItem('b-l2d-zoom', String(z));
       }
 
