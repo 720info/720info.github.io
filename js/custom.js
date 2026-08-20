@@ -352,15 +352,15 @@
   }
 
   // 页脚备案处理：
-  //   1) 把 Fluid 默认渲染的工信部备案改成「萌ICP备20260117号 → 萌果备案查询」
-  //   2) 在同一行追加「假ICP备1202622号 → fakeicp.top 查询页」，中间用竖线分隔
+  //   1) 把 Fluid 默认渲染的工信部备案改成「萌ICP备20260117号 → 萌国ICP备案查询」
+  //   2) 在同一行追加「假ICP备1202622号 → fakeicp.top 查询页」，中间用点号分隔
   //   3) 两行下面加一段免责声明，明确不是工信部 ICP 备案（避免误解）
   function fixBeianLink() {
-    var MOE = { label: '萌ICP备20260117号', url: 'https://icp.gov.moe/?keyword=20260117', tag: '萌果社区' };
-    var FAKE = { label: '假ICP备1202622号', url: 'https://fakeicp.top/query.html?number=1202622', tag: '假ICP 查询' };
+    var MOE = { label: '萌ICP备20260117号', url: 'https://icp.gov.moe/?keyword=20260117', tag: '萌国ICP' };
+    var FAKE = { label: '假ICP备1202622号', url: 'https://fakeicp.top/query.html?number=1202622', tag: '假ICP查询' };
     var DISCLAIMER = '⚠️ 以上均为个人/社区娱乐性备案，不是中华人民共和国工业和信息化部 ICP 备案，仅作信息展示。';
 
-    var beian = document.querySelector('#footer .beian');
+    var beian = document.querySelector('footer .beian, .footer-inner .beian, .beian');
     if (!beian) return;
     // 已经改造过的不再重复追加（用自定义 class 当锚）
     if (beian.classList.contains('b-beian')) return;
@@ -405,7 +405,7 @@
 
   // 页脚末尾补 Sitemap 和 RSS 📡 图标（跟随 Fluid 暗色模式）
   function injectFooterIcons() {
-    var target = document.querySelector('#footer .copyright, #footer .footer-content, #footer > .container > div:last-child, #footer');
+    var target = document.querySelector('footer .copyright, footer .footer-content, footer > .footer-inner > div:last-child, footer, .footer-inner');
     if (!target) return;
     var mount = (target.id === 'footer') ? target : target;
     var node = document.createElement('div');
