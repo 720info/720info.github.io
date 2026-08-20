@@ -162,61 +162,17 @@ html[data-user-color-scheme="dark"] .code-mac {
 }
 #banner .banner-text { z-index: 2; position: relative; }
 
-/* ===== 4. 看板娘（右下角轻量小助手） ===== */
-.b-mascot {
-  position: fixed;
-  right: 1.2rem;
-  bottom: 4.6rem;
-  z-index: 99990;
-  display: flex;
-  align-items: flex-end;
+/* ===== 4. 看板娘（成熟方案：live2d-widget）===== */
+/* 官方库自带外观，这里仅做位置与层级微调，避免盖住右下角音乐按钮 */
+#live2dcanvas {
+  position: fixed !important;
+  right: 0 !important;
+  bottom: 0 !important;
   cursor: pointer;
+  z-index: 99989;
+  pointer-events: none; /* 默认不挡点击；悬停看板娘时再允许互动由库接管 */
 }
-.b-mascot__bubble {
-  max-width: 220px;
-  margin-right: 0.7rem;
-  padding: 0.6rem 0.7rem;
-  background: #fff;
-  border: 1px solid rgba(99, 102, 241, 0.2);
-  border-radius: 12px 12px 0 12px;
-  color: #334155;
-  font-size: 0.78rem;
-  line-height: 1.5;
-  box-shadow: 0 8px 24px rgba(30, 41, 59, 0.12);
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  pointer-events: none;
-}
-.b-mascot:hover .b-mascot__bubble,
-.b-mascot.is-bubble .b-mascot__bubble {
-  opacity: 1;
-  transform: none;
-}
-.b-mascot__avatar {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1, #ec4899);
-  color: #fff;
-  font-size: 1.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.4);
-  user-select: none;
-  animation: b-mascot-float 3.6s ease-in-out infinite;
-}
-@keyframes b-mascot-float {
-  0%, 100% { transform: translateY(0) rotate(-2deg); }
-  50%      { transform: translateY(-8px) rotate(2deg); }
-}
-body[data-user-color-scheme="dark"] .b-mascot__bubble,
-html[data-user-color-scheme="dark"] .b-mascot__bubble {
-  background: #1f2937;
-  border-color: rgba(129, 140, 248, 0.3);
-  color: #e2e8f0;
-}
+#live2dcanvas:hover { pointer-events: auto; }
 
 /* ===== 5. 音乐播放器（右下角悬浮可折叠） ===== */
 .b-music {

@@ -111,23 +111,7 @@
     });
   }
 
-  /* ========== 2. 首页/Banner 头图轮换（随机外链，稳定图床） ========== */
-  var BANNER_POOL = [
-    'https://picsum.photos/seed/720info1/1920/900',
-    'https://picsum.photos/seed/720info2/1920/900',
-    'https://picsum.photos/seed/720info3/1920/900',
-    'https://picsum.photos/seed/720info4/1920/900'
-  ];
-  function initBannerRotate() {
-    var els = document.querySelectorAll('#banner, .header-inner');
-    if (!els.length) return;
-    var pick = BANNER_POOL[Math.floor(Math.random() * BANNER_POOL.length)];
-    Array.prototype.forEach.call(els, function (el) {
-      el.style.backgroundImage = 'url("' + pick + '")';
-      if (!el.style.backgroundSize) el.style.backgroundSize = 'cover';
-      if (!el.style.backgroundPosition) el.style.backgroundPosition = 'center center';
-    });
-  }
+  /* ========== 2.（已移除）Banner 头图轮换：按你要求保留原定头图，不做随机替换 ========== */
 
   /* ========== 3. 代码块顶栏：macOS 三色点 + 语言徽章 ========== */
   function initCodeMac() {
@@ -177,38 +161,22 @@
     });
   }
 
-  /* ========== 5. 看板娘（右下角轻量小助手） ========== */
-  var MASCOT_LINES = [
-    'Hi~ 👋 我是 720 的小助手！',
-    '有新的文章记得来看看哦～',
-    '生活里的小事，也值得被记录 ✨',
-    '点我一下，有小惊喜？',
-    '愿你的日子也闪闪发光 🌟'
-  ];
-  function initMascot() {
-    var box = document.createElement('div');
-    box.className = 'b-mascot';
-    box.innerHTML =
-      '<div class="b-mascot__bubble"></div>' +
-      '<div class="b-mascot__avatar">🤖</div>';
-    document.body.appendChild(box);
-
-    var bubble = box.querySelector('.b-mascot__bubble');
-    var idx = 0;
-    function say(text) { bubble.textContent = text; box.classList.add('is-bubble'); }
-    var first = true;
-    box.addEventListener('click', function () {
-      idx = (idx + 1) % MASCOT_LINES.length;
-      say(MASCOT_LINES[idx]);
-      if (first) { first = false; }
-      clearTimeout(box.__t);
-      box.__t = setTimeout(function () { box.classList.remove('is-bubble'); }, 4000);
-    });
-    // 首屏 2 秒后自动打招呼一次
-    setTimeout(function () {
-      say(MASCOT_LINES[0]);
-      setTimeout(function () { box.classList.remove('is-bubble'); }, 4000);
-    }, 2000);
+  /* ========== 5. 看板娘（成熟方案：live2d-widget + koharu 模型，走 jsDelivr CDN） ========== */
+  // 若 CDN 加载失败则静默不显示，不影响其它功能
+  function initLive2d() {
+    loadScript('https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js', function () {
+      if (!window.L2Dwidget) return;
+      window.L2Dwidget.init({
+        model: {
+          jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
+          scale: 1
+        },
+        display: { superSample: 2, width: 160, height: 240, position: 'right', hOffset: 6, vOffset: 0 },
+        mobile: { show: true, scale: 0.72 },
+        react: { opacityDefault: 0.75, opacityOnHover: 1 },
+        dialog: { enable: false }
+      });
+    }, function () { /* 库加载失败，不显示 */ });
   }
 
   /* ========== 6. 音乐播放器（右下角，仅当音频资源可用才展示） ========== */
@@ -245,10 +213,9 @@
   /* ========== 启动 ========== */
   function boot() {
     try { initShareBar(); } catch (e) { /* ignore */ }
-    try { initBannerRotate(); } catch (e) { /* ignore */ }
     try { initCodeMac(); } catch (e) { /* ignore */ }
     try { initParticles(); } catch (e) { /* ignore */ }
-    try { initMascot(); } catch (e) { /* ignore */ }
+    try { initLive2d(); } catch (e) { /* ignore */ }
     try { initMusic(); } catch (e) { /* ignore */ }
   }
   if (document.readyState === 'loading') {
