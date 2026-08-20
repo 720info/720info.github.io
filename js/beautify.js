@@ -161,20 +161,29 @@
     });
   }
 
-  /* ========== 5. 看板娘（成熟方案：live2d-widget + koharu 模型，走 jsDelivr CDN） ========== */
-  // 若 CDN 加载失败则静默不显示，不影响其它功能
+  /* ========== 5. 看板娘（成熟方案：oh-my-live2d + koharu 模型，走 jsDelivr CDN） ========== */
+  // 自带控制菜单：可拖动、缩放(+/-)、透明度、切换动作、点菜单「隐藏」即可关闭。
+  // 若 CDN 加载失败则静默不显示，不影响其它功能。
   function initLive2d() {
-    loadScript('https://cdn.jsdelivr.net/npm/live2d-widget@3.1.4/lib/L2Dwidget.min.js', function () {
-      if (!window.L2Dwidget) return;
-      window.L2Dwidget.init({
-        model: {
-          jsonPath: 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json',
-          scale: 1
-        },
-        display: { superSample: 2, width: 160, height: 240, position: 'right', hOffset: 6, vOffset: 0 },
-        mobile: { show: true, scale: 0.72 },
-        react: { opacityDefault: 0.75, opacityOnHover: 1 },
-        dialog: { enable: false }
+    var OML2D_JS = 'https://cdn.jsdelivr.net/npm/oh-my-live2d@0.19.3/dist/index.min.js';
+    var KOHARU = 'https://cdn.jsdelivr.net/npm/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json';
+    loadScript(OML2D_JS, function () {
+      var OML2D = window.OML2D;
+      if (!OML2D || !OML2D.loadOml2d) return;
+      OML2D.loadOml2d({
+        primaryColor: '#6366f1',
+        sayHello: false,
+        modelStatus: false,
+        models: [{
+          path: KOHARU,
+          scale: 0.18,
+          position: [0, 40],
+          stageStyle: { height: 460 }
+        }],
+        tips: {
+          style: { left: '-22px', top: '-60px' },
+          content: { default: ['初次见面，欢迎来到 720 科技 ~', '🎈 拖动我可以换个位置', '还支持缩放、透明度和关闭哦'] }
+        }
       });
     }, function () { /* 库加载失败，不显示 */ });
   }

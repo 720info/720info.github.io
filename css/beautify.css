@@ -162,17 +162,13 @@ html[data-user-color-scheme="dark"] .code-mac {
 }
 #banner .banner-text { z-index: 2; position: relative; }
 
-/* ===== 4. 看板娘（成熟方案：live2d-widget）===== */
-/* 官方库自带外观，这里仅做位置与层级微调，避免盖住右下角音乐按钮 */
-#live2dcanvas {
-  position: fixed !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  cursor: pointer;
-  z-index: 99989;
-  pointer-events: none; /* 默认不挡点击；悬停看板娘时再允许互动由库接管 */
+/* ===== 4. 看板娘（成熟方案：oh-my-live2d） ===== */
+/* 库自带右键状态栏控制菜单（拖动/缩放/透明度/动作/隐藏）。
+   默认在右下，这里改为固定在左下角，避免和右下角的音乐按钮重叠。 */
+.oml2d {
+  left: 0 !important;
+  right: auto !important;
 }
-#live2dcanvas:hover { pointer-events: auto; }
 
 /* ===== 5. 音乐播放器（右下角悬浮可折叠） ===== */
 .b-music {
