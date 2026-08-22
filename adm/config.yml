@@ -1,0 +1,46 @@
+# 站点信息
+site_url: https://720info.github.io
+display_url: https://720info.github.io
+# 编辑器语言：中文
+locale: zh-Hans
+
+# 后端：GitHub
+backend:
+  name: github
+  repo: 720info/720info.github.io
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# 媒体：Decap CMS v3.x schema 强制要求配置此项（否则报 required property 错误）
+# 实际使用外部图床，直接粘贴图片链接即可；如误点上传按钮，文件会落到以下占位路径
+media_folder: "blog/source/img/uploads"
+public_folder: "/img/uploads"
+
+# 集合（Collection）配置
+collections:
+  - name: "posts"
+    label: "文章"
+    label_singular: "文章"
+    folder: "blog/source/_posts"
+    create: true
+    slug: "{{title}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}} · {{date}}"
+
+    # Front-matter 字段配置
+    fields:
+      - { label: "标题", name: "title", widget: "string", required: true }
+      - { label: "发布日期", name: "date", widget: "datetime", required: true, date_format: "YYYY-MM-DD", time_format: "HH:mm:ss", format: "YYYY-MM-DD HH:mm:ss" }
+      - label: "标签"
+        name: "tags"
+        widget: "list"
+        required: false
+        default: []
+      - label: "分类"
+        name: "categories"
+        widget: "list"
+        required: false
+        default: []
+      - { label: "正文内容", name: "body", widget: "markdown", required: true }
