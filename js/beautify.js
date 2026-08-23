@@ -365,6 +365,50 @@
     snd.src = META_URL;
   }
 
+  /* ========== 7. 关于页联系方式：复制按钮（微信号 / 邮箱） ========== */
+  function initContactCopy() {
+    var btns = document.querySelectorAll('.b-contact__btn[data-copy]');
+    if (!btns.length) return;
+    function showOk(btn, text) {
+      var old = btn.getAttribute('data-ok-label');
+      if (old == null) {
+        btn.setAttribute('data-ok-label', btn.textContent.trim());
+      }
+      var icon = btn.querySelector('svg');
+      var iconHtml = icon ? icon.outerHTML + ' ' : '';
+      btn.innerHTML = iconHtml + (text || '✅ 已复制');
+      btn.style.opacity = '0.92';
+      setTimeout(function () {
+        btn.innerHTML = iconHtml + (btn.getAttribute('data-ok-label') || '复制');
+        btn.style.opacity = '';
+      }, 1600);
+    }
+    function copy(text, done, fail) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { legacyCopy(text, done, fail); });
+      } else { legacyCopy(text, done, fail); }
+    }
+    function legacyCopy(text, done, fail) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;opacity:0;left:0;top:0;';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+        done();
+      } catch (err) { fail && fail(err); }
+    }
+    Array.prototype.forEach.call(btns, function (btn) {
+      btn.addEventListener('click', function () {
+        var val = btn.getAttribute('data-copy') || '';
+        if (!val) return;
+        copy(val, function () { showOk(btn); }, function () { showOk(btn, '❌ 复制失败'); });
+      });
+    });
+  }
+
   /* ========== 启动 ========== */
   function boot() {
     try { initShareBar(); } catch (e) { /* ignore */ }
@@ -372,6 +416,7 @@
     try { initParticles(); } catch (e) { /* ignore */ }
     try { initLive2d(); } catch (e) { /* ignore */ }
     try { initMusic(); } catch (e) { /* ignore */ }
+    try { initContactCopy(); } catch (e) { /* ignore */ }
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot, { once: true });

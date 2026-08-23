@@ -467,3 +467,276 @@ body[data-user-color-scheme="dark"] .b-beian-disclaimer { color: #94a3b8 !import
   .b-beian-sep { color: #64748b !important; }
   .b-beian-disclaimer { color: #94a3b8 !important; }
 }
+
+/* ===== 9. 关于页「联系方式」双卡片（微信 + 邮箱） ===== */
+.b-contact {
+  margin: 1.8rem 0 1rem;
+}
+.b-contact__title {
+  margin: 0 0 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #3730a3;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.b-contact__title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #6366f1, #ec4899);
+}
+.b-contact__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.1rem;
+}
+.b-contact__card {
+  position: relative;
+  padding: 1.55rem 1.45rem 1.45rem;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.08);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  overflow: hidden;
+}
+.b-contact__card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.b-contact__card--wechat { border-top: 0; }
+.b-contact__card--wechat::before {
+  background: linear-gradient(90deg, #07c160, #34d399);
+}
+.b-contact__card--email { border-top: 0; }
+.b-contact__card--email::before {
+  background: linear-gradient(90deg, #6366f1, #ec4899);
+}
+.b-contact__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(99, 102, 241, 0.16);
+  border-color: rgba(99, 102, 241, 0.28);
+}
+.b-contact__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+.b-contact__icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+}
+.b-contact__card--wechat .b-contact__icon {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #059669;
+}
+.b-contact__card--email .b-contact__icon {
+  background: linear-gradient(135deg, #e0e7ff, #fce7f3);
+  color: #4f46e5;
+}
+.b-contact__name {
+  margin: 0;
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: #0f172a;
+}
+.b-contact__card--email .b-contact__name { color: #4338ca; }
+.b-contact__card--wechat .b-contact__name { color: #047857; }
+.b-contact__sub {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}
+.b-contact__body {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.75;
+  margin-bottom: 0.2rem;
+}
+.b-contact__value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.7rem 0 0.9rem;
+  padding: 0.55rem 0.95rem;
+  background: #f8fafc;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.96rem;
+  color: #0f172a;
+  letter-spacing: 0.01em;
+  word-break: break-all;
+}
+.b-contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+}
+.b-contact__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  border: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+  line-height: 1.2;
+  user-select: none;
+}
+.b-contact__btn:active { transform: scale(0.96); }
+.b-contact__btn--primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.32);
+}
+.b-contact__btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(99, 102, 241, 0.44);
+}
+.b-contact__btn--wechat {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.32);
+}
+.b-contact__btn--wechat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(16, 185, 129, 0.44);
+}
+.b-contact__btn--ghost {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+}
+.b-contact__btn--ghost:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+  border-color: rgba(148, 163, 184, 0.42);
+}
+.b-contact__tips {
+  margin: 1.1rem 0 0;
+  font-size: 0.76rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+.b-contact__tips b { color: #64748b; font-weight: 600; }
+.b-contact__tips a {
+  color: #64748b;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: color 0.15s ease;
+}
+.b-contact__tips a:hover { color: #334155; }
+
+/* 暗色模式适配 */
+html[data-user-color-scheme="dark"] .b-contact__title,
+body[data-user-color-scheme="dark"] .b-contact__title { color: #c7d2fe; }
+html[data-user-color-scheme="dark"] .b-contact__card,
+body[data-user-color-scheme="dark"] .b-contact__card {
+  background: #1e293b;
+  border-color: rgba(129, 140, 248, 0.22);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+html[data-user-color-scheme="dark"] .b-contact__card:hover,
+body[data-user-color-scheme="dark"] .b-contact__card:hover {
+  border-color: rgba(129, 140, 248, 0.42);
+  box-shadow: 0 14px 32px rgba(99, 102, 241, 0.28);
+}
+html[data-user-color-scheme="dark"] .b-contact__name,
+body[data-user-color-scheme="dark"] .b-contact__name { color: #f8fafc; }
+html[data-user-color-scheme="dark"] .b-contact__card--email .b-contact__name,
+body[data-user-color-scheme="dark"] .b-contact__card--email .b-contact__name { color: #a5b4fc; }
+html[data-user-color-scheme="dark"] .b-contact__card--wechat .b-contact__name,
+body[data-user-color-scheme="dark"] .b-contact__card--wechat .b-contact__name { color: #6ee7b7; }
+html[data-user-color-scheme="dark"] .b-contact__sub,
+body[data-user-color-scheme="dark"] .b-contact__sub { color: #64748b; }
+html[data-user-color-scheme="dark"] .b-contact__body,
+body[data-user-color-scheme="dark"] .b-contact__body { color: #cbd5e1; }
+html[data-user-color-scheme="dark"] .b-contact__value,
+body[data-user-color-scheme="dark"] .b-contact__value {
+  background: #0f172a;
+  border-color: rgba(148, 163, 184, 0.22);
+  color: #f1f5f9;
+}
+html[data-user-color-scheme="dark"] .b-contact__btn--ghost,
+body[data-user-color-scheme="dark"] .b-contact__btn--ghost {
+  background: #334155;
+  color: #cbd5e1;
+}
+html[data-user-color-scheme="dark"] .b-contact__btn--ghost:hover,
+body[data-user-color-scheme="dark"] .b-contact__btn--ghost:hover {
+  background: #475569;
+  color: #f8fafc;
+}
+html[data-user-color-scheme="dark"] .b-contact__tips,
+body[data-user-color-scheme="dark"] .b-contact__tips { color: #64748b; }
+html[data-user-color-scheme="dark"] .b-contact__tips b,
+body[data-user-color-scheme="dark"] .b-contact__tips b { color: #94a3b8; }
+html[data-user-color-scheme="dark"] .b-contact__tips a,
+body[data-user-color-scheme="dark"] .b-contact__tips a {
+  color: #94a3b8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+html[data-user-color-scheme="dark"] .b-contact__tips a:hover,
+body[data-user-color-scheme="dark"] .b-contact__tips a:hover { color: #e2e8f0; }
+
+@media (prefers-color-scheme: dark) {
+  .b-contact__title { color: #c7d2fe; }
+  .b-contact__card {
+    background: #1e293b;
+    border-color: rgba(129, 140, 248, 0.22);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+  .b-contact__card:hover {
+    border-color: rgba(129, 140, 248, 0.42);
+    box-shadow: 0 14px 32px rgba(99, 102, 241, 0.28);
+  }
+  .b-contact__name { color: #f8fafc; }
+  .b-contact__card--email .b-contact__name { color: #a5b4fc; }
+  .b-contact__card--wechat .b-contact__name { color: #6ee7b7; }
+  .b-contact__sub { color: #64748b; }
+  .b-contact__body { color: #cbd5e1; }
+  .b-contact__value {
+    background: #0f172a;
+    border-color: rgba(148, 163, 184, 0.22);
+    color: #f1f5f9;
+  }
+  .b-contact__btn--ghost {
+    background: #334155;
+    color: #cbd5e1;
+  }
+  .b-contact__btn--ghost:hover {
+    background: #475569;
+    color: #f8fafc;
+  }
+  .b-contact__tips { color: #64748b; }
+  .b-contact__tips b { color: #94a3b8; }
+  .b-contact__tips a {
+    color: #94a3b8;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .b-contact__tips a:hover { color: #e2e8f0; }
+}
