@@ -11,7 +11,28 @@
   <rights>All rights reserved 2026, 720 科技</rights>
   <subtitle>分享技术与生活</subtitle>
   <title>720 科技官网</title>
-  <updated>2026-08-22T13:08:41.000Z</updated>
+  <updated>2026-09-13T08:41:51.000Z</updated>
+  <entry>
+    <author>
+      <name>720 科技</name>
+    </author>
+    <category term="无法被分类的诡异文章" scheme="https://720info.github.io/categories/%E6%97%A0%E6%B3%95%E8%A2%AB%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%A1%E5%BC%82%E6%96%87%E7%AB%A0/"/>
+    <category term="日常" scheme="https://720info.github.io/tags/%E6%97%A5%E5%B8%B8/"/>
+    <category term="开学" scheme="https://720info.github.io/tags/%E5%BC%80%E5%AD%A6/"/>
+    <content>
+      <![CDATA[<p>也是好久没更新，是因为我上中学了。</p><p>。 。 。 。 。 。</p><p>暑假最后几天我一直在和一个朋友做一些开发，所以一直没来得及写文章嗯。所以说开学了，一天变成了 10 个小时在学校。而且是一直上课，没有玩的时间。这也就非常的难受的，（小学的时候一天至少一个小时是用来玩的。）而且作文要写到 600 字。真没招了。嗯所以也就是在周哦空闲的时间里水一篇文章，嗯所以呢就是这样。</p><p>好吧，我之前给大家测试 codex 和 trae 的时候做了一个《方块纪元》游戏，我和朋友改良了生存的玩法，加入一些功能，并且支持了联机，贴一下链接，<a herf="https://s1.oururl.cn/autoupload/cd7ca/20260913/PZWk/%E6%96%B9%E5%9D%97%E7%BA%AA%E5%85%83%E9%AB%98%E7%BA%A7%E7%89%88.zip">点击下载方块纪元</a>。大家可以玩一下，以后我会部署一个在线版本，但是不能联机。</p><p>然后呢就是有人问我是什么时候开始学的编程。呃这个问题最早可以追溯到我去图书馆借的一本 python 编程的书，看来很感兴趣，我想下也不太好描述书里的内容是什么，翻了一下借书记录也没有这本书，所以不太好定位这个“最初”的时间点。大概是回来之后就给自己安装了 python，进行了一下编程，还了解到 scratch 这种图形化的编程。</p><p>关于 Vibecoding 我是在用豆包写代码的时候，找到了一个“在 trae 中继续开发”，然后出于好奇就是下载了 trae，就算是入门了。最近 Trae 改成了积分制，但是我有一个方法可以继续用，用一个号 4500 积分用没了之后把这个号换绑到另一个手机号，自己的手机号就会被释放，然后用自己的手机号重新注册可以再次获得 4500 积分，我有一个接码平台 1 毛多一个号，10 块钱够用好几个月了，<a herf="https://h5.haozhuma.com/reg.html?action=coder720bytes">在这里，</a> 嗯通过这里注册我可以获得 5% 的返利，说实话没多少，希望我们一起进步！</p>]]>
+    </content>
+    <id>https://720info.github.io/2026/09/13/%E6%88%91%E6%98%AF%E6%A0%87%E9%A2%98/</id>
+    <link href="https://720info.github.io/2026/09/13/%E6%88%91%E6%98%AF%E6%A0%87%E9%A2%98/"/>
+    <published>2026-09-13T08:41:51.000Z</published>
+    <summary>
+      <![CDATA[<p>也是好久没更新，是因为我上中学了。</p>
+<p>。 。 。 。 。 。</p>
+<p>暑假最后几天我一直在和一个朋友做一些开发，所以一直没来得及写文章嗯。所以说开学了，一天变成了 10 个小时在学校。而且是一直上课，没有玩的时间。这也就非常的难受的，（小学的时候一天至少一个小时是用来玩的。）而且作文要写到 600]]>
+    </summary>
+    <title>我是标题</title>
+    <updated>2026-09-13T08:41:51.000Z</updated>
+  </entry>
   <entry>
     <author>
       <name>720 科技</name>
