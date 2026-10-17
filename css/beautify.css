@@ -380,7 +380,7 @@ html::-webkit-scrollbar-track { background: transparent; }
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  color: #cbd5e1 !important;
+  color: #475569 !important;
 }
 .b-beian-line {
   display: block !important;
@@ -391,7 +391,7 @@ html::-webkit-scrollbar-track { background: transparent; }
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  color: #cbd5e1 !important;
+  color: #475569 !important;
   border-radius: 0 !important;
   backdrop-filter: none !important;
   line-height: 1.85 !important;
@@ -403,14 +403,13 @@ html::-webkit-scrollbar-track { background: transparent; }
   margin: 0 !important;
   background: transparent !important;
   border: 0 !important;
-  color: #93c5fd !important;   /* 深色页脚上用浅蓝，原 #1d4ed8 在紫底上不可见 */
+  color: #1d4ed8 !important;   /* 高对比的正文链接蓝色 */
   text-decoration: none !important;
   font-weight: 500 !important;
   font-size: 13px !important;
 }
 .b-beian-line > a:hover {
   text-decoration: underline !important;
-  color: #e0f2fe !important;
   opacity: 1 !important;
   transform: none !important;
 }
@@ -443,7 +442,7 @@ html::-webkit-scrollbar-track { background: transparent; }
   background: transparent !important;
   border: 0 !important;
   border-radius: 0 !important;
-  color: #94a3b8 !important;     /* 深色页脚上的脚注灰，原 #64748b 太暗 */
+  color: #64748b !important;     /* 浅灰小字：页脚脚注级、不抢 C 位但看得见 */
   opacity: 1 !important;
 }
 .b-beian-disclaimer::before { margin-right: 2px; }
