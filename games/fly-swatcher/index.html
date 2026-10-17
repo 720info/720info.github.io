@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="BROEkIaMNottMLdhGRSa2Q">
+<head data-page-node-id="N5TaUsygc5mNILb3BRYKio">
+<meta charset="UTF-8" data-page-node-id="1q9D0wZPw5O8mE80lBnLw7">
+<meta name="viewport" content="width=device-width, initial-scale=1" data-page-node-id="pdIpugt6COZx4MnGDXj9Wm">
+<title>超级打苍蝇 · Super Fly Swatter</title>
+<style>
+/* ============================================================
+   基础样式
+   ============================================================ */
+*{ box-sizing:border-box; margin:0; padding:0; }
+html,body{ height:100%; }
+body{
+  background:#15130f;
+  color:#f4ead9;
+  font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB",system-ui,-apple-system,sans-serif;
+  user-select:none;
+  -webkit-user-select:none;
+  overflow:hidden;
+}
+#app{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding:12px 16px 16px;
+  gap:10px;
+}
+
+/* ============================================================
+   顶部 HUD
+   ============================================================ */
+#hud{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:10px 16px;
+  border-radius:14px;
+  background:linear-gradient(180deg,#2c2721,#211d18);
+  border:1px solid #3d362c;
+  box-shadow:0 6px 18px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.hud-item{ display:flex; align-items:center; gap:8px; }
+.hud-item .label{
+  font-size:12px; letter-spacing:1px; color:#a2977f;
+}
+.hud-item .value{
+  font-size:22px; font-weight:800; font-variant-numeric:tabular-nums;
+  color:#ffd166; text-shadow:0 2px 0 rgba(0,0,0,.5);
+  min-width:34px;
+}
+#hud .sep{ width:1px; height:26px; background:#3d362c; }
+
+/* 分数跳动 */
+#score.pop{ animation:scorePop .22s ease-out; }
+@keyframes scorePop{
+  0%{ transform:scale(1); color:#ffd166; }
+  45%{ transform:scale(1.45); color:#9dff8a; }
+  100%{ transform:scale(1); color:#ffd166; }
+}
+
+/* 倒计时条 */
+.timebar{
+  width:150px; height:12px; border-radius:8px;
+  background:#141210; overflow:hidden;
+  border:1px solid #3d362c;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.6);
+}
+#timebarFill{
+  display:block; height:100%; width:100%;
+  background:linear-gradient(90deg,#63e06b,#ffd166);
+  transition:width .12s linear, background .3s;
+}
+#timebarFill.low{ background:linear-gradient(90deg,#ff6b4a,#ff2d2d); }
+#timebarFill.mid{ background:linear-gradient(90deg,#ffd166,#ff9a3c); }
+
+/* 当前道具 */
+.tool-chip{
+  display:flex; align-items:center; gap:8px;
+  padding:5px 12px 5px 6px; border-radius:999px;
+  background:#3a3129; border:1px solid #4d4335;
+}
+.tool-chip .dot{
+  width:26px; height:26px; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#5b4c3a,#2a231c);
+  display:grid; place-items:center; font-size:14px;
+}
+#toolName{ font-size:15px; font-weight:700; color:#ffe9c2; }
+.keys{ font-size:11px; color:#8d8271; }
+.keys b{ color:#ffd166; }
+
+.spacer{ flex:1; }
+.icon-btn{
+  width:36px; height:36px; border-radius:10px;
+  background:#3a3129; border:1px solid #4d4335;
+  color:#f4ead9; font-size:16px; cursor:pointer;
+  transition:background .15s, transform .1s;
+}
+.icon-btn:hover{ background:#4a3f33; }
+.icon-btn:active{ transform:scale(.94); }
+.icon-btn.on{
+  background:linear-gradient(180deg,#ffe08a,#ffb52e);
+  color:#2b1c00; border-color:#ffd166;
+}
+
+/* ============================================================
+   游戏舞台（厨房桌面）
+   ============================================================ */
+#stage{
+  position:relative;
+  flex:1 1 auto;
+  min-height:0;
+  border-radius:18px;
+  overflow:hidden;
+  cursor:none;                 /* 隐藏系统默认光标 */
+  background:
+    radial-gradient(120% 95% at 50% -10%, rgba(255,236,196,.30), rgba(0,0,0,.10) 55%, rgba(0,0,0,.42) 100%),
+    repeating-linear-gradient(91deg,
+      #b57a41 0px, #ac7139 9px, #c08a4d 17px, #b57a41 26px, #a86d36 34px, #b57a41 44px),
+    #ac7139;
+  box-shadow:0 18px 44px rgba(0,0,0,.6), inset 0 0 0 3px rgba(90,58,26,.55), inset 0 0 0 9px rgba(255,226,180,.12);
+}
+/* 木纹叠加层 */
+#stage::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    repeating-linear-gradient(88deg, rgba(60,32,10,.10) 0 2px, rgba(255,220,170,.05) 2px 5px, transparent 5px 22px),
+    radial-gradient(60% 40% at 20% 90%, rgba(0,0,0,.22), transparent 70%);
+  mix-blend-mode:multiply;
+  opacity:.75;
+}
+#bgDeco{ position:absolute; inset:0; pointer-events:none; opacity:.55; }
+#fx{ position:absolute; inset:0; pointer-events:none; }
+#flies{ position:absolute; inset:0; pointer-events:none; }
+
+/* ============================================================
+   苍蝇（内联 SVG）
+   ============================================================ */
+.fly{
+  position:absolute; left:0; top:0;
+  width:calc(120px * var(--s));
+  height:calc(80px * var(--s));
+  margin-left:calc(-60px * var(--s));
+  margin-top:calc(-40px * var(--s));
+  will-change:transform;
+  filter:drop-shadow(1.5px 2px 1.5px rgba(0,0,0,.45));
+  transition:opacity .18s;
+}
+.fly-svg{ width:100%; height:100%; display:block; overflow:visible; }
+
+/* 身体配色（每只苍蝇随机色相，带一点金属光泽） */
+.fly-svg .body-ab{ fill:hsl(var(--hue,235), 24%, 15%); }
+.fly-svg .body-th{ fill:hsl(var(--hue,235), 20%, 24%); }
+.fly-svg .body-hd{ fill:hsl(var(--hue,235), 22%, 12%); }
+.fly-svg .eye{ fill:#8a1f1f; }
+.fly-svg .sheen{ fill:hsl(var(--hue,200), 85%, 72%); opacity:.32; }
+.fly-svg .legs{ fill:none; stroke:#15151a; stroke-width:4.4; stroke-linecap:round; }
+.fly-svg .antenna{ fill:none; stroke:#15151a; stroke-width:3.0; stroke-linecap:round; }
+.fly-svg .wing-shape{
+  fill:rgba(206,226,246,.30);
+  stroke:rgba(236,246,255,.50);
+  stroke-width:1.2;
+}
+
+/* 停着不动时：腿大部分时间静止，偶尔挪一下（显得"活着"） */
+.fly-svg .leg-set{
+  animation:legIdle 2.6s ease-in-out infinite;
+}
+@keyframes legIdle{
+  0%, 58%  { transform:translateX(0); }
+  68%      { transform:translateX(1.5px); }
+  78%      { transform:translateX(-1.2px); }
+  88%,100% { transform:translateX(0); }
+}
+
+/* 停着不动时：翅膀偶尔抖一下
+   （fill-box 保证轴心取翅膀自身包围盒右端 = 翅根） */
+.fly-svg .wing{
+  transform-box:fill-box;
+  transform-origin:100% 50%;
+  animation:wingIdle 3.4s ease-in-out infinite;
+}
+.fly-svg .wing-b{ animation-duration:4.1s; }   /* 两只翅膀错开节奏，不呆板 */
+@keyframes wingIdle{
+  0%, 55%  { transform:rotate(0deg); }
+  64%      { transform:rotate(-8deg); }
+  73%      { transform:rotate(5deg); }
+  82%,100% { transform:rotate(0deg); }
+}
+
+/* 起飞时：翅膀狂扇 + 腿乱蹬 */
+.fly.fleeing .fly-svg .wing{ animation-name:wingFlap; animation-duration:.075s; animation-timing-function:linear; }
+.fly.fleeing .fly-svg .leg-set{ animation-name:legStep; animation-duration:.06s; animation-timing-function:linear; }
+.fly.away .fly-svg .wing{ animation-name:wingFlap; animation-duration:.06s; animation-timing-function:linear; }
+.fly.away{ opacity:.9; }
+@keyframes wingFlap{
+  0%{ transform:rotate(-10deg); }
+  50%{ transform:rotate(8deg); }
+  100%{ transform:rotate(-10deg); }
+}
+@keyframes legStep{
+  0%{ transform:translateX(-1.6px); }
+  50%{ transform:translateX(1.6px); }
+  100%{ transform:translateX(-1.6px); }
+}
+
+/* 出生 / 死亡动画 */
+.fly.spawn .fly-svg{ animation:flyIn .26s ease-out; }
+@keyframes flyIn{
+  0%{ transform:scale(.2); opacity:0; }
+  100%{ transform:scale(1); opacity:1; }
+}
+.fly.dead .fly-svg{ animation:flyDie .2s ease-in forwards; }
+@keyframes flyDie{
+  0%{ transform:scale(1) rotate(0deg); opacity:1; }
+  100%{ transform:scale(1.5) rotate(18deg); opacity:0; }
+}
+
+/* ============================================================
+   鼠标道具（跟随光标）
+   ============================================================ */
+#cursor{
+  position:absolute; left:0; top:0;
+  width:180px; height:180px;
+  margin:-90px 0 0 -90px;      /* 让道具中心对准鼠标 */
+  pointer-events:none;
+  z-index:30;
+  opacity:0;
+  transition:opacity .12s;
+}
+#cursor.on{ opacity:1; }
+.tool-inner{
+  width:100%; height:100%;
+  transform-origin:50% 50%;
+}
+.tool-svg{ width:100%; height:100%; display:block; overflow:visible; }
+
+/* 挥击动画：苍蝇拍甩、手掌拍、脚跺 */
+#cursor.acting .tool-inner.t-swat{ animation:animSwing .2s cubic-bezier(.2,.8,.3,1); }
+#cursor.acting .tool-inner.t-hand{ animation:animSlap .18s cubic-bezier(.2,.8,.3,1); }
+#cursor.acting .tool-inner.t-foot{ animation:animStomp .22s cubic-bezier(.2,.8,.3,1); }
+@keyframes animSwing{
+  0%{ transform:rotate(0) scale(1); }
+  35%{ transform:rotate(-20deg) scale(1.06); }
+  70%{ transform:rotate(15deg) scale(.97); }
+  100%{ transform:rotate(0) scale(1); }
+}
+@keyframes animSlap{
+  0%{ transform:rotate(0) scale(1); }
+  40%{ transform:rotate(12deg) scale(.92); }
+  100%{ transform:rotate(0) scale(1); }
+}
+@keyframes animStomp{
+  0%{ transform:scale(1); }
+  45%{ transform:scale(.82) translateY(6px); }
+  100%{ transform:scale(1); }
+}
+
+/* ============================================================
+   飘分文字
+   ============================================================ */
+.float-text{
+  position:absolute; pointer-events:none; z-index:25;
+  font-size:20px; font-weight:900; color:#b6ff6e;
+  text-shadow:0 2px 0 #233a00, 0 0 12px rgba(140,255,90,.6);
+  animation:floatUp .8s ease-out forwards;
+  white-space:nowrap;
+}
+.float-text.miss{ color:#ffd166; font-size:16px; text-shadow:0 2px 0 #4a3200; }
+@keyframes floatUp{
+  0%{ transform:translate(-50%,-50%) scale(.6); opacity:0; }
+  25%{ transform:translate(-50%,-70%) scale(1.15); opacity:1; }
+  100%{ transform:translate(-50%,-160%) scale(1); opacity:0; }
+}
+
+/* ============================================================
+   开始 / 结束 遮罩
+   ============================================================ */
+#overlay{
+  position:absolute; inset:0; z-index:40;
+  display:grid; place-items:center;
+  background:radial-gradient(60% 60% at 50% 45%, rgba(20,16,10,.62), rgba(10,8,5,.86));
+  backdrop-filter:blur(3px);
+  cursor:default;               /* 遮罩上恢复默认光标 */
+}
+#overlay.hide{ display:none; }
+.panel{
+  width:min(560px, 88%);
+  padding:26px 30px 24px;
+  border-radius:20px;
+  text-align:center;
+  background:linear-gradient(180deg,#332c24,#221d17);
+  border:1px solid #55493a;
+  box-shadow:0 22px 60px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.08);
+  animation:panelIn .3s ease-out;
+}
+@keyframes panelIn{
+  0%{ transform:translateY(14px) scale(.96); opacity:0; }
+  100%{ transform:none; opacity:1; }
+}
+.panel h1{
+  font-size:34px; letter-spacing:2px; color:#ffd166;
+  text-shadow:0 3px 0 #6a4a10, 0 6px 18px rgba(0,0,0,.6);
+  margin-bottom:6px;
+}
+.panel h1 small{ display:block; font-size:12px; letter-spacing:5px; color:#8d8271; margin-top:6px; font-weight:400; }
+.panel .sub{ font-size:14px; color:#b9ad97; line-height:1.9; margin:14px 0 18px; text-align:left; }
+.panel .sub b{ color:#ffd166; }
+.panel .sub kbd{
+  display:inline-block; padding:1px 7px; margin:0 2px; border-radius:6px;
+  background:#4a3f33; border:1px solid #63553f; border-bottom-width:2px;
+  font-family:inherit; font-size:12px; color:#ffe9c2;
+}
+.btn{
+  padding:13px 44px; border:none; border-radius:999px; cursor:pointer;
+  font-size:19px; font-weight:800; letter-spacing:2px; color:#2b1c00;
+  background:linear-gradient(180deg,#ffe08a,#ffb52e);
+  box-shadow:0 6px 0 #a86f00, 0 12px 24px rgba(0,0,0,.45);
+  transition:transform .1s, box-shadow .1s, filter .15s;
+  font-family:inherit;
+}
+.btn:hover{ filter:brightness(1.06); }
+.btn:active{ transform:translateY(5px); box-shadow:0 1px 0 #a86f00, 0 6px 14px rgba(0,0,0,.4); }
+.final{ display:flex; justify-content:center; gap:36px; margin:10px 0 22px; }
+.final div{ display:flex; flex-direction:column; gap:4px; }
+.final .k{ font-size:12px; color:#8d8271; letter-spacing:1px; }
+.final .v{ font-size:32px; font-weight:900; color:#ffd166; font-variant-numeric:tabular-nums; }
+.final .v.new{ color:#9dff8a; }
+.badge{
+  display:inline-block; margin-bottom:12px; padding:4px 14px; border-radius:999px;
+  font-size:12px; letter-spacing:2px; color:#ffd9a0;
+  background:rgba(255,190,80,.14); border:1px solid rgba(255,190,80,.35);
+}
+
+/* ============================================================
+   作弊面板（按 P 开关）
+   ============================================================ */
+#cheatPanel{
+  position:absolute; right:14px; top:14px; z-index:50;
+  width:298px; max-height:calc(100% - 28px);
+  overflow-y:auto; overscroll-behavior:contain;
+  padding:12px 14px 14px; border-radius:14px;
+  background:linear-gradient(180deg, rgba(40,34,26,.97), rgba(26,22,17,.97));
+  border:1px solid #6b5a3e;
+  box-shadow:0 18px 44px rgba(0,0,0,.65), inset 0 1px 0 rgba(255,255,255,.07);
+  cursor:auto;
+  color:#e8dcc6; font-size:12px;
+  display:none;
+}
+#cheatPanel.on{ display:block; animation:ckIn .18s ease-out; }
+/* 入场动画刻意不含 opacity —— 万一动画不执行（或被系统"减少动态效果"关掉），
+   面板也只是不滑动，不会变成完全透明看不见 */
+@keyframes ckIn{
+  0%{ transform:translateY(-10px) scale(.98); }
+  100%{ transform:none; }
+}
+#cheatPanel::-webkit-scrollbar{ width:8px; }
+#cheatPanel::-webkit-scrollbar-thumb{ background:#5a4a33; border-radius:4px; }
+.ck-head{
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-size:14px; font-weight:800; color:#ffd166; margin-bottom:4px;
+  padding-bottom:8px; border-bottom:1px solid #4a3f2e;
+}
+.ck-head span{ font-size:10px; color:#8d8271; font-weight:400; }
+.ck-sec{ font-size:11px; color:#a2977f; letter-spacing:1px; margin:11px 0 6px; }
+.ck-row{ display:flex; flex-wrap:wrap; gap:6px; }
+.ck-btn{
+  flex:1 1 auto; min-width:58px;
+  padding:6px 8px; border-radius:8px;
+  background:#3a3129; border:1px solid #4d4335;
+  color:#e8dcc6; font-size:11px; font-family:inherit;
+  cursor:pointer; transition:background .12s, transform .08s;
+  white-space:nowrap;
+}
+.ck-btn:hover{ background:#4a3f33; }
+.ck-btn:active{ transform:scale(.95); }
+.ck-btn.on{
+  background:linear-gradient(180deg,#ffe08a,#ffb52e); color:#2b1c00;
+  border-color:#ffd166; font-weight:700;
+}
+.ck-btn.danger{ color:#ffb0a0; }
+.ck-btn.danger:hover{ background:#5a2a22; }
+.ck-slider{ display:flex; align-items:center; gap:8px; margin:7px 0; }
+.ck-slider label{ width:62px; color:#a2977f; font-size:11px; flex:0 0 auto; }
+.ck-slider input[type=range]{
+  flex:1 1 auto; min-width:0; height:16px; accent-color:#ffb52e; cursor:pointer;
+}
+.ck-slider .val{
+  width:48px; text-align:right; color:#ffd166;
+  font-variant-numeric:tabular-nums; flex:0 0 auto;
+}
+.ck-tip{ font-size:10px; color:#7d7362; line-height:1.6; margin-top:9px; }
+#cheatFlag{
+  display:none; padding:3px 10px; border-radius:999px;
+  font-size:11px; font-weight:700; letter-spacing:1px; color:#2b1c00;
+  background:linear-gradient(180deg,#ffe08a,#ffb52e);
+  animation:flagPulse 1.4s ease-in-out infinite;
+}
+#cheatFlag.on{ display:inline-block; }
+@keyframes flagPulse{ 0%,100%{ opacity:1; } 50%{ opacity:.55; } }
+</style>
+</head>
+<body data-page-node-id="6ea3BfltK5uaN2b0oge7P1">
+<div id="app" data-page-node-id="GYnOFygMAE2CtMa1gH9DuM">
+
+  <!-- ===================== 顶部 HUD ===================== -->
+  <header id="hud" data-page-node-id="B6lPysZCkHv2zR1vKy9Wmx">
+    <div class="hud-item" data-page-node-id="onsuEIt5pWs3xuPySDnS72">
+      <span class="label" data-page-node-id="IrH50oBLJ1Vf3Hp60Zqj9E">分数</span>
+      <span id="score" class="value" data-page-node-id="g1Oo25xijA7Un0bhwkLVZM">0</span>
+    </div>
+    <div class="sep" data-page-node-id="Qrhe14iy0Km2oWAvphylcZ"></div>
+    <div class="hud-item" data-page-node-id="rNgbV2iwfgfEqtsH52GMoS">
+      <span class="label" data-page-node-id="7onBmZnOe1A9GAYYpEVq6t">时间</span>
+      <div class="timebar" data-page-node-id="6UKTa8Fsaq6gqaT1eHfpnO"><i id="timebarFill" data-page-node-id="Bo2KfN0Exj7CQd0IBClnT9"></i></div>
+      <span id="time" class="value" style="font-size:18px;min-width:44px" data-page-node-id="y6zqr0uBIfKRCkFkGL3zvJ">60</span>
+    </div>
+    <div class="sep" data-page-node-id="KNRybTBIasADPCGei0iidX"></div>
+    <div class="hud-item" data-page-node-id="993X6NHAfrAqqyHrhKG39u">
+      <span class="label" data-page-node-id="WHKLwdJdxJffWJXSQcXaPI">道具</span>
+      <div class="tool-chip" data-page-node-id="FA02xTnFFjY5bna7S9u9Jg">
+        <span class="dot" id="toolDot" data-page-node-id="nRFlmtNyqHk8RqHEeCTZFH">🪰</span>
+        <span id="toolName" data-page-node-id="PiWrVCjSCpHI5KaSZ9RJqC">苍蝇拍</span>
+      </div>
+      <span class="keys" data-page-node-id="roLsSkAPgLi4dpgn0BF3CD">按 <b data-page-node-id="TxFYouEJZxa9F4VEoZ8yvU">1</b>/<b data-page-node-id="HNSsO3Dvx2cZIwrVQtIYrR">2</b>/<b data-page-node-id="fmV0LzWfcLPclrOPEmbBMw">3</b> 或 <b data-page-node-id="U43He6FjbbopUe45PRUpij">Q</b> 切换</span>
+    </div>
+    <div class="spacer" data-page-node-id="XuSAenZrkuom0vrHSGe2QA"></div>
+    <div class="hud-item" data-page-node-id="xO6htXGfwtRcYHTRQLOKDW">
+      <span class="label" data-page-node-id="6bJiEqPUsDlTVc2LJzhPlh">最高分</span>
+      <span id="best" class="value" style="font-size:18px;color:#b9ad97" data-page-node-id="ev1qKSj4noMDPYYdr7APSI">0</span>
+    </div>
+    <span id="cheatFlag">作弊中</span>
+    <button id="cheatBtn" class="icon-btn" title="作弊面板 (P)">🛠</button>
+    <button id="mute" class="icon-btn" title="音效开关" data-page-node-id="GaFE7pCRaPmRZOIu09dCG1">🔊</button>
+  </header>
+
+  <!-- ===================== 游戏舞台 ===================== -->
+  <main id="stage" data-page-node-id="cXqmgeOO8DZs1ERY0K1bEM">
+    <!-- 桌面装饰 -->
+    <div id="bgDeco" data-page-node-id="beQQLLXIggQwcqsizGpue9">
+      <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" data-page-node-id="QEsO5PkVfKtcFFwkGpaz4B">
+        <g opacity=".85" data-page-node-id="rXgmnzTJnTc8I2M0qhwvWv">
+          <!-- 盘子 -->
+          <g transform="translate(855,120)" data-page-node-id="fccxCzszLJYBmVDtDpG8aK">
+            <ellipse cx="0" cy="8" rx="118" ry="104" fill="rgba(0,0,0,.22)" data-page-node-id="gikuofmGIHkZG9bhlxdV4R"/>
+            <ellipse cx="0" cy="0" rx="118" ry="104" fill="#e4d9c6" data-page-node-id="PTylG5XmXoa1qDNc4QhqGa"/>
+            <ellipse cx="0" cy="0" rx="103" ry="90" fill="#f8f3e9" data-page-node-id="3qtyKBk0KNF86SnLXKztbV"/>
+            <ellipse cx="0" cy="0" rx="74" ry="64" fill="none" stroke="#e3d9c7" stroke-width="3" data-page-node-id="lDXvpTpYQAFL24hEIDRKIP"/>
+            <ellipse cx="-32" cy="-30" rx="38" ry="28" fill="rgba(255,255,255,.55)" data-page-node-id="jLLkkmbZEcjbNxIxSYFNQ3"/>
+          </g>
+          <!-- 木勺 -->
+          <g transform="translate(132,502) rotate(-24)" data-page-node-id="Ng2mslYjjsZcIzBJNQZcUO">
+            <rect x="-8" y="-126" width="16" height="164" rx="8" fill="#c99a5c" data-page-node-id="8oHhWjZNFdwWoVebKt08FR"/>
+            <ellipse cx="0" cy="68" rx="36" ry="47" fill="#d8a969" data-page-node-id="Zr1kZy48FYpETMSAb6HCHz"/>
+            <ellipse cx="0" cy="68" rx="24" ry="33" fill="#e6bc82" data-page-node-id="isCyMkx0El4SdEojlwcpfv"/>
+          </g>
+          <!-- 水渍 -->
+          <ellipse cx="330" cy="150" rx="62" ry="40" fill="rgba(80,50,20,.10)" data-page-node-id="JM3yWNHC0t9yTGXo8qG838"/>
+          <ellipse cx="352" cy="140" rx="34" ry="22" fill="rgba(80,50,20,.07)" data-page-node-id="CmfBIaolSp57aMpHFfgOft"/>
+        </g>
+      </svg>
+    </div>
+    <canvas id="fx" data-page-node-id="IFNRujZp0THyjCE3hPjqbZ"></canvas>
+    <div id="flies" data-page-node-id="gXVawWsM48xUEfB5LY4TtT"></div>
+
+    <!-- 自定义光标道具 -->
+    <div id="cursor" data-page-node-id="cnPcn0JYXjmyh4Whn5tmoY"><div class="tool-inner t-swat" data-page-node-id="BXdOqZhCfIyLys7HdGq4i9"></div></div>
+
+    <!-- 开始 / 结束面板 -->
+    <div id="overlay" data-page-node-id="TAdkQhlFcv6oLzZDPdmEKl">
+      <div class="panel" id="panel" data-page-node-id="0lqCpnFKwjtefGXIbVbC3L"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* ============================================================================
+   超级打苍蝇 · 单文件小游戏
+   ----------------------------------------------------------------------------
+   全部素材（苍蝇 / 苍蝇拍 / 手掌 / 脚）均由内联 SVG 绘制，无任何外部资源。
+   ============================================================================ */
+
+/* ==========================================================================
+   ★★★★★ 可调参数区（想改游戏手感，只改这里就够了） ★★★★★
+   ========================================================================== */
+const CONFIG = {
+  /* --- 苍蝇数量 --- */
+  FLY_COUNT_MIN : 9,      // 场上最少几只苍蝇
+  FLY_COUNT_MAX : 18,     // 场上最多几只苍蝇（难度满级时达到上限）
+
+  /* --- 苍蝇体型（数值越大苍蝇越大，7~12 大约是 44~75px 宽） --- */
+  FLY_SIZE_MIN  : 7,
+  FLY_SIZE_MAX  : 12,
+
+  /* --- 逃跑机制（核心）---
+     苍蝇平时停在桌面上不动，只有道具靠近到 FLEE_DIST 以内才会被惊动起飞 --- */
+  FLEE_DIST     : 100,    // 逃跑触发距离(px)：鼠标道具靠近到这个距离内就判定
+  FLEE_PROB     : 0.90,   // 逃跑概率：0.9 = 90% 立刻飞走，10% 原地不动
+  FLEE_SPEED    : 1400,   // 起飞初速度(px/s)——真实苍蝇受惊几乎是"弹射"出去的，快到看不清
+  FLEE_DRAG     : 2.6,    // 飞行减速系数（越大停得越快）
+  FLEE_DURATION : 0.50,   // 飞行持续时间(s)，到点后重新落下停住
+  FLEE_TRAIL    : true,   // 飞行时是否留下速度拖影（更有"嗖"一下的感觉）
+  SETTLE_TIME   : 0.35,   // 落地后多久才能被再次惊动(s)
+  FLEE_BOUNCE   : true,   // 撞到边界：true=弹回来继续躲（更好玩）/ false=直接飞出画布（会被移除）
+                          // 注意：无论开关如何，"自行飞走"的苍蝇飞出边界都会被移除
+  BRAVE_MIN     : 0.5,    // 决定"不逃跑"后原地不动的时长(s)
+  BRAVE_MAX     : 1.3,
+  ALERT_GROWTH  : 1.35,   // 被吓过一次后，逃跑触发距离放大倍数（越打越警觉）
+
+  /* --- 苍蝇寿命 --- */
+  FLY_LIFETIME  : 13,     // 苍蝇停着不动超过这么多秒会自己飞走(s)
+  AWAY_SPEED    : 560,    // 飞走时的速度(px/s)
+  SPAWN_INTERVAL: 0.35,   // 补充苍蝇的间隔(s)
+
+  /* --- 局内设置 --- */
+  GAME_TIME     : 60,     // 倒计时总时长(s)
+  SCORE_PER_HIT : 10,     // 每只苍蝇基础分（体型越小分越高）
+  DIFF_SCORE    : 350,    // 分数达到该值难度拉满（越小难度爬升越快）
+  DIFF_SPEED    : 1.90,   // 满级时移动速度倍率
+  DIFF_DIST     : 1.60,   // 满级时逃跑触发距离倍率（越大越灵敏）
+  DIFF_PROB     : 0.28,   // 满级时逃跑概率增量（0.90 → 最高 0.96）
+  HIT_RADIUS    : 18,     // 道具基础命中半径(px)，各道具另有自己的数值
+  SPLAT_FADE    : 0.055,  // 击打血渍消散速度（越小留得越久）
+
+  /* --- 嗡嗡声 --- */
+  BUZZ_VOLUME   : 0.11,   // 嗡嗡声最大音量（0~0.3，觉得吵就调小）
+  BUZZ_RANGE    : 240     // 鼠标离苍蝇多近时嗡嗡声最响(px)
+};
+
+/* 三种道具：名称 / 按键 / 命中半径 / 挥击冷却 / 图标 */
+const TOOLS = [
+  { id:'swat', name:'苍蝇拍', key:'1', icon:'🏓', hitR:CONFIG.HIT_RADIUS + 6,  cooldown:0.20, anim:'t-swat' },
+  { id:'hand', name:'手掌',   key:'2', icon:'✋', hitR:CONFIG.HIT_RADIUS + 3,  cooldown:0.26, anim:'t-hand' },
+  { id:'foot', name:'脚',     key:'3', icon:'🦶', hitR:CONFIG.HIT_RADIUS + 14, cooldown:0.42, anim:'t-foot' }
+];
+
+/* ==========================================================================
+   作弊系统（按 P 打开面板）
+   —— 开关类走 CHEAT 标记；数值类（概率/距离/速度）直接改 CONFIG，
+      因为游戏逻辑本来就是从 CONFIG 读的，改完立刻生效，重置时从快照还原。
+   ========================================================================== */
+const CONFIG_SNAPSHOT = JSON.parse(JSON.stringify(CONFIG));   // "重置全部作弊" 用
+
+const CHEAT = {
+  open       : false,   // 面板是否展开
+  freezeTime : false,   // 时间冻结（倒计时不走）
+  noFlee     : false,   // 苍蝇不逃跑
+  noLifetime : false,   // 苍蝇不会自行飞走
+  maxDiff    : false,   // 难度直接拉满
+  godHit     : false,   // 超级拍：命中半径 ×3
+  noCool     : false,   // 零挥击冷却
+  killAll    : false,   // 一击全屏：点一下清空所有苍蝇
+  autoClear  : false,   // 不停清屏：按固定间隔自动全屏清空并立刻补满
+  autoGap    : 1.0,     // 自动清屏间隔(s)
+  showDebug  : false,   // 显示判定范围（触发圈 / 命中圈）
+  slowmo     : false,   // 慢动作 0.3×
+  sizeMul    : 1        // 苍蝇体型倍率
+};
+
+/* 自动清屏飘字的落点：轮换使用，保证同时出现的几个飘字不会叠在一起 */
+const AUTO_TEXT_SPOTS = [[-168,-28],[168,-28],[0,-108],[-118,78],[118,78]];
+
+/* 是否有任何作弊项处于开启状态（用于 HUD 的"作弊中"角标） */
+function cheatActive(){
+  return CHEAT.freezeTime || CHEAT.noFlee || CHEAT.noLifetime || CHEAT.maxDiff ||
+         CHEAT.godHit || CHEAT.noCool || CHEAT.killAll || CHEAT.autoClear ||
+         CHEAT.showDebug || CHEAT.slowmo || CHEAT.sizeMul !== 1 ||
+         CONFIG.FLEE_PROB !== CONFIG_SNAPSHOT.FLEE_PROB ||
+         CONFIG.FLEE_DIST !== CONFIG_SNAPSHOT.FLEE_DIST ||
+         CONFIG.FLEE_SPEED !== CONFIG_SNAPSHOT.FLEE_SPEED;
+}
+
+/* ==========================================================================
+   道具 SVG 素材
+   ========================================================================== */
+const TOOL_SVG = {
+  /* 苍蝇拍：网格拍面 + 木柄，拍面中心对准光标 */
+  swat: `
+  <svg class="tool-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="woodG" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#e0aa6b"/><stop offset=".5" stop-color="#c0873f"/>
+        <stop offset="1" stop-color="#96601f"/>
+      </linearGradient>
+      <linearGradient id="headG" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#4c4c58"/><stop offset="1" stop-color="#26262e"/>
+      </linearGradient>
+    </defs>
+    <g transform="rotate(-30 100 100)">
+      <!-- 手柄 -->
+      <rect x="146" y="92" width="120" height="16" rx="8" fill="url(#woodG)" stroke="#6d451a" stroke-width="2"/>
+      <rect x="238" y="88" width="30" height="24" rx="12" fill="#5e3a14"/>
+      <!-- 拍面 -->
+      <rect x="56" y="56" width="88" height="88" rx="14" fill="url(#headG)" stroke="#1b1b21" stroke-width="6"/>
+      <!-- 网面 -->
+      <g stroke="#9aa0b4" stroke-width="2" opacity=".75">
+        <path d="M68 62 V138 M80 62 V138 M92 62 V138 M104 62 V138 M116 62 V138 M128 62 V138"/>
+        <path d="M62 68 H138 M62 80 H138 M62 92 H138 M62 104 H138 M62 116 H138 M62 128 H138"/>
+      </g>
+      <rect x="56" y="56" width="88" height="88" rx="14" fill="none" stroke="#6b6b7d" stroke-width="2"/>
+    </g>
+  </svg>`,
+
+  /* 手掌 */
+  hand: `
+  <svg class="tool-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="skinG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffd9b4"/><stop offset="1" stop-color="#e8ac7c"/>
+      </linearGradient>
+    </defs>
+    <!-- 手腕 -->
+    <rect x="76" y="132" width="50" height="80" rx="20" fill="#dc9d6c" stroke="#c2844f" stroke-width="2"/>
+    <!-- 手指 -->
+    <g fill="url(#skinG)" stroke="#d1935c" stroke-width="2.5">
+      <rect x="58" y="30" width="17" height="70" rx="8.5"/>
+      <rect x="78" y="20" width="17" height="80" rx="8.5"/>
+      <rect x="98" y="26" width="17" height="74" rx="8.5"/>
+      <rect x="118" y="42" width="17" height="58" rx="8.5"/>
+    </g>
+    <!-- 拇指 -->
+    <rect x="34" y="92" width="18" height="52" rx="9" fill="url(#skinG)" stroke="#d1935c" stroke-width="2.5"
+          transform="rotate(-42 43 118)"/>
+    <!-- 手掌 -->
+    <path d="M56 84 h80 a16 16 0 0 1 16 16 v30 a34 34 0 0 1 -34 34 h-44 a34 34 0 0 1 -34 -34 v-30 a16 16 0 0 1 16 -16 z"
+          fill="url(#skinG)" stroke="#d1935c" stroke-width="2.5"/>
+    <!-- 掌纹 -->
+    <g stroke="#cf8f57" stroke-width="2" fill="none" opacity=".7">
+      <path d="M66 104 q34 -12 68 0"/>
+      <path d="M70 120 q30 -8 58 2"/>
+      <path d="M78 136 q22 -6 44 2"/>
+    </g>
+  </svg>`,
+
+  /* 脚（鞋底俯视） */
+  foot: `
+  <svg class="tool-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="soleG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#4a4a56"/><stop offset="1" stop-color="#22222a"/>
+      </linearGradient>
+    </defs>
+    <!-- 鞋底 -->
+    <path d="M100 14
+             C132 14 152 44 152 82
+             C152 120 138 144 132 170
+             C128 188 117 194 100 194
+             C83 194 72 188 68 170
+             C62 144 48 120 48 82
+             C48 44 68 14 100 14 Z"
+          fill="url(#soleG)" stroke="#141419" stroke-width="7"/>
+    <!-- 内底 -->
+    <path d="M100 30
+             C124 30 139 54 139 84
+             C139 116 127 138 122 162
+             C119 176 111 180 100 180
+             C89 180 81 176 78 162
+             C73 138 61 116 61 84
+             C61 54 76 30 100 30 Z"
+          fill="#3a3a45" stroke="#5c5c6c" stroke-width="2"/>
+    <!-- 鞋头压线 -->
+    <path d="M64 74 q36 -18 72 0" fill="none" stroke="#6a6a7d" stroke-width="3"/>
+    <!-- 防滑纹 -->
+    <g stroke="#6a6a7d" stroke-width="4" stroke-linecap="round" opacity=".85">
+      <path d="M68 100 h64"/>
+      <path d="M70 116 h60"/>
+      <path d="M74 132 h52"/>
+      <path d="M78 148 h44"/>
+      <path d="M84 164 h32"/>
+    </g>
+    <!-- 高光 -->
+    <ellipse cx="82" cy="58" rx="14" ry="22" fill="rgba(255,255,255,.10)"/>
+  </svg>`
+};
+
+/* ==========================================================================
+   苍蝇 SVG 模板（头朝右，中心点 = 视口中心 60,40）
+   ========================================================================== */
+const FLY_SVG = `
+<svg class="fly-svg" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- 腿 -->
+  <g class="legs">
+    <g class="leg-set">
+      <path d="M60 52 L50 73"/><path d="M74 54 L70 77"/><path d="M44 52 L30 71"/>
+      <path d="M60 28 L50 7"/><path d="M74 26 L70 3"/><path d="M44 28 L30 9"/>
+    </g>
+  </g>
+  <!-- 身体 -->
+  <ellipse class="body-ab" cx="40" cy="40" rx="27" ry="18"/>
+  <ellipse class="body-th" cx="70" cy="40" rx="17" ry="16"/>
+  <ellipse class="body-hd" cx="92" cy="40" rx="13" ry="12"/>
+  <!-- 触角 -->
+  <path class="antenna" d="M97 32 L111 23 M97 48 L111 57"/>
+  <!-- 复眼 -->
+  <ellipse class="eye" cx="98" cy="33" rx="7" ry="6"/>
+  <ellipse class="eye" cx="98" cy="47" rx="7" ry="6"/>
+  <!-- 金属光泽 -->
+  <ellipse class="sheen" cx="44" cy="32" rx="17" ry="6.5" transform="rotate(-10 44 32)"/>
+  <!-- 翅膀（半透明，盖在背上） -->
+  <g transform="translate(72,30)">
+    <g class="wing wing-a"><ellipse class="wing-shape" cx="-33" cy="-4" rx="34" ry="9" transform="rotate(14 -33 -4)"/></g>
+  </g>
+  <g transform="translate(72,50)">
+    <g class="wing wing-b"><ellipse class="wing-shape" cx="-33" cy="4" rx="34" ry="9" transform="rotate(-14 -33 4)"/></g>
+  </g>
+</svg>`;
+
+/* ==========================================================================
+   DOM 引用 & 全局状态
+   ========================================================================== */
+const stage    = document.getElementById('stage');
+const flyLayer = document.getElementById('flies');
+const fxCanvas = document.getElementById('fx');
+const ctx      = fxCanvas.getContext('2d');
+const cursorEl = document.getElementById('cursor');
+const overlay  = document.getElementById('overlay');
+const panel    = document.getElementById('panel');
+const elScore  = document.getElementById('score');
+const elTime   = document.getElementById('time');
+const elBar    = document.getElementById('timebarFill');
+const elTool   = document.getElementById('toolName');
+const elToolDot= document.getElementById('toolDot');
+const elBest   = document.getElementById('best');
+const btnMute  = document.getElementById('mute');
+
+const G = {
+  state      : 'idle',            // idle | playing | over
+  score      : 0,
+  best       : 0,
+  timeLeft   : CONFIG.GAME_TIME,
+  tool       : 0,                 // 当前道具索引
+  mouse      : { x:-999, y:-999, inside:false },
+  flies      : [],
+  particles  : [],
+  decals     : [],
+  spawnTimer : 0,
+  lastTs     : 0,
+  diff       : null,
+  cool       : 0,                 // 挥击冷却
+  lastTick   : 99,
+  buzzTimer  : 0,                 // 嗡嗡声音量刷新节流
+  autoTimer  : 0,                 // 自动清屏倒计时
+  autoTextSlot : 0,               // 自动清屏飘字的落点轮换下标
+  W          : 0,
+  H          : 0
+};
+
+/* 工具函数 */
+const rand  = (a,b) => a + Math.random() * (b - a);
+const randI = (a,b) => Math.floor(rand(a, b + 1));
+const clamp = (v,a,b) => v < a ? a : (v > b ? b : v);
+
+/* ==========================================================================
+   音效（Web Audio，纯代码合成，无外部音频文件）
+   ========================================================================== */
+const Sfx = (() => {
+  let ac = null, master = null, enabled = true, failed = false;
+  let noiseBuf = null;
+
+  function ensure(){
+    if (failed) return null;
+    try {
+      if (!ac){
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC){ failed = true; return null; }
+        ac = new AC();
+        master = ac.createGain();
+        master.gain.value = enabled ? 0.5 : 0;
+        master.connect(ac.destination);
+        // 预生成白噪声
+        const len = Math.floor(ac.sampleRate * 0.6);
+        noiseBuf = ac.createBuffer(1, len, ac.sampleRate);
+        const d = noiseBuf.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      }
+      if (ac.state === 'suspended'){
+        const p = ac.resume();
+        if (p && p.catch) p.catch(() => {});     // 自动播放策略被拦时不炸
+      }
+      return ac;
+    } catch(e){
+      failed = true;                             // 没有音频设备也不影响游戏运行
+      ac = null; master = null;
+      return null;
+    }
+  }
+
+  function noise(dur, gain, filterType, f0, f1){
+    const a = ensure(); if (!a || !enabled) return;
+    const src = a.createBufferSource(); src.buffer = noiseBuf;
+    const flt = a.createBiquadFilter();
+    flt.type = filterType; flt.Q.value = 1;
+    flt.frequency.setValueAtTime(f0, a.currentTime);
+    flt.frequency.exponentialRampToValueAtTime(Math.max(40, f1), a.currentTime + dur);
+    const g = a.createGain();
+    g.gain.setValueAtTime(gain, a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + dur);
+    src.connect(flt); flt.connect(g); g.connect(master);
+    src.start(); src.stop(a.currentTime + dur + 0.02);
+  }
+
+  function tone(freq, dur, gain, type, slideTo){
+    const a = ensure(); if (!a || !enabled) return;
+    const o = a.createOscillator(); o.type = type || 'sine';
+    o.frequency.setValueAtTime(freq, a.currentTime);
+    if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, a.currentTime + dur);
+    const g = a.createGain();
+    g.gain.setValueAtTime(gain, a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + dur);
+    o.connect(g); g.connect(master);
+    o.start(); o.stop(a.currentTime + dur + 0.02);
+  }
+
+  /* ---------- 持续嗡嗡声（苍蝇的环境音） ----------
+     两个略微失谐的锯齿波 → 带通滤波 → 低通，
+     再用一个 11.5Hz 的 LFO 调制音高，得到那种"嗡嗡抖"的苍蝇声。
+     音量由 setBuzzLevel(0~1) 实时控制：苍蝇越多、离鼠标越近就越响。 */
+  let buzzNodes = null, lastBurst = 0;
+
+  function startBuzz(){
+    const a = ensure();
+    if (!a || buzzNodes) return;
+    const g = a.createGain();          g.gain.value = 0.0001;
+    const flt = a.createBiquadFilter(); flt.type = 'bandpass'; flt.frequency.value = 430; flt.Q.value = 2.2;
+    const lp = a.createBiquadFilter();  lp.type = 'lowpass';   lp.frequency.value = 2400;
+    const o1 = a.createOscillator();    o1.type = 'sawtooth';  o1.frequency.value = 186;
+    const o2 = a.createOscillator();    o2.type = 'sawtooth';  o2.frequency.value = 190.5;   // 轻微失谐 → 拍频
+    const lfo = a.createOscillator();   lfo.type = 'sine';     lfo.frequency.value = 11.5;
+    const lfoG = a.createGain();        lfoG.gain.value = 30;                                // 颤音深度(Hz)
+    lfo.connect(lfoG);
+    lfoG.connect(o1.frequency);
+    lfoG.connect(o2.frequency);
+    o1.connect(flt); o2.connect(flt);
+    flt.connect(lp); lp.connect(g); g.connect(master);
+    o1.start(); o2.start(); lfo.start();
+    buzzNodes = { g, o1, o2, lfo };
+  }
+
+  function stopBuzz(){
+    const a = ac, b = buzzNodes;
+    if (!a || !b) return;
+    buzzNodes = null;                                  // 先断开引用，避免重复调用
+    try {
+      b.g.gain.cancelScheduledValues(a.currentTime);
+      b.g.gain.setTargetAtTime(0.0001, a.currentTime, 0.18);
+      setTimeout(() => {
+        [b.o1, b.o2, b.lfo].forEach(o => { try { o.stop(); } catch(e){} });
+      }, 1000);
+    } catch(e){}
+  }
+
+  function setBuzzLevel(v){
+    if (!buzzNodes || !ac) return;
+    const t = Math.max(0, Math.min(1, v));
+    try {
+      buzzNodes.g.gain.setTargetAtTime(t * CONFIG.BUZZ_VOLUME + 0.0001, ac.currentTime, 0.12);
+    } catch(e){}
+  }
+
+  return {
+    unlock(){ ensure(); },
+    setEnabled(v){
+      enabled = v;
+      if (v) ensure();
+      if (master) master.gain.value = v ? 0.5 : 0;      // 静音时把总音量归零（持续音也会一起静掉）
+    },
+    isEnabled(){ return enabled; },
+    /* 拍中：啪 + 低音闷响 */
+    splat(){ noise(0.16, 0.85, 'lowpass', 2600, 260); tone(150, 0.12, 0.5, 'triangle', 60); },
+    /* 挥空：咻 */
+    whoosh(){ noise(0.12, 0.22, 'bandpass', 1600, 420); },
+    /* 苍蝇从耳边窜过：音高先升后降的一记嗡 */
+    buzzBurst(){
+      const a = ensure(); if (!a || !enabled) return;
+      if (a.currentTime - lastBurst < 0.07) return;     // 节流：同时多只逃跑时不会糊成一团
+      lastBurst = a.currentTime;
+      const o = a.createOscillator(); o.type = 'sawtooth';
+      const t0 = a.currentTime;
+      o.frequency.setValueAtTime(rand(200, 240), t0);
+      o.frequency.exponentialRampToValueAtTime(rand(420, 560), t0 + 0.12);
+      o.frequency.exponentialRampToValueAtTime(rand(180, 220), t0 + 0.26);
+      const bp = a.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 700; bp.Q.value = 2;
+      const g = a.createGain();
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.14, t0 + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.30);
+      o.connect(bp); bp.connect(g); g.connect(master);
+      o.start(); o.stop(t0 + 0.34);
+    },
+    /* 最后 5 秒滴答 */
+    tick(){ tone(880, 0.07, 0.22, 'square'); },
+    /* 开始 */
+    start(){ tone(523, 0.10, 0.28, 'square'); setTimeout(()=>tone(784, 0.16, 0.28, 'square'), 110); },
+    /* 结束 */
+    over(){ tone(440, 0.18, 0.3, 'sawtooth', 300); setTimeout(()=>tone(300, 0.36, 0.3, 'sawtooth', 130), 170); },
+    /* 嗡嗡声控制 */
+    startBuzz, stopBuzz, setBuzzLevel
+  };
+})();
+
+/* ==========================================================================
+   画布尺寸（适配高 DPI）
+   ========================================================================== */
+function resizeCanvas(){
+  const r = stage.getBoundingClientRect();
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  G.W = r.width; G.H = r.height;
+  fxCanvas.width  = Math.round(r.width  * dpr);
+  fxCanvas.height = Math.round(r.height * dpr);
+  fxCanvas.style.width  = r.width  + 'px';
+  fxCanvas.style.height = r.height + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+/* ==========================================================================
+   难度曲线：分数越高 → 移动越快、逃跑判定越远、逃跑概率越高
+   ========================================================================== */
+function difficulty(){
+  const lvl = CHEAT.maxDiff ? 1 : clamp(G.score / CONFIG.DIFF_SCORE, 0, 1);
+  return {
+    lvl       : lvl,
+    speedMul  : 1 + (CONFIG.DIFF_SPEED - 1) * lvl,
+    distMul   : 1 + (CONFIG.DIFF_DIST  - 1) * lvl,
+    prob      : Math.min(0.96, CONFIG.FLEE_PROB + CONFIG.DIFF_PROB * lvl),
+    maxFlies  : Math.round(CONFIG.FLY_COUNT_MIN + (CONFIG.FLY_COUNT_MAX - CONFIG.FLY_COUNT_MIN) * lvl)
+  };
+}
+
+/* ==========================================================================
+   苍蝇：创建 / 更新 / 销毁
+   ========================================================================== */
+function createFly(){
+  if (!G.W || !G.H) return null;
+
+  // 体型 = 基础随机值 × 作弊倍率（改倍率时可以就地重算，不用重新生成）
+  const baseSize = rand(CONFIG.FLY_SIZE_MIN, CONFIG.FLY_SIZE_MAX);
+  const size  = baseSize * CHEAT.sizeMul;
+  const scale = size / 16;
+  const m     = size + 30;                                  // 出生点留边
+  const x     = rand(m, Math.max(m + 1, G.W - m));
+  const y     = rand(m + 20, Math.max(m + 21, G.H - m));
+
+  const el = document.createElement('div');
+  el.className = 'fly spawn';
+  el.style.setProperty('--s', String(scale));
+  el.style.setProperty('--hue', String(randI(180, 285)));
+  el.innerHTML = FLY_SVG;
+  flyLayer.appendChild(el);
+
+  const f = {
+    el, x, y,
+    size,
+    baseSize,                       // 未乘作弊倍率的原始体型
+    scale,
+    angle : rand(0, Math.PI * 2),   // 朝向（弧度，0 = 朝右）
+    speed : 0,                      // 只有"自行飞走"时才会用到
+    vx: 0, vy: 0,
+    state : 'idle',                 // idle=停着不动 | flee=被惊动起飞 | away=飞出画布
+    fleeUntil  : 0,
+    alertUntil : 0,                 // 这段时间内不再重复掷骰子
+    alerted    : false,             // 是否被吓过（吓过之后触发距离变大）
+    age   : 0,
+    seed  : Math.random() * 10,
+    dead  : false
+  };
+  G.flies.push(f);
+  setTimeout(() => el.classList.remove('spawn'), 300);
+  return f;
+}
+
+function removeFly(f){
+  if (f.dead) return;
+  f.dead = true;
+  f.el.remove();
+  const i = G.flies.indexOf(f);
+  if (i >= 0) G.flies.splice(i, 1);
+}
+
+/* 逃跑：朝远离鼠标的方向（带随机偏移）弹射出去 */
+function startFlee(f, dx, dy, now){
+  const away = Math.atan2(-dy, -dx) + rand(-0.95, 0.95);
+  const sp   = CONFIG.FLEE_SPEED * G.diff.speedMul * rand(0.82, 1.25);
+  f.vx = Math.cos(away) * sp;
+  f.vy = Math.sin(away) * sp;
+  f.state = 'flee';
+  f.angle = away;
+  f.fleeUntil  = now + CONFIG.FLEE_DURATION;
+  f.alertUntil = now + 0.45;
+  f.el.classList.add('fleeing');
+  f.alerted = true;                    // 被吓过一次后更警觉（触发距离变大）
+  Sfx.buzzBurst();
+}
+
+/* 自行飞走（停留太久） */
+function startAway(f, now){
+  f.state = 'away';
+  f.speed = CONFIG.AWAY_SPEED * rand(0.85, 1.2);
+  // 朝最近边界方向飞走
+  const cx = G.W / 2, cy = G.H / 2;
+  f.angle = Math.atan2(f.y - cy, f.x - cx) + rand(-0.5, 0.5);
+  f.el.classList.add('away');
+  f.el.classList.remove('fleeing');
+  Sfx.buzzBurst();
+}
+
+function updateFly(f, dt, now){
+  const W = G.W, H = G.H;
+  const D = G.diff;
+
+  /* ---------- 飞出画布中：直线离场，出界即移除 ---------- */
+  if (f.state === 'away'){
+    f.x += Math.cos(f.angle) * f.speed * dt;
+    f.y += Math.sin(f.angle) * f.speed * dt;
+    f.angle += Math.sin(now * 7 + f.seed) * 0.8 * dt;
+    f.age += dt;
+    if (f.x < -90 || f.x > W + 90 || f.y < -90 || f.y > H + 90) removeFly(f);
+    return;
+  }
+
+  /* ---------- 停在桌面上：一动不动，只做原地小动作 ---------- */
+  if (f.state === 'idle'){
+    const dx = G.mouse.x - f.x;
+    const dy = G.mouse.y - f.y;
+    const dist = Math.hypot(dx, dy);
+    // 逃跑触发距离：基础 × 难度倍率 × （被吓过的苍蝇更警觉）
+    const trig = CONFIG.FLEE_DIST * D.distMul * (f.alerted ? CONFIG.ALERT_GROWTH : 1);
+
+    // 道具靠近 → 掷骰子：90% 立刻飞走，10% 愣在原地任你打
+    // （作弊「苍蝇不逃跑」开启时直接跳过判定，它们会乖乖停着）
+    if (!CHEAT.noFlee && G.mouse.inside && dist < trig && now >= f.alertUntil){
+      if (Math.random() < D.prob){
+        startFlee(f, dx, dy, now);
+      } else {
+        f.alertUntil = now + rand(CONFIG.BRAVE_MIN, CONFIG.BRAVE_MAX);
+      }
+    }
+
+    // 寿命：一直没人惊动它，待久了就自己飞走
+    f.age += dt;
+    if (!CHEAT.noLifetime && f.state === 'idle' && f.age > CONFIG.FLY_LIFETIME) startAway(f, now);
+    return;
+  }
+
+  /* ---------- 被惊动起飞：飞一段距离后重新落下停住 ---------- */
+  const k = Math.exp(-CONFIG.FLEE_DRAG * dt);
+  f.vx *= k; f.vy *= k;
+  f.x += f.vx * dt;
+  f.y += f.vy * dt;
+
+  const sp = Math.hypot(f.vx, f.vy);
+  if (sp > 12) f.angle = Math.atan2(f.vy, f.vx);
+
+  // 边界处理
+  const m = f.size * 0.7;
+  if (f.x < m || f.x > W - m || f.y < m || f.y > H - m){
+    if (CONFIG.FLEE_BOUNCE){
+      if (f.x < m){ f.x = m; f.vx = Math.abs(f.vx); }
+      if (f.x > W - m){ f.x = W - m; f.vx = -Math.abs(f.vx); }
+      if (f.y < m){ f.y = m; f.vy = Math.abs(f.vy); }
+      if (f.y > H - m){ f.y = H - m; f.vy = -Math.abs(f.vy); }
+    } else {
+      removeFly(f); return;               // 逃出画布 → 移除
+    }
+  }
+
+  // 飞够了 → 重新落下停住（落地后有一小段"惊魂未定"的冷却）
+  if (sp < 40 || now > f.fleeUntil){
+    f.state = 'idle';
+    f.vx = f.vy = 0;
+    f.alertUntil = now + CONFIG.SETTLE_TIME;
+    f.el.classList.remove('fleeing');
+  }
+  f.age += dt;
+}
+
+/* 把位置写进 DOM transform */
+function renderFly(f){
+  f.el.style.transform =
+    'translate3d(' + f.x.toFixed(2) + 'px,' + f.y.toFixed(2) + 'px,0) rotate(' +
+    (f.angle * 180 / Math.PI).toFixed(1) + 'deg)';
+}
+
+/* ==========================================================================
+   击打特效：粒子 + 血渍 + 飘分
+   ========================================================================== */
+const GOO = ['#d9e04a','#bcc72f','#8f9a1f','#eaf27d','#a8b52b'];
+const DUST = ['#ffffff','#efe8da','#cfc6b4'];      // 挥空 / 被溜走时的灰尘
+
+function spawnDust(x, y, n){
+  for (let i = 0; i < (n || 11); i++){
+    const a = rand(0, Math.PI * 2), s = rand(70, 250);
+    G.particles.push({
+      x, y,
+      vx: Math.cos(a) * s,
+      vy: Math.sin(a) * s - rand(20, 90),
+      r: rand(1.4, 3.4),
+      life: rand(0.22, 0.5), max: 1,
+      color: DUST[randI(0, DUST.length - 1)]
+    });
+  }
+}
+
+function spawnSplat(x, y, size, light){
+  const sc = clamp(size / 9, 0.6, 1.4);          // 血渍随苍蝇体型缩放
+  // 飞溅粒子（light = 自动清屏用的精简版，避免几十只同时爆粒子拖慢帧率）
+  const n = light ? randI(5, 9) : randI(20, 30);
+  for (let i = 0; i < n; i++){
+    const a = rand(0, Math.PI * 2);
+    const s = rand(90, 440) * sc;
+    G.particles.push({
+      x, y,
+      vx: Math.cos(a) * s,
+      vy: Math.sin(a) * s - rand(40, 170),
+      r: rand(1.5, 4.4) * sc,
+      life: rand(0.4, 1.0), max: 1,
+      color: GOO[randI(0, GOO.length - 1)]
+    });
+  }
+  // 留在桌面上的血渍
+  const blobs = [];
+  const bn = light ? randI(3, 5) : randI(8, 14);
+  for (let i = 0; i < bn; i++){
+    const a = rand(0, Math.PI * 2), d = rand(0, 30) * sc;
+    blobs.push({ dx: Math.cos(a) * d, dy: Math.sin(a) * d, r: rand(3.4, 11) * sc, c: GOO[randI(0, 3)] });
+  }
+  for (let i = 0; i < (light ? 2 : 7); i++){          // 外围小血点
+    const a = rand(0, Math.PI * 2), d = rand(30, 78) * sc;
+    blobs.push({ dx: Math.cos(a) * d, dy: Math.sin(a) * d, r: rand(1.4, 3.6) * sc, c: GOO[randI(0, 3)] });
+  }
+  G.decals.push({ x, y, blobs, a: 0.92 });
+  if (G.decals.length > 40) G.decals.shift();
+}
+
+function updateFX(dt){
+  ctx.clearRect(0, 0, G.W, G.H);
+
+  // 血渍（慢慢变淡）
+  for (let i = G.decals.length - 1; i >= 0; i--){
+    const d = G.decals[i];
+    d.a -= CONFIG.SPLAT_FADE * dt;
+    if (d.a <= 0){ G.decals.splice(i, 1); continue; }
+    ctx.globalAlpha = d.a;
+    for (const b of d.blobs){
+      ctx.fillStyle = b.c;
+      ctx.beginPath();
+      ctx.arc(d.x + b.dx, d.y + b.dy, b.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  // 粒子（ghost = 苍蝇高速飞行留下的拖影，不受重力影响、只淡出）
+  ctx.globalAlpha = 1;
+  for (let i = G.particles.length - 1; i >= 0; i--){
+    const p = G.particles[i];
+    if (!p.ghost){
+      p.vy += 1150 * dt;
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+    }
+    p.life -= dt;
+    if (p.life <= 0){ G.particles.splice(i, 1); continue; }
+    ctx.globalAlpha = p.ghost ? Math.min(1, p.life * 6) * 0.34 : Math.min(1, p.life * 2.4);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.ghost ? p.r : p.r * (0.5 + p.life), 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  drawDebug();                 // 作弊：判定范围可视化
+}
+
+/* 作弊「判定范围可视化」：画出命中圈、逃跑触发圈，以及已经踩进触发圈的苍蝇 */
+function drawDebug(){
+  if (!CHEAT.showDebug || !G.mouse.inside || G.state !== 'playing') return;
+
+  const tool   = TOOLS[G.tool];
+  const avgSize = (CONFIG.FLY_SIZE_MIN + CONFIG.FLY_SIZE_MAX) / 2 * CHEAT.sizeMul;
+  const hitR   = (tool.hitR + avgSize * 0.6) * (CHEAT.godHit ? 3 : 1);
+
+  // 命中范围（绿实线）
+  ctx.beginPath();
+  ctx.arc(G.mouse.x, G.mouse.y, hitR, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(120,255,120,.10)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(120,255,120,.85)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // 逃跑触发范围（红虚线）
+  const trig = CONFIG.FLEE_DIST * (G.diff ? G.diff.distMul : 1);
+  ctx.beginPath();
+  ctx.arc(G.mouse.x, G.mouse.y, trig, 0, Math.PI * 2);
+  ctx.setLineDash([9, 7]);
+  ctx.strokeStyle = 'rgba(255,90,90,.8)';
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // 已进入触发范围的苍蝇：黄圈标出（下一帧它们就要掷骰子了）
+  for (const f of G.flies){
+    if (f.state !== 'idle') continue;
+    const t2 = trig * (f.alerted ? CONFIG.ALERT_GROWTH : 1);
+    if (Math.hypot(f.x - G.mouse.x, f.y - G.mouse.y) < t2){
+      ctx.beginPath();
+      ctx.arc(f.x, f.y, f.size * 1.5, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,220,60,.95)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  }
+}
+
+function floatText(x, y, text, cls){
+  const d = document.createElement('div');
+  d.className = 'float-text' + (cls ? ' ' + cls : '');
+  d.textContent = text;
+  d.style.left = x + 'px';
+  d.style.top  = y + 'px';
+  stage.appendChild(d);
+  setTimeout(() => d.remove(), 820);
+}
+
+/* ==========================================================================
+   击打逻辑
+   ========================================================================== */
+/* 作弊：一键清空全场（照常结算分数与血渍）
+   auto = true 是「不停清屏」模式：精简血渍 + 立刻补满 + 不弹飘字，避免刷屏刷到卡 */
+function cheatKillAll(auto){
+  const D = G.diff || difficulty();
+  let pts = 0, n = 0;
+  for (const f of G.flies.slice()){
+    if (f.dead) continue;
+    pts += Math.round((CONFIG.SCORE_PER_HIT + (CONFIG.FLY_SIZE_MAX - f.size) * 1.4) * (1 + D.lvl * 0.5));
+    n++;
+    spawnSplat(f.x, f.y, f.size, auto);
+    f.el.classList.add('dead');
+    const el = f.el;
+    setTimeout(() => el.remove(), 220);
+    f.dead = true;
+    const i = G.flies.indexOf(f);
+    if (i >= 0) G.flies.splice(i, 1);
+  }
+  G.score += pts;
+
+  if (auto){
+    // 立刻补满，好让下一轮还有得清（真正的"不停"）。
+    // 但间隔拉到极短时（0.05s = 每秒清 20 轮），补满 18 只等于每秒新建 360 个
+    // 带内联 SVG 的元素，会明显掉帧 —— 所以按间隔自适应减少补员数量，
+    // 把"每秒新建苍蝇数"压在 ~80 只以内
+    const want = Math.min(CONFIG.FLY_COUNT_MAX,
+                          Math.max(4, Math.round(80 * CHEAT.autoGap)));
+    for (let i = G.flies.length; i < want; i++) createFly();
+  }
+
+  if (n){
+    // 飘字两种模式都保留。自动清屏触发很密，所以：
+    //   1) 落点按 AUTO_TEXT_SPOTS 轮换，同时出现的几个不会叠在一起
+    //   2) 限制同时存在的数量（上限 4），间隔拉到 0.2s 也不会糊成一片
+    let ox = 0, oy = 0;
+    if (auto){
+      const alive = stage.querySelectorAll('.float-text');
+      for (let i = 0; i <= alive.length - 4; i++) alive[i].remove();
+      G.autoTextSlot = (G.autoTextSlot + 1) % AUTO_TEXT_SPOTS.length;
+      ox = AUTO_TEXT_SPOTS[G.autoTextSlot][0];
+      oy = AUTO_TEXT_SPOTS[G.autoTextSlot][1];
+    }
+    Sfx.splat();
+    floatText(G.W / 2 + ox, G.H / 2 + oy, '全场清空 +' + pts);
+  } else if (!auto){
+    floatText(G.W / 2, G.H / 2, '场上没有苍蝇', 'miss');
+  }
+  updateHUD(true);
+}
+
+function trySwat(mx, my){
+  /* ---- 作弊：一击全屏 ---- */
+  if (CHEAT.killAll){ cheatKillAll(); return; }
+
+  const tool = TOOLS[G.tool];
+  const reach = CHEAT.godHit ? 3 : 1;               // 超级拍：命中半径 ×3
+  let target = null, bestD = Infinity;
+
+  for (const f of G.flies){
+    if (f.dead) continue;
+    const d = Math.hypot(f.x - mx, f.y - my);
+    const rr = (tool.hitR + f.size * 0.6) * reach;
+    if (d < rr && d < bestD){ bestD = d; target = f; }
+  }
+
+  /* ---- 挥空：不加分 ---- */
+  if (!target){
+    Sfx.whoosh();
+    spawnDust(mx, my, 7);
+    floatText(mx, my, 'MISS', 'miss');
+    return;
+  }
+
+  /* ---- 击杀得分 ---- */
+  const D = G.diff || difficulty();
+  const pts = Math.round((CONFIG.SCORE_PER_HIT + (CONFIG.FLY_SIZE_MAX - target.size) * 1.4) * (1 + D.lvl * 0.5));
+  G.score += pts;
+
+  spawnSplat(target.x, target.y, target.size);
+  floatText(target.x, target.y - 10, '+' + pts);
+
+  target.el.classList.add('dead');
+  const el = target.el;
+  setTimeout(() => el.remove(), 220);
+  target.dead = true;
+  const i = G.flies.indexOf(target);
+  if (i >= 0) G.flies.splice(i, 1);
+
+  Sfx.splat();
+  updateHUD(true);
+}
+
+/* ==========================================================================
+   HUD 更新
+   ========================================================================== */
+function updateHUD(pop){
+  elScore.textContent = G.score;
+  if (pop){
+    elScore.classList.remove('pop');
+    void elScore.offsetWidth;              // 强制重排以重播动画
+    elScore.classList.add('pop');
+  }
+  elBest.textContent = G.best;
+}
+
+function updateTimeUI(){
+  const t = Math.max(0, Math.ceil(G.timeLeft));
+  elTime.textContent = t;
+  const ratio = clamp(G.timeLeft / CONFIG.GAME_TIME, 0, 1);
+  elBar.style.width = (ratio * 100).toFixed(1) + '%';
+  elBar.classList.toggle('mid', ratio <= 0.5 && ratio > 0.2);
+  elBar.classList.toggle('low', ratio <= 0.2);
+  // 最后 5 秒滴答
+  if (G.state === 'playing' && t <= 5 && t !== G.lastTick){
+    G.lastTick = t;
+    Sfx.tick();
+  }
+}
+
+/* ==========================================================================
+   嗡嗡声：苍蝇越多越吵，鼠标离苍蝇越近越响
+   ========================================================================== */
+function buzzLevel(){
+  let prox = 0;
+  if (G.mouse.inside){
+    for (const f of G.flies){
+      const d = Math.hypot(f.x - G.mouse.x, f.y - G.mouse.y);
+      prox = Math.max(prox, clamp(1 - d / CONFIG.BUZZ_RANGE, 0, 1));
+    }
+  }
+  const crowd = clamp(G.flies.length / CONFIG.FLY_COUNT_MAX, 0, 1);
+  return clamp(0.22 + crowd * 0.20 + prox * 0.58, 0, 1);
+}
+
+/* ==========================================================================
+   主循环
+   ========================================================================== */
+function loop(ts){
+  const raw = Math.min(0.05, (ts - G.lastTs) / 1000 || 0);
+  G.lastTs = ts;
+  // 作弊「慢动作」：把游戏内所有计时一起放慢，不是只慢动画
+  const dt = raw * (CHEAT.slowmo ? 0.3 : 1);
+
+  if (G.state === 'playing'){
+    G.diff = difficulty();
+    if (G.cool > 0) G.cool -= dt;
+
+    /* 倒计时（作弊「时间冻结」时不递减） */
+    if (!CHEAT.freezeTime) G.timeLeft -= dt;
+    updateTimeUI();
+    if (G.timeLeft <= 0){ G.timeLeft = 0; endGame(); }
+
+    /* 生成 / 补充苍蝇 */
+    G.spawnTimer -= dt;
+    const D = G.diff;
+    if (G.flies.length < CONFIG.FLY_COUNT_MIN){
+      createFly();
+      G.spawnTimer = 0.25;
+    } else if (G.flies.length < D.maxFlies && G.spawnTimer <= 0){
+      createFly();
+      G.spawnTimer = CONFIG.SPAWN_INTERVAL * rand(0.7, 1.3);
+    }
+
+    /* 更新苍蝇 */
+    const now = ts / 1000;
+    for (let i = G.flies.length - 1; i >= 0; i--){
+      const f = G.flies[i];
+      updateFly(f, dt, now);
+      if (f.dead) continue;
+      // 高速飞行时在身后留一串淡色残影，把"嗖一下"的速度感做出来
+      if (CONFIG.FLEE_TRAIL && f.state === 'flee' && Math.hypot(f.vx, f.vy) > 300){
+        G.particles.push({
+          x: f.x, y: f.y, vx: 0, vy: 0,
+          r: f.size * 0.72, life: 0.14, max: 1,
+          color: '#6b6b78', ghost: true
+        });
+      }
+      // 兜底：不管什么状态，只要完全跑出画布范围就移除
+      if (f.x < -80 || f.x > G.W + 80 || f.y < -80 || f.y > G.H + 80){
+        removeFly(f);
+      } else {
+        renderFly(f);
+      }
+    }
+
+    /* 嗡嗡声音量（节流到 10Hz，避免频繁操作音频参数） */
+    G.buzzTimer -= dt;
+    if (G.buzzTimer <= 0){
+      G.buzzTimer = 0.1;
+      Sfx.setBuzzLevel(buzzLevel());
+    }
+
+    /* 作弊「不停清屏」：按设定间隔自动全屏清空，并立刻补满 */
+    if (CHEAT.autoClear){
+      G.autoTimer -= dt;
+      if (G.autoTimer <= 0){
+        G.autoTimer = CHEAT.autoGap;
+        cheatKillAll(true);
+      }
+    }
+  }
+
+  updateFX(dt);
+  requestAnimationFrame(loop);
+}
+
+/* ==========================================================================
+   开局 / 结束
+   ========================================================================== */
+function showStartPanel(){
+  G.state = 'idle';
+  overlay.classList.remove('hide');
+  cursorEl.classList.remove('on');
+  panel.innerHTML =
+    '<h1>超级打苍蝇<small>SUPER FLY SWATTER</small></h1>' +
+    '<div class="sub">' +
+      '🪰 厨房桌上停着几只苍蝇，<b>把光标移到它身上点下去</b>！<br>' +
+      '⚡ 它们停着不动，但道具一靠近就会飞走，手要快。<br>' +
+      '⏱ 限时 <b>' + CONFIG.GAME_TIME + ' 秒</b>，苍蝇待久了会自己飞走，抓紧时间！<br>' +
+      '🔥 分数越高难度越大：苍蝇更多、更快、更难打。<br>' +
+      '🔊 苍蝇越多、离你越近，<b>嗡嗡声越响</b>（右上角可静音）。<br><br>' +
+      '切换道具：<kbd>1</kbd>苍蝇拍 <kbd>2</kbd>手掌 <kbd>3</kbd>脚 &nbsp;·&nbsp; 也可以按 <kbd>Q</kbd> 循环切换或滚动滚轮' +
+    '</div>' +
+    '<button class="btn" id="btnStart">开 始 游 戏</button>';
+  document.getElementById('btnStart').addEventListener('click', startGame);
+}
+
+function startGame(){
+  Sfx.unlock();
+  // 清场
+  G.flies.forEach(f => f.el.remove());
+  G.flies = [];
+  G.particles = [];
+  G.decals = [];
+  ctx.clearRect(0, 0, G.W, G.H);
+
+  G.state    = 'playing';
+  G.score    = 0;
+  G.timeLeft = CONFIG.GAME_TIME;
+  G.spawnTimer = 0;
+  G.cool     = 0;
+  G.lastTick = 99;
+  G.autoTimer = 0;
+  G.autoTextSlot = 0;
+  G.diff     = difficulty();
+
+  overlay.classList.add('hide');
+  cursorEl.classList.add('on');
+  updateHUD(false);
+  updateTimeUI();
+
+  // 先来几只
+  for (let i = 0; i < CONFIG.FLY_COUNT_MIN; i++) createFly();
+  Sfx.start();
+  Sfx.startBuzz();                       // 打开持续嗡嗡声
+  Sfx.setBuzzLevel(buzzLevel());
+}
+
+function endGame(){
+  G.state = 'over';
+  Sfx.over();
+  Sfx.stopBuzz();                        // 关掉嗡嗡声
+  cursorEl.classList.remove('on');
+
+  const isNew = G.score > G.best;
+  if (isNew){
+    G.best = G.score;
+    try { localStorage.setItem('flySwatterBest', String(G.best)); } catch(e){}
+  }
+  updateHUD(false);
+
+  overlay.classList.remove('hide');
+  panel.innerHTML =
+    '<div class="badge">时间到</div>' +
+    '<h1>本局结束<small>GAME OVER</small></h1>' +
+    '<div class="final">' +
+      '<div><span class="k">本局得分</span><span class="v' + (isNew ? ' new' : '') + '">' + G.score + '</span></div>' +
+      '<div><span class="k">最高分</span><span class="v">' + G.best + '</span></div>' +
+    '</div>' +
+    (isNew ? '<div class="sub" style="text-align:center;color:#9dff8a">🎉 新纪录！</div>' : '') +
+    '<button class="btn" id="btnStart">再 来 一 局</button>';
+  document.getElementById('btnStart').addEventListener('click', startGame);
+}
+
+/* ==========================================================================
+   道具切换
+   ========================================================================== */
+function setTool(idx){
+  G.tool = ((idx % TOOLS.length) + TOOLS.length) % TOOLS.length;
+  const t = TOOLS[G.tool];
+  const inner = cursorEl.querySelector('.tool-inner');
+  inner.className = 'tool-inner ' + t.anim;
+  inner.innerHTML = TOOL_SVG[t.id];
+  elTool.textContent = t.name;
+  elToolDot.textContent = t.icon;
+}
+
+/* ==========================================================================
+   事件绑定
+   ========================================================================== */
+/* 鼠标移动：道具跟随 + 更新判定用坐标 */
+stage.addEventListener('mousemove', e => {
+  const r = stage.getBoundingClientRect();
+  const x = e.clientX - r.left;
+  const y = e.clientY - r.top;
+  G.mouse.x = x; G.mouse.y = y; G.mouse.inside = true;
+  cursorEl.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+  if (G.state === 'playing') cursorEl.classList.add('on');
+});
+stage.addEventListener('mouseleave', () => {
+  G.mouse.inside = false;
+  cursorEl.classList.remove('on');
+});
+stage.addEventListener('mouseenter', () => {
+  G.mouse.inside = true;
+  if (G.state === 'playing') cursorEl.classList.add('on');
+});
+
+/* 点击击打（左键） */
+stage.addEventListener('mousedown', e => {
+  if (G.state !== 'playing') return;
+  if (e.button !== 0) return;
+  const r = stage.getBoundingClientRect();
+  const x = e.clientX - r.left;
+  const y = e.clientY - r.top;
+  G.mouse.x = x; G.mouse.y = y;
+  cursorEl.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+
+  const t = TOOLS[G.tool];
+  if (!CHEAT.noCool && G.cool > 0) return;   // 挥击冷却（脚最慢；作弊可关掉）
+  G.cool = CHEAT.noCool ? 0 : t.cooldown;
+
+  cursorEl.classList.remove('acting');
+  void cursorEl.offsetWidth;
+  cursorEl.classList.add('acting');
+  setTimeout(() => cursorEl.classList.remove('acting'), 230);
+
+  trySwat(x, y);
+});
+stage.addEventListener('contextmenu', e => e.preventDefault());
+
+/* 键盘：1/2/3 直接选道具，Q 循环切换，P 开关作弊面板 */
+window.addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  if (k === 'p'){ toggleCheat(); return; }               // P 任何时候都能开关面板
+  if (cheatPanel && cheatPanel.contains(e.target)) return;  // 焦点在面板上时不吃游戏快捷键
+  if (k === '1') setTool(0);
+  else if (k === '2') setTool(1);
+  else if (k === '3') setTool(2);
+  else if (k === 'q') setTool(G.tool + 1);
+  else if ((k === ' ' || k === 'enter') && G.state !== 'playing'){
+    const b = document.getElementById('btnStart');
+    if (b) b.click();
+  }
+});
+
+/* 滚轮切换道具 */
+window.addEventListener('wheel', e => {
+  if (G.state !== 'playing') return;
+  setTool(G.tool + (e.deltaY > 0 ? 1 : -1));
+}, { passive: true });
+
+/* 音效开关 */
+btnMute.addEventListener('click', () => {
+  const on = !Sfx.isEnabled();
+  Sfx.setEnabled(on);
+  btnMute.textContent = on ? '🔊' : '🔇';
+});
+
+/* 窗口尺寸变化 */
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  const m = 40;
+  G.flies.forEach(f => {
+    f.x = clamp(f.x, m, Math.max(m, G.W - m));
+    f.y = clamp(f.y, m, Math.max(m, G.H - m));
+  });
+});
+
+/* ==========================================================================
+   作弊面板：构建 / 同步 / 指令
+   ========================================================================== */
+const elCheatFlag = document.getElementById('cheatFlag');
+const btnCheat    = document.getElementById('cheatBtn');
+let   cheatPanel  = null;
+
+function buildCheatPanel(){
+  const el = document.createElement('div');
+  el.id = 'cheatPanel';
+  el.innerHTML =
+    '<div class="ck-head">🛠 作弊面板 <span>按 P 开关</span></div>' +
+
+    '<div class="ck-sec">时间</div>' +
+    '<div class="ck-row">' +
+      '<button class="ck-btn" data-act="time10">+10 秒</button>' +
+      '<button class="ck-btn" data-act="time30">+30 秒</button>' +
+      '<button class="ck-btn" data-act="freezeTime">时间冻结</button>' +
+    '</div>' +
+
+    '<div class="ck-sec">得分</div>' +
+    '<div class="ck-row">' +
+      '<button class="ck-btn" data-act="score100">+100</button>' +
+      '<button class="ck-btn" data-act="score1000">+1000</button>' +
+      '<button class="ck-btn" data-act="score0">分数归零</button>' +
+      '<button class="ck-btn danger" data-act="endGame">直接结束</button>' +
+    '</div>' +
+
+    '<div class="ck-sec">苍蝇</div>' +
+    '<div class="ck-row">' +
+      '<button class="ck-btn" data-act="spawn1">生成 ×1</button>' +
+      '<button class="ck-btn" data-act="spawn5">生成 ×5</button>' +
+      '<button class="ck-btn" data-act="spawnFull">填满全场</button>' +
+      '<button class="ck-btn danger" data-act="killAll">一键清屏</button>' +
+    '</div>' +
+    '<div class="ck-row" style="margin-top:6px">' +
+      '<button class="ck-btn" data-act="noFlee">苍蝇不逃跑</button>' +
+      '<button class="ck-btn" data-act="noLifetime">不会自行飞走</button>' +
+    '</div>' +
+    '<div class="ck-row" style="margin-top:6px">' +
+      '<button class="ck-btn danger" data-act="autoClear">不停清屏</button>' +
+    '</div>' +
+    '<div class="ck-slider"><label>清屏间隔</label>' +
+      '<input type="range" id="ckAuto" min="0.05" max="5" step="0.05" value="1">' +
+      '<span class="val" id="ckAutoV">1s</span></div>' +
+    '<div class="ck-slider"><label>体型</label>' +
+      '<input type="range" id="ckSize" min="0.4" max="2.5" step="0.1" value="1">' +
+      '<span class="val" id="ckSizeV">1.0×</span></div>' +
+
+    '<div class="ck-sec">难度与逃跑</div>' +
+    '<div class="ck-slider"><label>逃跑概率</label>' +
+      '<input type="range" id="ckProb" min="0" max="100" step="1" value="' + Math.round(CONFIG.FLEE_PROB * 100) + '">' +
+      '<span class="val" id="ckProbV">' + Math.round(CONFIG.FLEE_PROB * 100) + '%</span></div>' +
+    '<div class="ck-slider"><label>触发距离</label>' +
+      '<input type="range" id="ckDist" min="0" max="320" step="5" value="' + CONFIG.FLEE_DIST + '">' +
+      '<span class="val" id="ckDistV">' + CONFIG.FLEE_DIST + '</span></div>' +
+    '<div class="ck-slider"><label>逃跑速度</label>' +
+      '<input type="range" id="ckSpeed" min="0.2" max="3" step="0.1" value="1">' +
+      '<span class="val" id="ckSpeedV">1.0×</span></div>' +
+    '<div class="ck-row" style="margin-top:6px">' +
+      '<button class="ck-btn" data-act="maxDiff">难度拉满</button>' +
+      '<button class="ck-btn" data-act="resetDiff">恢复难度</button>' +
+    '</div>' +
+
+    '<div class="ck-sec">道具与视觉</div>' +
+    '<div class="ck-row">' +
+      '<button class="ck-btn" data-act="godHit">超级拍 ×3</button>' +
+      '<button class="ck-btn" data-act="noCool">零冷却</button>' +
+      '<button class="ck-btn" data-act="killAllClick">一击全屏</button>' +
+    '</div>' +
+    '<div class="ck-row" style="margin-top:6px">' +
+      '<button class="ck-btn" data-act="showDebug">判定范围</button>' +
+      '<button class="ck-btn" data-act="slowmo">慢动作 0.3×</button>' +
+    '</div>' +
+
+    '<div class="ck-row" style="margin-top:12px">' +
+      '<button class="ck-btn danger" data-act="resetAll">重置全部作弊</button>' +
+      '<button class="ck-btn" data-act="close">关闭面板</button>' +
+    '</div>' +
+
+    '<div class="ck-tip">作弊只影响本局，刷新页面即恢复默认。开着作弊也能正常计分。<br>' +
+    '清屏间隔最细可到 0.05 秒（每秒清 20 轮）；间隔越短，每轮补的苍蝇越少，避免掉帧。</div>';
+
+  stage.appendChild(el);
+
+  /* --- 面板上的鼠标操作一律不要穿透到游戏（否则点按钮会顺手挥拍） --- */
+  el.addEventListener('mousedown', e => e.stopPropagation());
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    const b = e.target.closest('.ck-btn');
+    if (b) doCheat(b.dataset.act);
+  });
+  el.addEventListener('mousemove', e => e.stopPropagation());
+  el.addEventListener('contextmenu', e => e.stopPropagation());
+  /* 鼠标进面板时暂停游戏内判定，避免苍蝇被"面板上的光标"惊动 */
+  el.addEventListener('mouseenter', () => {
+    G.mouse.inside = false;
+    cursorEl.classList.remove('on');
+  });
+  el.addEventListener('mouseleave', () => {
+    if (G.state === 'playing') cursorEl.classList.add('on');
+  });
+
+  /* --- 滑杆 --- */
+  el.querySelector('#ckAuto').addEventListener('input', e => {
+    CHEAT.autoGap = parseFloat(e.target.value);
+    G.autoTimer = 0;                 // 拖完立刻按新间隔生效，不用等上一轮走完
+    syncCheatUI();
+  });
+  el.querySelector('#ckSize').addEventListener('input', e => {
+    CHEAT.sizeMul = parseFloat(e.target.value);
+    applySizeMul();
+    syncCheatUI();
+  });
+  el.querySelector('#ckProb').addEventListener('input', e => {
+    CONFIG.FLEE_PROB = parseFloat(e.target.value) / 100;
+    syncCheatUI();
+  });
+  el.querySelector('#ckDist').addEventListener('input', e => {
+    CONFIG.FLEE_DIST = parseFloat(e.target.value);
+    syncCheatUI();
+  });
+  el.querySelector('#ckSpeed').addEventListener('input', e => {
+    CONFIG.FLEE_SPEED = CONFIG_SNAPSHOT.FLEE_SPEED * parseFloat(e.target.value);
+    syncCheatUI();
+  });
+
+  return el;
+}
+
+/* 体型倍率改变后，就地重算所有在场苍蝇的大小（不用重新生成） */
+function applySizeMul(){
+  G.flies.forEach(f => {
+    if (!f.baseSize) f.baseSize = f.size;      // 兜底：老对象没有 baseSize 时补上
+    f.size  = f.baseSize * CHEAT.sizeMul;
+    f.scale = f.size / 16;
+    f.el.style.setProperty('--s', String(f.scale));
+  });
+}
+
+/* 清屏间隔的显示格式：1s / 0.5s / 0.15s / 0.05s */
+const fmtGap = g => (g < 1
+  ? g.toFixed(2).replace(/0$/, '')
+  : g.toFixed(1).replace(/\.0$/, '')) + 's';
+
+/* 把 CHEAT / CONFIG 的当前值刷回面板控件与 HUD 角标 */
+function syncCheatUI(){
+  elCheatFlag.classList.toggle('on', cheatActive());
+  btnCheat.classList.toggle('on', CHEAT.open);
+  if (!cheatPanel) return;
+
+  cheatPanel.querySelectorAll('.ck-btn[data-act]').forEach(b => {
+    const k = b.dataset.act;
+    if (k in CHEAT && typeof CHEAT[k] === 'boolean') b.classList.toggle('on', CHEAT[k]);
+  });
+
+  const set = (sid, vid, val, text) => {
+    const s = cheatPanel.querySelector('#' + sid);
+    const v = cheatPanel.querySelector('#' + vid);
+    if (s && document.activeElement !== s) s.value = val;   // 正在拖的滑杆不要抢
+    if (v) v.textContent = text;
+  };
+  const spdMul = CONFIG.FLEE_SPEED / CONFIG_SNAPSHOT.FLEE_SPEED;
+  set('ckAuto',  'ckAutoV',  CHEAT.autoGap, fmtGap(CHEAT.autoGap));
+  set('ckSize',  'ckSizeV',  CHEAT.sizeMul, CHEAT.sizeMul.toFixed(1) + '×');
+  set('ckProb',  'ckProbV',  Math.round(CONFIG.FLEE_PROB * 100), Math.round(CONFIG.FLEE_PROB * 100) + '%');
+  set('ckDist',  'ckDistV',  CONFIG.FLEE_DIST, String(Math.round(CONFIG.FLEE_DIST)));
+  set('ckSpeed', 'ckSpeedV', spdMul, spdMul.toFixed(1) + '×');
+}
+
+function toggleCheat(force){
+  CHEAT.open = (force === undefined) ? !CHEAT.open : !!force;
+  if (!cheatPanel) cheatPanel = buildCheatPanel();
+  cheatPanel.classList.toggle('on', CHEAT.open);
+  if (!CHEAT.open) G.mouse.inside = true;
+  syncCheatUI();
+}
+
+function doCheat(act){
+  switch (act){
+    /* 时间 */
+    case 'time10':       G.timeLeft += 10; updateTimeUI(); break;
+    case 'time30':       G.timeLeft += 30; updateTimeUI(); break;
+    case 'freezeTime':   CHEAT.freezeTime = !CHEAT.freezeTime; break;
+    /* 得分 */
+    case 'score100':     G.score += 100;  updateHUD(true); break;
+    case 'score1000':    G.score += 1000; updateHUD(true); break;
+    case 'score0':       G.score = 0;     updateHUD(false); break;
+    case 'endGame':      if (G.state === 'playing') endGame(); break;
+    /* 苍蝇 */
+    case 'spawn1':       createFly(); break;
+    case 'spawn5':       for (let i = 0; i < 5; i++) createFly(); break;
+    case 'spawnFull':    for (let i = G.flies.length; i < CONFIG.FLY_COUNT_MAX; i++) createFly(); break;
+    case 'killAll':      cheatKillAll(); break;
+    case 'noFlee':       CHEAT.noFlee = !CHEAT.noFlee; break;
+    case 'noLifetime':   CHEAT.noLifetime = !CHEAT.noLifetime; break;
+    case 'autoClear':    CHEAT.autoClear = !CHEAT.autoClear;
+                         G.autoTimer = 0;              // 打开后立刻清一次
+                         break;
+    /* 难度 */
+    case 'maxDiff':      CHEAT.maxDiff = true;  G.diff = difficulty(); break;
+    case 'resetDiff':    CHEAT.maxDiff = false; G.diff = difficulty(); break;
+    /* 道具与视觉 */
+    case 'godHit':       CHEAT.godHit = !CHEAT.godHit; break;
+    case 'noCool':       CHEAT.noCool = !CHEAT.noCool; break;
+    case 'killAllClick': CHEAT.killAll = !CHEAT.killAll; break;
+    case 'showDebug':    CHEAT.showDebug = !CHEAT.showDebug; break;
+    case 'slowmo':       CHEAT.slowmo = !CHEAT.slowmo; break;
+    /* 其他 */
+    case 'resetAll':     resetCheats(); break;
+    case 'close':        toggleCheat(false); return;
+  }
+  syncCheatUI();
+}
+
+function resetCheats(){
+  Object.assign(CHEAT, {
+    freezeTime:false, noFlee:false, noLifetime:false, maxDiff:false,
+    godHit:false, noCool:false, killAll:false, autoClear:false, autoGap:1.0,
+    showDebug:false, slowmo:false, sizeMul:1
+  });
+  // 数值类从快照还原
+  CONFIG.FLEE_PROB  = CONFIG_SNAPSHOT.FLEE_PROB;
+  CONFIG.FLEE_DIST  = CONFIG_SNAPSHOT.FLEE_DIST;
+  CONFIG.FLEE_SPEED = CONFIG_SNAPSHOT.FLEE_SPEED;
+  applySizeMul();
+  G.diff = difficulty();
+  syncCheatUI();
+}
+
+btnCheat.addEventListener('click', () => toggleCheat());
+
+/* ==========================================================================
+   启动
+   ========================================================================== */
+(function init(){
+  try { G.best = parseInt(localStorage.getItem('flySwatterBest') || '0', 10) || 0; } catch(e){ G.best = 0; }
+  resizeCanvas();
+  setTool(0);
+  updateHUD(false);
+  updateTimeUI();
+  syncCheatUI();
+  showStartPanel();
+  requestAnimationFrame(ts => { G.lastTs = ts; requestAnimationFrame(loop); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<title>游戏厅 · 720 科技</title>
+<link rel="icon" href="/img/fluid.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 48px 24px 64px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 36px; }
+  .topbar a {
+    color: #94a3b8; text-decoration: none; font-size: 14px;
+    border: 1px solid #334155; border-radius: 8px; padding: 6px 14px;
+    transition: all .2s;
+  }
+  .topbar a:hover { color: #e2e8f0; border-color: #64748b; }
+  h1 { font-size: 32px; letter-spacing: 2px; }
+  h1 .accent { color: #38bdf8; }
+  .sub { color: #94a3b8; margin-top: 10px; font-size: 15px; line-height: 1.7; }
+  .grid {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 24px;
+    display: flex; flex-direction: column;
+    transition: transform .2s, border-color .2s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: #38bdf8; }
+  .card .emoji { font-size: 36px; }
+  .card h2 { font-size: 20px; margin: 12px 0 4px; }
+  .card .en { color: #64748b; font-size: 13px; margin-bottom: 12px; }
+  .card p { color: #94a3b8; font-size: 14px; line-height: 1.7; flex: 1; }
+  .tags { margin: 14px 0 18px; }
+  .tag {
+    display: inline-block; font-size: 12px; color: #7dd3fc;
+    background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.25);
+    border-radius: 999px; padding: 2px 10px; margin: 0 6px 6px 0;
+  }
+  .play {
+    display: block; text-align: center; text-decoration: none;
+    background: #0ea5e9; color: #fff; font-weight: 600; font-size: 15px;
+    border-radius: 10px; padding: 11px 0; transition: background .2s;
+  }
+  .play:hover { background: #38bdf8; }
+  .note {
+    margin-top: 40px; padding: 16px 20px; font-size: 13px; line-height: 1.8;
+    color: #94a3b8; background: #1e293b; border: 1px dashed #334155; border-radius: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <h1>🎮 游戏<span class="accent">厅</span></h1>
+    <a href="/">← 返回博客</a>
+  </div>
+  <p class="sub">这里收录了我做的几个小游戏，均为网页版，点开即玩。<br>
+  前三个是 Godot 引擎开发的 2D/3D 游戏，首次加载需要下载约 40MB 引擎文件，请耐心等待；之后浏览器有缓存会很快。</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="emoji">⚔️</div>
+      <h2>破山河</h2>
+      <div class="en">破天一剑 · 武侠 ARPG</div>
+      <p>2D 俯视角武侠动作游戏。三段普攻、轻功冲刺、四个技能，打怪升级、加点、行囊、存档石碑，致敬经典《破天一剑》。</p>
+      <div class="tags"><span class="tag">Godot</span><span class="tag">2D</span><span class="tag">动作 RPG</span></div>
+      <a class="play" href="./poshanhe/">开始游戏</a>
+    </div>
+
+    <div class="card">
+      <div class="emoji">💥</div>
+      <h2>FPS Arena</h2>
+      <div class="en">3D 第一人称射击</div>
+      <p>3D 第一人称竞技射击，单机生存模式对抗一波波 AI 敌人。四种武器、机瞄、换弹，每 5 波刷一个首领。内置作弊面板（按 Q）。</p>
+      <div class="tags"><span class="tag">Godot</span><span class="tag">3D</span><span class="tag">FPS</span></div>
+      <a class="play" href="./fps-arena/">开始游戏</a>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🪖</div>
+      <h2>坦克竞技场</h2>
+      <div class="en">Tank Arena</div>
+      <p>3D 坦克对战。多种模式地图，弹道、装填、走位，跟 AI 坦克硬碰硬。</p>
+      <div class="tags"><span class="tag">Godot</span><span class="tag">3D</span><span class="tag">坦克对战</span></div>
+      <a class="play" href="./tank-arena/">开始游戏</a>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🪰</div>
+      <h2>超级打苍蝇</h2>
+      <div class="en">Super Fly Swatter</div>
+      <p>休闲小游戏，看到苍蝇就拍。纯 HTML/JS 单文件实现，秒开不加载。</p>
+      <div class="tags"><span class="tag">HTML5</span><span class="tag">休闲</span><span class="tag">单文件</span></div>
+      <a class="play" href="./fly-swatcher/">开始游戏</a>
+    </div>
+  </div>
+
+  <div class="note">
+    💡 操作提示：破山河用 WASD 移动、J/鼠标左键攻击、1-4 放技能；FPS Arena 用 WASD 移动、鼠标瞄准、左键射击、R 换弹；页面获取焦点前快捷键可能不响应，先用鼠标点一下游戏画面。游戏存档保存在浏览器本地（IndexedDB），清理浏览器数据会丢失。
+  </div>
+</div>
+</body>
+</html>
