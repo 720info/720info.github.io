@@ -308,8 +308,8 @@ footer .footer-inner {
   margin: 0 auto;
   padding: 44px 22px 32px 22px;
   text-align: center;
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  /* Safari 上 backdrop-filter 叠在渐变背景上会被采样成白色（刷新时白一次紫一次），
+     纯装饰效果，直接去掉；颜色与布局不受影响 */
 }
 footer .footer-content {
   line-height: 2;
