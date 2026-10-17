@@ -339,6 +339,27 @@
     setTimeout(fallbackBanner, 1200);
   }
 
+  // busuanzi 的坑：它的 JSONP 回调里会执行 scriptTag.parentElement.removeChild(scriptTag)，
+  // 但那个 script 标签此刻已不在 DOM 里（Safari 上必现），抛异常后被 catch 成
+  // bszTag.hides() —— 结果数字明明回来了，容器却一直 display:none。
+  // 这里只做一件事：发现某个值有内容、容器还藏着，就把它显示出来。不改样式。
+  function fixBusuanziDisplay() {
+    var keys = ['site_pv', 'site_uv', 'page_pv'];
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries += 1;
+      for (var i = 0; i < keys.length; i++) {
+        var k = keys[i];
+        var v = document.getElementById('busuanzi_value_' + k);
+        var c = document.getElementById('busuanzi_container_' + k);
+        if (!v || !c) continue;
+        if (!v.textContent.trim()) continue;
+        if (getComputedStyle(c).display === 'none') c.style.display = 'inline';
+      }
+      if (tries >= 40) clearInterval(timer);
+    }, 500);
+  }
+
   // ===== 启动 =====
   function boot() {
     try { initReadingProgress(); } catch (e) { /* ignore */ }
@@ -349,6 +370,7 @@
     try { initImageFallback(); } catch (e) { /* ignore */ }
     try { fixBeianLink(); } catch (e) { /* ignore */ }
     try { injectFooterIcons(); } catch (e) { /* ignore */ }
+    try { fixBusuanziDisplay(); } catch (e) { /* ignore */ }
   }
 
   // 页脚备案处理：
