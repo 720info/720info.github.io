@@ -280,7 +280,9 @@ footer {
   position: relative;
   margin-top: 36px;
   padding: 0;
-  background:
+  /* 兜底底色：渐变绘制稍晚的那一帧不再透出白底（Safari 上表现为闪白） */
+  background-color: #1e1b4b;
+  background-image:
     linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 70%, #6366f1 100%);
   border-top: 1px solid rgba(99, 102, 241, 0.35);
   color: #e0e7ff;
