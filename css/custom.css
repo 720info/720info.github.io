@@ -280,14 +280,23 @@ footer {
   position: relative;
   margin-top: 36px;
   padding: 0;
-  /* 兜底底色：渐变绘制稍晚的那一帧不再透出白底（Safari 上表现为闪白） */
-  background-color: #1e1b4b;
-  background-image:
-    linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 70%, #6366f1 100%);
+  /* 底色兜底：渐变绘制稍晚时不再透出白底 */
+  background-color: #241f52;
   border-top: 1px solid rgba(99, 102, 241, 0.35);
   color: #e0e7ff;
   overflow: hidden;
   z-index: 1;
+}
+/* 柔和渐变层：把原来的 135° 渐变整体模糊后再铺，替代 backdrop-filter
+   （backdrop-filter 在 WebKit 上会把背景采样成白色，导致页脚忽白忽紫） */
+footer::after {
+  content: '';
+  position: absolute;
+  inset: -25%;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 70%, #6366f1 100%);
+  filter: blur(70px);
+  z-index: 0;
+  pointer-events: none;
 }
 /* 亮色背景斑点：让渐变不那么单调 */
 footer::before {
