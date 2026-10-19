@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://720info.top/2026/10/19/%E5%91%A8%E4%B8%80/</loc>
+    
+    <lastmod>2026-10-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://720info.top/about/index.html</loc>
     
     <lastmod>2026-10-19</lastmod>
@@ -83,27 +92,9 @@
   </url>
   
   <url>
-    <loc>https://720info.top/2026/08/22/umacOS%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/</loc>
-    
-    <lastmod>2026-08-22</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://720info.top/404.html</loc>
     
     <lastmod>2026-08-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://720info.top/2026/08/14/%E6%9D%A5%E5%A4%A7%E8%BF%9E%E6%97%85%E6%B8%B8%E4%BA%86/</loc>
-    
-    <lastmod>2026-08-14</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -209,14 +200,7 @@
 
   
   <url>
-    <loc>https://720info.top/tags/essay/</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://720info.top/tags/%E6%95%99%E7%A8%8B/</loc>
+    <loc>https://720info.top/tags/%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -230,14 +214,21 @@
   </url>
   
   <url>
-    <loc>https://720info.top/tags/%E6%8A%80%E6%9C%AF/</loc>
+    <loc>https://720info.top/tags/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/</loc>
     <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://720info.top/tags/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/</loc>
+    <loc>https://720info.top/tags/essay/</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://720info.top/tags/%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -265,6 +256,13 @@
   </url>
   
   <url>
+    <loc>https://720info.top/tags/%E5%BC%80%E5%AD%A6/</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://720info.top/tags/announcement/</loc>
     <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
@@ -278,24 +276,17 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://720info.top/tags/%E5%BC%80%E5%AD%A6/</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
-    <loc>https://720info.top/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/</loc>
+    <loc>https://720info.top/categories/Vibecoding/</loc>
     <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://720info.top/categories/Vibecoding/</loc>
+    <loc>https://720info.top/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/</loc>
     <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -309,21 +300,14 @@
   </url>
   
   <url>
-    <loc>https://720info.top/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://720info.top/categories/%E5%BC%80%E5%8F%91%E6%8A%80%E5%B7%A7/</loc>
-    <lastmod>2026-10-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://720info.top/categories/%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB/</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://720info.top/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/</loc>
     <lastmod>2026-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

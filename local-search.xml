@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>周一</title>
+    <link href="/2026/10/19/%E5%91%A8%E4%B8%80/"/>
+    <url>/2026/10/19/%E5%91%A8%E4%B8%80/</url>
+    
+    <content type="html"><![CDATA[<p>很不错的一天，作业都已写完，玩会电脑😄</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>未分类</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>公告：博客已启用新域名 + 评论邮件通知功能上线</title>
     <link href="/2026/10/18/%E5%85%AC%E5%91%8A%EF%BC%9A%E5%8D%9A%E5%AE%A2%E5%B7%B2%E5%90%AF%E7%94%A8%E6%96%B0%E5%9F%9F%E5%90%8D-%E8%AF%84%E8%AE%BA%E9%82%AE%E4%BB%B6%E9%80%9A%E7%9F%A5%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF/"/>
     <url>/2026/10/18/%E5%85%AC%E5%91%8A%EF%BC%9A%E5%8D%9A%E5%AE%A2%E5%B7%B2%E5%90%AF%E7%94%A8%E6%96%B0%E5%9F%9F%E5%90%8D-%E8%AF%84%E8%AE%BA%E9%82%AE%E4%BB%B6%E9%80%9A%E7%9F%A5%E5%8A%9F%E8%83%BD%E4%B8%8A%E7%BA%BF/</url>
@@ -167,56 +186,6 @@
   
   
   <entry>
-    <title>macOS开发小技巧</title>
-    <link href="/2026/08/22/umacOS%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
-    <url>/2026/08/22/umacOS%E5%BC%80%E5%8F%91%E5%B0%8F%E6%8A%80%E5%B7%A7/</url>
-    
-    <content type="html"><![CDATA[<ol><li>终端用<code>open .</code>快速打开当前目录访达。</li><li>按住Option点击菜单栏，查看隐藏高级选项。</li><li>快捷键<code>Cmd+Shift+G</code>跳转访达指定路径。</li><li>开发时开启聚焦模式，屏蔽通知干扰。</li><li>用<code>pbcopy</code>可直接把命令输出复制到剪贴板。</li></ol>]]></content>
-    
-    
-    <categories>
-      
-      <category>开发技巧</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>技术</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>来大连旅游了</title>
-    <link href="/2026/08/14/%E6%9D%A5%E5%A4%A7%E8%BF%9E%E6%97%85%E6%B8%B8%E4%BA%86/"/>
-    <url>/2026/08/14/%E6%9D%A5%E5%A4%A7%E8%BF%9E%E6%97%85%E6%B8%B8%E4%BA%86/</url>
-    
-    <content type="html"><![CDATA[<p>没错今天我来大连旅游了。</p><p>呃，感觉大连也没什么好玩的吧，感觉我就是过来蹲宾馆吃饭店的。</p><p>懒得再写了</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>日常生活</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>随笔</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>吃灰的破壁机</title>
     <link href="/2026/08/07/%E5%90%83%E7%81%B0%E7%9A%84%E7%A0%B4%E5%A3%81%E6%9C%BA/"/>
     <url>/2026/08/07/%E5%90%83%E7%81%B0%E7%9A%84%E7%A0%B4%E5%A3%81%E6%9C%BA/</url>
@@ -287,9 +256,9 @@
     
     <tags>
       
-      <tag>AI</tag>
-      
       <tag>技术</tag>
+      
+      <tag>AI</tag>
       
       <tag>工具技巧</tag>
       
@@ -316,9 +285,9 @@
     
     <tags>
       
-      <tag>AI</tag>
-      
       <tag>技术</tag>
+      
+      <tag>AI</tag>
       
       <tag>工具技巧</tag>
       
