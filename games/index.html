@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<title>游戏厅 · 720 科技</title>
+<link rel="icon" href="/img/fluid.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 48px 24px 64px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+  .topbar a {
+    color: #94a3b8; text-decoration: none; font-size: 14px;
+    border: 1px solid #334155; border-radius: 8px; padding: 6px 14px;
+    transition: all .2s;
+  }
+  .topbar a:hover { color: #e2e8f0; border-color: #64748b; }
+  h1 { font-size: 32px; letter-spacing: 2px; }
+  h1 .accent { color: #38bdf8; }
+  .sub { color: #94a3b8; margin-top: 10px; font-size: 15px; line-height: 1.7; }
+
+  /* 醒目提示 */
+  .notice {
+    margin-top: 24px;
+    border: 2px solid #f59e0b;
+    background: rgba(245, 158, 11, .10);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .notice h3 {
+    font-size: 16px; color: #fbbf24; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .notice ul { list-style: none; }
+  .notice li {
+    font-size: 14px; line-height: 1.9; color: #fde68a; padding-left: 18px; position: relative;
+  }
+  .notice li::before { content: "·"; position: absolute; left: 6px; color: #f59e0b; font-weight: 700; }
+  .notice b { color: #fff; }
+  .notice .advice { margin-top: 8px; font-size: 13px; color: #d6d3d1; }
+
+  .grid {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 24px;
+    display: flex; flex-direction: column;
+    transition: transform .2s, border-color .2s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: #38bdf8; }
+  .card .emoji { font-size: 36px; }
+  .card h2 { font-size: 20px; margin: 12px 0 4px; }
+  .card .en { color: #64748b; font-size: 13px; margin-bottom: 12px; }
+  .card p { color: #94a3b8; font-size: 14px; line-height: 1.7; flex: 1; }
+  .tags { margin: 14px 0 16px; }
+  .tag {
+    display: inline-block; font-size: 12px; color: #7dd3fc;
+    background: rgba(56,189,248,.12); border: 1px solid rgba(56,189,248,.25);
+    border-radius: 999px; padding: 2px 10px; margin: 0 6px 6px 0;
+  }
+  .tag.warn { color: #fbbf24; background: rgba(245,158,11,.12); border-color: rgba(245,158,11,.3); }
+
+  .btns { display: flex; gap: 10px; }
+  .play, .dl {
+    flex: 1; text-align: center; text-decoration: none; font-size: 15px;
+    border-radius: 10px; padding: 11px 0; transition: all .2s; cursor: pointer;
+    border: 1px solid transparent; font-family: inherit;
+  }
+  .play { background: #0ea5e9; color: #fff; font-weight: 600; }
+  .play:hover { background: #38bdf8; }
+  .dl { background: transparent; color: #7dd3fc; border-color: #334155; }
+  .dl:hover { border-color: #38bdf8; color: #e0f2fe; background: rgba(56,189,248,.08); }
+
+  .note {
+    margin-top: 36px; padding: 16px 20px; font-size: 13px; line-height: 1.8;
+    color: #94a3b8; background: #1e293b; border: 1px dashed #334155; border-radius: 12px;
+  }
+
+  /* 下载弹窗 */
+  .mask {
+    position: fixed; inset: 0; z-index: 100; background: rgba(2,6,23,.72);
+    display: none; align-items: center; justify-content: center; padding: 20px;
+    backdrop-filter: blur(3px);
+  }
+  .mask.open { display: flex; }
+  .modal {
+    width: 460px; max-width: 100%; background: #1e293b; border: 1px solid #334155;
+    border-radius: 16px; padding: 24px; box-shadow: 0 24px 60px rgba(0,0,0,.5);
+  }
+  .modal h3 { font-size: 18px; margin-bottom: 4px; }
+  .modal .meta { font-size: 13px; color: #94a3b8; margin-bottom: 18px; }
+  .src {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border: 1px solid #334155; border-radius: 10px;
+    margin-bottom: 10px; text-decoration: none; color: inherit; transition: all .2s;
+  }
+  .src:hover { border-color: #38bdf8; background: rgba(56,189,248,.06); }
+  .src .name { font-size: 15px; font-weight: 600; }
+  .src .desc { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+  .src .arrow { color: #38bdf8; font-size: 18px; }
+  .src .desc.hot { color: #34d399; font-weight: 600; }
+  .src.src-hot { border-color: rgba(52,211,153,.55); background: rgba(52,211,153,.07); }
+  .src.src-hot:hover { border-color: #34d399; background: rgba(52,211,153,.13); }
+  .modal .tip { font-size: 12px; color: #64748b; line-height: 1.8; margin-top: 6px; }
+  .modal .close {
+    margin-top: 16px; width: 100%; padding: 10px; border-radius: 10px;
+    background: transparent; border: 1px solid #334155; color: #94a3b8;
+    font-size: 14px; cursor: pointer; font-family: inherit;
+  }
+  .modal .close:hover { border-color: #64748b; color: #e2e8f0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <h1>🎮 游戏<span class="accent">厅</span></h1>
+    <a href="/">← 返回博客</a>
+  </div>
+  <p class="sub">这里收录了我做的几个小游戏，网页版点开即玩，也可以下载源码自己跑。</p>
+
+  <div class="notice">
+    <h3>⚠️ 网页版先说清楚</h3>
+    <ul>
+      <li><b>首次加载极慢</b>：每个 Godot 游戏都要先下载约 40MB 引擎文件（wasm），国内网络可能要等十几秒到几分钟，之后就快了（浏览器有缓存）</li>
+      <li><b>可能会卡</b>：<b>FPS Arena 卡顿最明显</b>，坦克竞技场次之，破山河相对流畅——网页版只有 WebGL 2.0，画质和帧率都比桌面版低</li>
+      <li><b>想流畅玩就下载源码</b>：解压后用 Godot 4.7 打开按 F5，就是完整桌面版体验</li>
+    </ul>
+    <div class="advice">下面每张卡片都有「下载源码」按钮，可选 GitHub 或图床两个下载源。</div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="emoji">⚔️</div>
+      <h2>破山河</h2>
+      <div class="en">破天一剑 · 武侠 ARPG</div>
+      <p>2D 俯视角武侠动作游戏。三段普攻、轻功冲刺、四个技能，打怪升级、加点、行囊、存档石碑，致敬经典《破天一剑》。</p>
+      <div class="tags"><span class="tag">Godot</span><span class="tag">2D</span><span class="tag">动作 RPG</span></div>
+      <div class="btns">
+        <a class="play" href="./poshanhe/">开始游戏</a>
+        <button class="dl" data-game="poshanhe">下载源码</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="emoji">💥</div>
+      <h2>FPS Arena</h2>
+      <div class="en">3D 第一人称射击</div>
+      <p>3D 第一人称竞技射击，单机生存模式对抗一波波 AI 敌人。四种武器、机瞄、换弹，每 5 波刷一个首领。内置作弊面板（按 Q）。</p>
+      <div class="tags"><span class="tag">Godot</span><span class="tag">3D</span><span class="tag">FPS</span><span class="tag warn">网页版偏卡</span></div>
+      <div class="btns">
+        <a class="play" href="./fps-arena/">开始游戏</a>
+        <button class="dl" data-game="fps">下载源码</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🪖</div>
+      <h2>坦克竞技场</h2>
+      <div class="en">Tank Arena</div>
+      <p>3D 坦克对战。多种模式地图，弹道、装填、走位，跟 AI 坦克硬碰硬。</p>
+      <div class="tags"><span class="tag">Godot</span><span class="tag">3D</span><span class="tag">坦克对战</span><span class="tag warn">网页版偏卡</span></div>
+      <div class="btns">
+        <a class="play" href="./tank-arena/">开始游戏</a>
+        <button class="dl" data-game="tank">下载源码</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="emoji">🪰</div>
+      <h2>超级打苍蝇</h2>
+      <div class="en">Super Fly Swatter</div>
+      <p>休闲小游戏，看到苍蝇就拍。纯 HTML/JS 单文件实现，秒开不加载，一点不卡。</p>
+      <div class="tags"><span class="tag">HTML5</span><span class="tag">休闲</span><span class="tag">单文件</span></div>
+      <div class="btns">
+        <a class="play" href="./fly-swatcher/">开始游戏</a>
+        <button class="dl" data-game="fly">下载源码</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    💡 操作提示：破山河用 WASD 移动、J/鼠标左键攻击、1-4 放技能；FPS Arena 用 WASD 移动、鼠标瞄准、左键射击、R 换弹；页面获取焦点前快捷键可能不响应，先用鼠标点一下游戏画面。游戏存档保存在浏览器本地（IndexedDB），清理浏览器数据会丢失。
+  </div>
+</div>
+
+<div class="mask" id="dl-mask">
+  <div class="modal">
+    <h3 id="dl-title">下载源码</h3>
+    <div class="meta" id="dl-meta"></div>
+    <div id="dl-sources"></div>
+    <div class="tip" id="dl-tip"></div>
+    <button class="close" id="dl-close">关闭</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  // 每个游戏的可选下载源；url 为空则自动跳过（等图床传好再填）
+  var GAMES = {
+    poshanhe: {
+      name: '破山河', size: '1.2 MB',
+      tip: 'Godot 4.7 工程（原名「破天一剑」）。解压后用 Godot 打开 project.godot，按 F5 运行。',
+      sources: [
+        { name: 'GitHub', desc: '本站直链 · 推荐', url: 'downloads/poshanhe-source.zip' },
+        { name: '图床（imgbed）', desc: '国内高速下载！', hot: true, url: 'https://s1.oururl.cn/autoupload/en/cd7ca/20261017/5E7x/poshanhe-source.zip' }
+      ]
+    },
+    fps: {
+      name: 'FPS Arena', size: '3.4 MB',
+      tip: 'Godot 4.7 工程。解压后用 Godot 打开 project.godot，按 F5 运行。',
+      sources: [
+        { name: 'GitHub', desc: '本站直链 · 推荐', url: 'downloads/fps-arena-source.zip' },
+        { name: '图床（imgbed）', desc: '国内高速下载！', hot: true, url: 'https://s1.oururl.cn/autoupload/en/cd7ca/20261017/JcdQ/fps-arena-source.zip' }
+      ]
+    },
+    tank: {
+      name: '坦克竞技场', size: '2.2 MB',
+      tip: 'Godot 4.7 工程（已内置中文字体）。解压后用 Godot 打开 project.godot，按 F5 运行。',
+      sources: [
+        { name: 'GitHub', desc: '本站直链 · 推荐', url: 'downloads/tank-arena-source.zip' },
+        { name: '图床（imgbed）', desc: '国内高速下载！', hot: true, url: 'https://s1.oururl.cn/autoupload/en/cd7ca/20261017/Rh3W/tank-arena-source.zip' }
+      ]
+    },
+    fly: {
+      name: '超级打苍蝇', size: '24 KB',
+      tip: '单文件 HTML，解压后双击即可玩，也能直接看源码。',
+      sources: [
+        { name: 'GitHub', desc: '本站直链 · 推荐', url: 'downloads/fly-swatcher-source.zip' },
+        { name: '图床（imgbed）', desc: '国内高速下载！', hot: true, url: 'https://s1.oururl.cn/autoupload/en/cd7ca/20261017/wnoi/fly-swatcher-source.zip' }
+      ]
+    }
+  };
+
+  var mask = document.getElementById('dl-mask');
+  var titleEl = document.getElementById('dl-title');
+  var metaEl = document.getElementById('dl-meta');
+  var listEl = document.getElementById('dl-sources');
+  var tipEl = document.getElementById('dl-tip');
+
+  function open(key) {
+    var g = GAMES[key];
+    if (!g) return;
+    titleEl.textContent = '下载《' + g.name + '》源码';
+    metaEl.textContent = '压缩包 ' + g.size + ' · 源码，不含编译产物';
+    tipEl.textContent = g.tip;
+
+    listEl.innerHTML = '';
+    g.sources.filter(function (s) { return s.url; }).forEach(function (s) {
+      var a = document.createElement('a');
+      a.className = 'src';
+      a.href = s.url;
+      a.setAttribute('download', '');
+      var descHtml = s.hot ? '<div class="desc hot">🔥 ' + s.desc + '</div>' : '<div class="desc">' + s.desc + '</div>';
+      a.innerHTML = '<div><div class="name">' + s.name + '</div>' + descHtml + '</div><div class="arrow">↓</div>';
+      if (s.hot) a.classList.add('src-hot');
+      listEl.appendChild(a);
+    });
+
+    mask.classList.add('open');
+  }
+
+  function close() { mask.classList.remove('open'); }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.dl'), function (btn) {
+    btn.addEventListener('click', function () { open(btn.getAttribute('data-game')); });
+  });
+  document.getElementById('dl-close').addEventListener('click', close);
+  mask.addEventListener('click', function (e) { if (e.target === mask) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
+</body>
+</html>
