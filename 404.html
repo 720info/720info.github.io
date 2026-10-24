@@ -581,9 +581,15 @@ body[data-user-color-scheme="dark"] .nf-btn {
 /* 旧站关服：任何 /oldweb/ 下的地址（含已不存在的文章页）统一送到关服页 */
 (function () {
   var p = location.pathname;
-  if (p !== '/oldweb/' && /^\/oldweb(\/|$)/.test(p)) {
-    location.replace('/oldweb/');
-  }
+  if (p === '/oldweb/' || p === '/oldweb/index.html') return;
+  var isOld = /^\/oldweb(\/|$)/.test(p)          // 旧站主目录
+            || /^\/post(\/|$)/.test(p)            // 旧文章页
+            || /^\/math(\/|$)/.test(p)            // 魔鬼数学实验室（旧仓库）
+            || /^\/wobudaozheshisha(\/|$)/.test(p) // 旧项目仓库
+            || /^\/page\d*\.html$/.test(p)        // 旧列表分页
+            || /^\/tag\.html$/.test(p)             // 旧标签页
+            || /^\/about\.html$/.test(p);          // 旧关于页
+  if (isOld) location.replace('/oldweb/');
 })();
 </script>
 
