@@ -11,7 +11,31 @@
   <rights>All rights reserved 2026, 720 科技</rights>
   <subtitle>分享技术与生活</subtitle>
   <title>720 科技博客</title>
-  <updated>2026-10-19T12:35:01.000Z</updated>
+  <updated>2026-10-24T03:20:00.000Z</updated>
+  <entry>
+    <author>
+      <name>720 科技</name>
+    </author>
+    <category term="日常生活" scheme="https://720info.top/categories/%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB/"/>
+    <category term="随笔" scheme="https://720info.top/tags/essay/"/>
+    <category term="日常" scheme="https://720info.top/tags/%E6%97%A5%E5%B8%B8/"/>
+    <content>
+      <![CDATA[<p>今天 1024，程序员节。</p><p>朋友圈没刷到几个，估计大家都在上班。</p><p>我在改博客的关于页。想弄成一块软木板，钉两张纸上去，一张是邮件窗口，一张是微信聊天。</p><p>我让 Workbuddy 改完一看，纸钉得不对。钉子一半在纸上，一半悬在板子外头，像马上就要掉。</p><p>我说钉在纸上，不是钉在纸的边缘，有点物理常识。</p><p>Work Buddy改得飞快，说确实，钉帽整颗压在纸面上才对，骑在边沿上那叫夹子。改完纸还是歪的，钉子正了，一下就顺眼了。</p><p>上午还否了它给的四个方案。名字起得挺唬人，物品栏、信纸、书脊、存档面板，点开一看全是同一张卡片换了四种边框。我说没创意。它自己也认，说这四个能共用一套结构，那就是换皮。</p><p>它讲的那些词我一个没记住。我就知道换了半天还是那张卡。</p><p>顺手翻了翻站里的文章。16 篇，写了快三个月。技术的一共两篇，一篇 Node.js 安装，六百多字。</p><p>难怪没人看。</p><p>先把钉子钉正。</p>]]>
+    </content>
+    <id>https://720info.top/2026/10/24/1024/</id>
+    <link href="https://720info.top/2026/10/24/1024/"/>
+    <published>2026-10-24T03:20:00.000Z</published>
+    <summary>
+      <![CDATA[<p>今天 1024，程序员节。</p>
+<p>朋友圈没刷到几个，估计大家都在上班。</p>
+<p>我在改博客的关于页。想弄成一块软木板，钉两张纸上去，一张是邮件窗口，一张是微信聊天。</p>
+<p>我让 Workbuddy 改完一看，纸钉得不对。钉子一半在纸上，一半悬在板子外头，像马上就要掉。</p>
+<p>我说钉在纸上，不是钉在纸的边缘，有点物理常识。</p>
+<p>Work]]>
+    </summary>
+    <title>1024</title>
+    <updated>2026-10-24T03:20:00.000Z</updated>
+  </entry>
   <entry>
     <author>
       <name>720 科技</name>
