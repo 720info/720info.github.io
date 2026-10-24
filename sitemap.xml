@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://720info.top/2026/10/24/%E5%91%A8%E5%85%AD/</loc>
+    
+    <lastmod>2026-10-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://720info.top/2026/10/24/1024/</loc>
     
     <lastmod>2026-10-24</lastmod>
@@ -301,6 +310,13 @@
   
   <url>
     <loc>https://720info.top/categories/%E6%97%A0%E6%B3%95%E8%A2%AB%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%A1%E5%BC%82%E6%96%87%E7%AB%A0/</loc>
+    <lastmod>2026-10-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://720info.top/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

@@ -584,11 +584,11 @@ body[data-user-color-scheme="dark"] .nf-btn {
   if (p === '/oldweb/' || p === '/oldweb/index.html') return;
   var isOld = /^\/oldweb(\/|$)/.test(p)          // 旧站主目录
             || /^\/post(\/|$)/.test(p)            // 旧文章页
-            || /^\/math(\/|$)/.test(p)            // 魔鬼数学实验室（旧仓库）
             || /^\/wobudaozheshisha(\/|$)/.test(p) // 旧项目仓库
             || /^\/page\d*\.html$/.test(p)        // 旧列表分页
             || /^\/tag\.html$/.test(p)             // 旧标签页
             || /^\/about\.html$/.test(p);          // 旧关于页
+  // 注：/math/ 已重做，不再属于旧站，2026-10-24 撤出跳转名单
   if (isOld) location.replace('/oldweb/');
 })();
 </script>
