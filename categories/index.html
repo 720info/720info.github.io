@@ -15,7 +15,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="rgba(30, 64, 175, 0.85)">
+  <meta name="theme-color" content="rgba(28, 25, 23, 0.88)">
   <meta name="author" content="720 科技">
   <meta name="keywords" content="">
   
@@ -68,7 +68,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"720info.top","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"720info.top","root":"/","version":"1.9.9","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -91,7 +91,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 34vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -409,14 +409,15 @@
 
   
 
-<div id="banner" class="banner" parallax=true
-     style="background: url('https://s41.ax1x.com/2026/08/01/pm4GkWt.jpg') no-repeat center center; background-size: cover;">
+<div id="banner" class="banner"
+     data-fallback-img="/img/default.jpg"
+     style="background-image: url('https://s1.oururl.cn/autoupload/cd7ca/20261023/aQe9/2000X1125/720-banner-lighthouse.jpg'), url('/img/default.jpg'); background-repeat: no-repeat; background-position: center 28%; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="分类"></span>
+            <span id="subtitle">分类</span>
           
         </div>
 
@@ -455,13 +456,18 @@
     
     
     
+    
     <div class="category row nomargin-x">
       <a class="category-item collapsed
           list-group-item category-item-action col-10 col-md-11 col-xm-11" title="日常生活"
         id="heading-5d2d5acb39e49bbc89830f8942827b0b" role="tab" data-toggle="collapse" href="#collapse-5d2d5acb39e49bbc89830f8942827b0b"
         aria-expanded="false"
+        data-cat="日常生活"
       >
-        日常生活
+        
+          <img class="cat-mini" src="/img/cat/life.png" srcset="/img/loading.gif" lazyload alt="" width="34" height="34" loading="lazy">
+        
+        <span class="cat-name">日常生活</span>
         <span class="list-group-count"></span>
         <i class="iconfont icon-arrowright"></i>
       </a>
@@ -542,13 +548,18 @@
     
     
     
+    
     <div class="category row nomargin-x">
       <a class="category-item collapsed
           list-group-item category-item-action col-10 col-md-11 col-xm-11" title="网站公告"
         id="heading-5adb13aa89673475e61e55e52824957a" role="tab" data-toggle="collapse" href="#collapse-5adb13aa89673475e61e55e52824957a"
         aria-expanded="false"
+        data-cat="网站公告"
       >
-        网站公告
+        
+          <img class="cat-mini" src="/img/cat/announce.png" srcset="/img/loading.gif" lazyload alt="" width="34" height="34" loading="lazy">
+        
+        <span class="cat-name">网站公告</span>
         <span class="list-group-count"></span>
         <i class="iconfont icon-arrowright"></i>
       </a>
@@ -602,13 +613,83 @@
     
     
     
+    
+    <div class="category row nomargin-x">
+      <a class="category-item collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="无法被分类的诡异文章"
+        id="heading-c7f9d918123177f925f93aa1c0ba7939" role="tab" data-toggle="collapse" href="#collapse-c7f9d918123177f925f93aa1c0ba7939"
+        aria-expanded="false"
+        data-cat="无法被分类的诡异文章"
+      >
+        
+          <img class="cat-mini" src="/img/cat/weird.png" srcset="/img/loading.gif" lazyload alt="" width="34" height="34" loading="lazy">
+        
+        <span class="cat-name">无法被分类的诡异文章</span>
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%97%A0%E6%B3%95%E8%A2%AB%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%A1%E5%BC%82%E6%96%87%E7%AB%A0/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>3</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-c7f9d918123177f925f93aa1c0ba7939"
+           role="tabpanel" aria-labelledby="heading-c7f9d918123177f925f93aa1c0ba7939">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/2026/10/19/%E5%91%A8%E4%B8%80/" title="周一"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">周一</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/10/17/%E5%91%A8%E6%9C%AB/" title="周末"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">周末</span>
+        </a>
+      
+    
+      
+      
+        <a href="/2026/09/13/%E6%88%91%E6%98%AF%E6%A0%87%E9%A2%98/" title="我是标题"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">我是标题</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    
     <div class="category row nomargin-x">
       <a class="category-item collapsed
           list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Vibecoding"
         id="heading-f274a41e774f8e1cdb56e65eafdf9512" role="tab" data-toggle="collapse" href="#collapse-f274a41e774f8e1cdb56e65eafdf9512"
         aria-expanded="false"
+        data-cat="Vibecoding"
       >
-        Vibecoding
+        
+          <img class="cat-mini" src="/img/cat/vibe.png" srcset="/img/loading.gif" lazyload alt="" width="34" height="34" loading="lazy">
+        
+        <span class="cat-name">Vibecoding</span>
         <span class="list-group-count"></span>
         <i class="iconfont icon-arrowright"></i>
       </a>
@@ -653,115 +734,18 @@
     
     
     
-    <div class="category row nomargin-x">
-      <a class="category-item collapsed
-          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="未分类"
-        id="heading-ecf7ebb59328ebf2369ce693a2423566" role="tab" data-toggle="collapse" href="#collapse-ecf7ebb59328ebf2369ce693a2423566"
-        aria-expanded="false"
-      >
-        未分类
-        <span class="list-group-count"></span>
-        <i class="iconfont icon-arrowright"></i>
-      </a>
-      
-        <a href="/categories/%E6%9C%AA%E5%88%86%E7%B1%BB/" class="category-count col-2 col-md-1 col-xm-1">
-          <i class="iconfont icon-articles"></i>
-          <span>2</span>
-        </a>
-      
-      <div class="category-collapse collapse " id="collapse-ecf7ebb59328ebf2369ce693a2423566"
-           role="tabpanel" aria-labelledby="heading-ecf7ebb59328ebf2369ce693a2423566">
-        
-        
-          
-  <div class="category-post-list">
-    
-    
-      
-      
-        <a href="/2026/10/19/%E5%91%A8%E4%B8%80/" title="周一"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">周一</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2026/10/17/%E5%91%A8%E6%9C%AB/" title="周末"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">周末</span>
-        </a>
-      
-    
-  </div>
-
-        
-      </div>
-    </div>
-  
-    
-    
-    
-    <div class="category row nomargin-x">
-      <a class="category-item collapsed
-          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="无法被分类的诡异文章"
-        id="heading-c7f9d918123177f925f93aa1c0ba7939" role="tab" data-toggle="collapse" href="#collapse-c7f9d918123177f925f93aa1c0ba7939"
-        aria-expanded="false"
-      >
-        无法被分类的诡异文章
-        <span class="list-group-count"></span>
-        <i class="iconfont icon-arrowright"></i>
-      </a>
-      
-        <a href="/categories/%E6%97%A0%E6%B3%95%E8%A2%AB%E5%88%86%E7%B1%BB%E7%9A%84%E8%AF%A1%E5%BC%82%E6%96%87%E7%AB%A0/" class="category-count col-2 col-md-1 col-xm-1">
-          <i class="iconfont icon-articles"></i>
-          <span>2</span>
-        </a>
-      
-      <div class="category-collapse collapse " id="collapse-c7f9d918123177f925f93aa1c0ba7939"
-           role="tabpanel" aria-labelledby="heading-c7f9d918123177f925f93aa1c0ba7939">
-        
-        
-          
-  <div class="category-post-list">
-    
-    
-      
-      
-        <a href="/2026/09/20/%E5%A4%8D%E6%B4%BB/" title="复活"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">复活</span>
-        </a>
-      
-    
-      
-      
-        <a href="/2026/09/13/%E6%88%91%E6%98%AF%E6%A0%87%E9%A2%98/" title="我是标题"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">我是标题</span>
-        </a>
-      
-    
-  </div>
-
-        
-      </div>
-    </div>
-  
-    
-    
     
     <div class="category row nomargin-x">
       <a class="category-item collapsed
           list-group-item category-item-action col-10 col-md-11 col-xm-11" title="技术分享"
         id="heading-1c943e3f418889814b69af8752656cad" role="tab" data-toggle="collapse" href="#collapse-1c943e3f418889814b69af8752656cad"
         aria-expanded="false"
+        data-cat="技术分享"
       >
-        技术分享
+        
+          <img class="cat-mini" src="/img/cat/share.png" srcset="/img/loading.gif" lazyload alt="" width="34" height="34" loading="lazy">
+        
+        <span class="cat-name">技术分享</span>
         <span class="list-group-count"></span>
         <i class="iconfont icon-arrowright"></i>
       </a>
@@ -863,38 +847,12 @@
 
   <!-- Scripts -->
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 

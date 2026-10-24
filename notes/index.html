@@ -15,7 +15,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <meta name="theme-color" content="rgba(30, 64, 175, 0.85)">
+  <meta name="theme-color" content="rgba(28, 25, 23, 0.88)">
   <meta name="author" content="720 科技">
   <meta name="keywords" content="">
   
@@ -70,7 +70,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"720info.top","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"720info.top","root":"/","version":"1.9.9","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":false,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -93,7 +93,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 100vh;">
+<div class="header-inner" style="height: 32vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -411,24 +411,21 @@
 
   
 
-<div id="banner" class="banner" parallax=true
-     style="background: url('https://s41.ax1x.com/2026/08/01/pm4GkWt.jpg') no-repeat center center; background-size: cover;">
+<div id="banner" class="banner"
+     data-fallback-img="/img/default.jpg"
+     style="background-image: url('https://s1.oururl.cn/autoupload/cd7ca/20261023/aQe9/2000X1125/720-banner-lighthouse.jpg'), url('/img/default.jpg'); background-repeat: no-repeat; background-position: center 28%; background-size: cover;">
   <div class="full-bg-img">
-    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.55)">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.32)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="一句话，记录生活"></span>
+            <span id="subtitle">一句话，记录生活</span>
           
         </div>
 
         
       </div>
 
-      
-        <div class="scroll-down-bar">
-          <i class="iconfont icon-arrowdown"></i>
-        </div>
       
     </div>
   </div>
@@ -444,148 +441,564 @@
     
       <div class="container nopadding-x-md">
         <div id="board"
-          style="margin-top: 0">
+          >
           
           <div class="container">
             <div class="row">
               <div class="col-12 col-md-10 m-auto">
                 
 
-<div class="container nopadding-x-md">
-  <div id="board">
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-md-10 mx-auto">
+<div class="notes-container">
 
-          <div class="notes-toolbar">
-            <input type="text" id="note-search" class="notes-search" placeholder="搜索笔记…" autocomplete="off">
-            <span class="notes-count" id="notes-count">共 3 条</span>
-          </div>
+      <div class="notes-toolbar">
+        <input type="text" id="note-search" class="notes-search" placeholder="搜索笔记…" autocomplete="off">
+        <span class="notes-count" id="notes-count">共 3 条</span>
+      </div>
 
+      
+      <div class="notes-chips">
+        <button class="note-chip active" data-tag="">全部</button>
+        
+        <button class="note-chip" data-tag="日常">日常</button>
+        
+      </div>
+      
+
+      <div id="notes-stage" data-view="wall">
+        
+        
           
-          <div class="notes-chips">
-            <button class="note-chip active" data-tag="">全部</button>
-            
-            <button class="note-chip" data-tag="日常">日常</button>
-            
-          </div>
           
-
-          <div id="notes-list">
             
-            
-              
-              
-                
-                <p class="notes-day">今天</p>
-              
-              
-              <div class="row mx-auto index-card note-card" data-tags="日常">
-                <article class="col-12 mx-auto index-info">
-                  <h2 class="index-header">
-                    <a href="/2026/10/19/%E5%91%A8%E4%B8%80/">周一</a>
-                    <span class="note-time">20:35</span>
-                  </h2>
-                  <div class="note-body markdown-body"><p>很不错的一天，作业都已写完，玩会电脑😄</p>
-</div>
-                  
-                  <div class="note-tags">
-                    
-                    <a href="/notes/?tag=%E6%97%A5%E5%B8%B8" class="note-tag">#日常</a>
-                    
-                  </div>
-                  
-                </article>
+            <p class="notes-day">2026年10月19日</p>
+          
+          
+          <article class="note-card" data-tags="日常">
+            <div class="nc-inner">
+              <div class="nc-meta">
+                <span class="nc-date">2026.10.19</span>
+                <span class="nc-time">20:35</span>
               </div>
-            
-              
-              
-                
-                <p class="notes-day">2026年10月17日</p>
-              
-              
-              <div class="row mx-auto index-card note-card" data-tags="日常">
-                <article class="col-12 mx-auto index-info">
-                  <h2 class="index-header">
-                    <a href="/2026/10/17/%E5%91%A8%E6%9C%AB/">周末</a>
-                    <span class="note-time">18:40</span>
-                  </h2>
-                  <div class="note-body markdown-body"><p>今天一直在玩电脑，没有人来陪我。继续加油呀💪</p>
+              <h2 class="nc-title"><a href="/2026/10/19/%E5%91%A8%E4%B8%80/">周一</a></h2>
+              <div class="nc-body markdown-body"><p>很不错的一天，作业都已写完，玩会电脑😄</p>
 </div>
-                  
-                  <div class="note-tags">
-                    
-                    <a href="/notes/?tag=%E6%97%A5%E5%B8%B8" class="note-tag">#日常</a>
-                    
-                  </div>
-                  
-                </article>
+              
+              <div class="nc-tags">
+                
+                <a href="/notes/?tag=%E6%97%A5%E5%B8%B8" class="note-tag">#日常</a>
+                
               </div>
+              
+            </div>
+          </article>
+        
+          
+          
             
+            <p class="notes-day">2026年10月17日</p>
+          
+          
+          <article class="note-card" data-tags="日常">
+            <div class="nc-inner">
+              <div class="nc-meta">
+                <span class="nc-date">2026.10.17</span>
+                <span class="nc-time">18:40</span>
+              </div>
+              <h2 class="nc-title"><a href="/2026/10/17/%E5%91%A8%E6%9C%AB/">周末</a></h2>
+              <div class="nc-body markdown-body"><p>今天一直在玩电脑，没有人来陪我。继续加油呀💪</p>
+</div>
               
+              <div class="nc-tags">
+                
+                <a href="/notes/?tag=%E6%97%A5%E5%B8%B8" class="note-tag">#日常</a>
+                
+              </div>
               
-              
-              <div class="row mx-auto index-card note-card" data-tags="日常">
-                <article class="col-12 mx-auto index-info">
-                  <h2 class="index-header">
-                    <a href="/2026/10/17/%E9%9A%8F%E6%89%8B%E8%AE%B0%E5%BC%80%E9%80%9A/">随手记开通</a>
-                    <span class="note-time">18:20</span>
-                  </h2>
-                  <div class="note-body markdown-body"><p>从今天起，这里放那些不值得写成文章、但又想留下来的东西。</p>
+            </div>
+          </article>
+        
+          
+          
+          
+          <article class="note-card" data-tags="日常">
+            <div class="nc-inner">
+              <div class="nc-meta">
+                <span class="nc-date">2026.10.17</span>
+                <span class="nc-time">18:20</span>
+              </div>
+              <h2 class="nc-title"><a href="/2026/10/17/%E9%9A%8F%E6%89%8B%E8%AE%B0%E5%BC%80%E9%80%9A/">随手记开通</a></h2>
+              <div class="nc-body markdown-body"><p>从今天起，这里放那些不值得写成文章、但又想留下来的东西。</p>
 <p>一句话，一张图，发完就走。</p>
 </div>
-                  
-                  <div class="note-tags">
-                    
-                    <a href="/notes/?tag=%E6%97%A5%E5%B8%B8" class="note-tag">#日常</a>
-                    
-                  </div>
-                  
-                </article>
+              
+              <div class="nc-tags">
+                
+                <a href="/notes/?tag=%E6%97%A5%E5%B8%B8" class="note-tag">#日常</a>
+                
               </div>
-            
-          </div>
-
-          <p class="notes-empty" id="notes-empty" style="display:none">还没有笔记。去后台发第一条吧。</p>
-
-        </div>
+              
+            </div>
+          </article>
+        
       </div>
-    </div>
-  </div>
+
+      <p class="notes-empty" id="notes-empty" style="display:none">还没有笔记。去后台发第一条吧。</p>
+
+</div>
+
+<div class="view-switch" id="view-switch" role="tablist" aria-label="切换随手记样式">
+  <button type="button" data-v="wall" class="on">便签墙</button>
+  <button type="button" data-v="save">存档</button>
+  <button type="button" data-v="chat">对话</button>
 </div>
 
 <style>
-  .notes-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-  .notes-search {
-    flex: 1; padding: 8px 14px; font-size: 14px;
-    border: 1px solid var(--border-color, #dee2e6); border-radius: 8px;
-    background: var(--board-bg-color, #fff); color: inherit;
+/* ===================== 工具条 ===================== */
+.notes-container { padding-top: 34px; padding-bottom: 100px; }
+.notes-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.notes-search {
+  flex: 1; padding: 9px 15px; font-size: 14px;
+  border: 1px solid #e7e5e4; border-radius: 8px;
+  background: #fff; color: #292524;
+}
+.notes-search::placeholder { color: #a8a29e; }
+.notes-search:focus { outline: none; border-color: #d6cfc4; }
+.notes-count { font-size: 13px; color: #a8a29e; white-space: nowrap; }
+.notes-chips { margin-bottom: 20px; }
+.note-chip {
+  font-size: 12px; padding: 4px 13px; margin: 0 7px 8px 0;
+  border: 1px solid #e7e5e4; border-radius: 999px;
+  background: transparent; color: #78716c; cursor: pointer;
+  transition: all .15s;
+}
+.note-chip:hover { border-color: #d6cfc4; }
+.note-chip.active { background: #fef3c7; border-color: #fcd34d; color: #92400e; font-weight: 600; }
+.notes-empty { text-align: center; color: #a8a29e; padding: 48px 0; }
+
+/* 通用卡片内部 */
+.nc-meta { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.nc-date, .nc-time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+  font-size: 11px; letter-spacing: .06em; color: #a8a29e;
+}
+.nc-time { color: #c8c5c0; }
+.nc-title { margin: 0 0 7px; font-size: 1.04rem; font-weight: 700; line-height: 1.5;
+  font-family: "Songti SC", "STSong", "SimSun", Georgia, serif; }
+.nc-title a { color: inherit; text-decoration: none; }
+.nc-body { font-size: 14.6px; line-height: 1.8; }
+.nc-body p { margin-bottom: 0.6em; }
+.nc-body p:last-child { margin-bottom: 0; }
+.nc-body img { max-width: 100%; border-radius: 6px; margin: 10px 0; }
+.nc-tags { margin-top: 10px; }
+/* 清掉 markdown 尾部的空段落和多余间距，避免卡片底部留出空白 */
+#notes-stage .nc-body { margin: 0 !important; }
+#notes-stage .nc-body > *:last-child { margin-bottom: 0 !important; }
+#notes-stage .nc-body p:empty { display: none; }
+#notes-stage .nc-inner > *:last-child { margin-bottom: 0 !important; }
+.note-tag { font-size: 11px; margin-right: 10px; text-decoration: none; }
+.notes-day { font-size: 12px; color: #a8a29e; letter-spacing: .06em; margin: 0; }
+
+/* ===================== A · 便签墙 ===================== */
+#notes-stage[data-view="wall"] {
+  background: #f6f3ee;
+  border: 1px solid #e8e3dc;
+  border-radius: 6px;
+  padding: 36px 34px 30px;
+  display: flex; flex-wrap: wrap; gap: 22px;
+  align-items: flex-start;
+}
+#notes-stage[data-view="wall"] .notes-day { display: none; }
+#notes-stage[data-view="wall"] .note-card {
+  width: 262px;
+  padding: 20px 22px 18px;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(80,60,40,.10), 0 10px 22px rgba(80,60,40,.06);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+#notes-stage[data-view="wall"] .note-card:hover {
+  transform: rotate(0deg) translateY(-3px) !important;
+  box-shadow: 0 4px 10px rgba(80,60,40,.14), 0 16px 30px rgba(80,60,40,.10);
+}
+/* 胶带 */
+#notes-stage[data-view="wall"] .note-card::before {
+  content: ''; position: absolute; top: -9px; left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 54px; height: 16px;
+  background: rgba(255,255,255,.62);
+  border-left: 1px dashed rgba(160,140,110,.28);
+  border-right: 1px dashed rgba(160,140,110,.28);
+}
+/* 三色循环 */
+#notes-stage[data-view="wall"] .note-card:nth-of-type(3n+1) { background: #fdf6d8; transform: rotate(-1.6deg); }
+#notes-stage[data-view="wall"] .note-card:nth-of-type(3n+2) { background: #e8f4ee; transform: rotate(1.1deg); }
+#notes-stage[data-view="wall"] .note-card:nth-of-type(3n+3) { background: #fbeae4; transform: rotate(-0.6deg); }
+#notes-stage[data-view="wall"] .nc-title { color: #3f3a33; }
+#notes-stage[data-view="wall"] .nc-body { color: #5a5248; }
+#notes-stage[data-view="wall"] .nc-date { color: #9a8f80; }
+#notes-stage[data-view="wall"] .nc-time { color: #b5aa99; }
+#notes-stage[data-view="wall"] .note-tag { color: #9a8f80; border-bottom: 1px solid rgba(154,143,128,.4); padding-bottom: 1px; }
+
+/* ===================== B · 存档 ===================== */
+#notes-stage[data-view="save"] {
+  background: #14122b;
+  background-image:
+    linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px);
+  background-size: 22px 22px;
+  border: 1px solid #2a2650;
+  border-radius: 2px;
+  padding: 28px 28px 24px;
+  counter-reset: slot;
+}
+#notes-stage[data-view="save"] .notes-day {
+  color: #fbbf24; font-family: ui-monospace, monospace;
+  font-size: 11.5px; letter-spacing: .16em; font-weight: 700;
+  margin: 18px 0 10px;
+  padding-bottom: 7px; border-bottom: 2px solid #3b3568;
+}
+#notes-stage[data-view="save"] .notes-day:first-child { margin-top: 0; }
+#notes-stage[data-view="save"] .note-card {
+  counter-increment: slot;
+  display: grid; grid-template-columns: 52px 1fr; gap: 16px;
+  align-items: start;
+  padding: 14px 16px;
+  margin-bottom: 9px;
+  background: rgba(58,50,96,.34);
+  border: 2px solid #3b3568;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,.3), inset 3px 3px 0 rgba(255,255,255,.05);
+  transition: all .18s;
+}
+#notes-stage[data-view="save"] .note-card:hover {
+  background: rgba(80,68,130,.5);
+  border-color: #fbbf24;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,.3), 0 0 16px rgba(251,191,36,.22);
+}
+#notes-stage[data-view="save"] .note-card::before {
+  content: counter(slot, decimal-leading-zero);
+  width: 52px; height: 52px;
+  display: flex; align-items: center; justify-content: center;
+  background: #fbbf24; color: #1c1917;
+  font-family: ui-monospace, monospace; font-size: 1.15rem; font-weight: 700;
+  box-shadow: inset -3px -3px 0 rgba(0,0,0,.22);
+}
+#notes-stage[data-view="save"] .note-card:nth-of-type(3n+2)::before { background: #22d3ee; }
+#notes-stage[data-view="save"] .note-card:nth-of-type(3n+3)::before { background: #a78bfa; }
+#notes-stage[data-view="save"] .nc-meta { display: none; }
+#notes-stage[data-view="save"] .nc-title { color: #f5f5f4; font-size: .99rem; margin-bottom: 4px; }
+#notes-stage[data-view="save"] .nc-body { color: #9d95c4; font-size: 13px; line-height: 1.68; }
+#notes-stage[data-view="save"] .nc-tags { margin-top: 7px; }
+#notes-stage[data-view="save"] .note-tag { color: #6b6497; }
+
+/* ===================== C · 对话 ===================== */
+#notes-stage[data-view="chat"] {
+  background: #f7f4ef;
+  border: 1px solid #e8e3db;
+  border-radius: 12px;
+  padding: 26px 24px 18px;
+}
+#notes-stage[data-view="chat"] .notes-day {
+  text-align: center; margin: 6px 0 20px;
+  font-size: 11px; color: #a8a29e; letter-spacing: .05em;
+}
+#notes-stage[data-view="chat"] .notes-day::before,
+#notes-stage[data-view="chat"] .notes-day::after { content: none; }
+#notes-stage[data-view="chat"] .note-card {
+  display: flex; gap: 11px; align-items: flex-start;
+  margin-bottom: 18px;
+}
+#notes-stage[data-view="chat"] .note-card::before {
+  content: '720';
+  width: 38px; height: 38px; flex: 0 0 38px;
+  display: flex; align-items: center; justify-content: center;
+  background: #d97706; color: #fff; border-radius: 4px;
+  font-family: ui-monospace, monospace; font-size: 12px; font-weight: 700;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,.18);
+}
+#notes-stage[data-view="chat"] .nc-inner {
+  background: #fff;
+  border: 1px solid #e8e3db;
+  border-radius: 3px 12px 12px 12px;
+  padding: 12px 16px;
+  max-width: 78%;
+  box-shadow: 0 1px 3px rgba(80,60,40,.05);
+}
+#notes-stage[data-view="chat"] .nc-meta { margin-bottom: 3px; }
+#notes-stage[data-view="chat"] .nc-date { display: none; }
+#notes-stage[data-view="chat"] .nc-time { display: inline; }
+#notes-stage[data-view="chat"] .nc-title { font-size: .95rem; color: #7c5a2a; margin-bottom: 4px; }
+#notes-stage[data-view="chat"] .nc-body { color: #3f3a33; font-size: 14.2px; }
+#notes-stage[data-view="chat"] .note-tag { color: #a89a86; }
+
+/* ===================== 整块白板跟随模式换底色 ===================== */
+/* 2026-10-24：板子通栏 + body/main/board 同色，任何缝隙都不再是白的 */
+body:has(#notes-stage) { transition: background-color .22s ease; }
+body:has(#notes-stage[data-view="wall"]) { background-color: #f6f3ee !important; }
+body:has(#notes-stage[data-view="chat"]) { background-color: #f7f4ef !important; }
+body:has(#notes-stage[data-view="save"]) { background-color: #14122b !important; }
+
+main:has(#notes-stage) {
+  background: transparent !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* 外层 bootstrap container 也要通栏，否则里面的宽度被卡在 960 */
+main:has(#notes-stage) > .container,
+main > .container:has(#board #notes-stage) {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* 布局模板外面还包着 row + col-md-10（只占 83%），这是两侧白边的真正来源 */
+main:has(#notes-stage) .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+main:has(#notes-stage) .col-12.col-md-10,
+main:has(#notes-stage) [class*="col-md-10"] {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+#board:has(#notes-stage) {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding-top: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transition: background-color .22s ease;
+}
+#board:has(#notes-stage) > .container,
+#board:has(#notes-stage) > .row,
+#board:has(#notes-stage) .notes-container {
+  max-width: none !important;
+  width: 100% !important;
+  padding-left: clamp(18px, 4.5vw, 84px) !important;
+  padding-right: clamp(18px, 4.5vw, 84px) !important;
+}
+#board:has(#notes-stage[data-view="wall"]) { background-color: #f6f3ee !important; }
+#board:has(#notes-stage[data-view="chat"]) { background-color: #f7f4ef !important; }
+#board:has(#notes-stage[data-view="save"]) { background-color: #14122b !important; }
+
+/* 便签平分整行，不再留一条空 */
+#notes-stage[data-view="wall"] .note-card {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+}
+
+/* 对话气泡放宽，别都挤在左边 */
+#notes-stage[data-view="chat"] .nc-inner { max-width: min(86%, 760px); }
+
+/* 存档：日期时间移到卡片右侧，填掉那片空白 */
+#notes-stage[data-view="save"] .note-card { position: relative; padding-right: 130px; }
+#notes-stage[data-view="save"] .nc-meta {
+  display: flex !important;
+  position: absolute;
+  top: 15px; right: 18px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  margin: 0;
+}
+#notes-stage[data-view="save"] .nc-date { display: block !important; color: #fbbf24 !important; font-size: 11px; }
+#notes-stage[data-view="save"] .nc-time { display: block !important; color: #6b6497 !important; font-size: 10.5px; }
+
+/* 便签墙与对话不需要自己的底和框，交给整块板 */
+#notes-stage[data-view="wall"],
+#notes-stage[data-view="chat"] { background: transparent; border: none; border-radius: 0; }
+#notes-stage[data-view="wall"] { padding: 30px 0 10px; }
+#notes-stage[data-view="chat"] { padding: 10px 0 10px; }
+
+/* 存档模式下工具条也要跟着变深 */
+#board:has(#notes-stage[data-view="save"]) .notes-search {
+  background: rgba(58,50,96,.4) !important;
+  border-color: #3b3568 !important;
+  color: #e7e5e4 !important;
+}
+#board:has(#notes-stage[data-view="save"]) .notes-search::placeholder { color: #6b6497; }
+#board:has(#notes-stage[data-view="save"]) .notes-count { color: #6b6497; }
+#board:has(#notes-stage[data-view="save"]) .note-chip {
+  border-color: #3b3568; color: #9d95c4;
+}
+#board:has(#notes-stage[data-view="save"]) .note-chip.active {
+  background: #fbbf24; border-color: #fbbf24; color: #1c1917;
+}
+
+/* ===================== 底部切换条（按钮本身跟着形态变身） ===================== */
+.view-switch {
+  position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%);
+  z-index: 900;
+  display: flex; align-items: center;
+  transition: background-color .22s ease, border-color .22s ease, box-shadow .22s ease,
+              border-radius .22s ease, padding .22s ease, gap .22s ease;
+}
+.view-switch button {
+  border: 0; background: transparent; color: #a8a29e;
+  cursor: pointer; font-family: inherit;
+  transition: all .18s cubic-bezier(.34,1.4,.64,1);
+  white-space: nowrap;
+  position: relative;
+}
+
+/* ---------- 便签墙形态：按钮是三张小便签，带胶带、轻微歪 ---------- */
+.view-switch[data-view="wall"] {
+  background: transparent; border: 0; box-shadow: none;
+  gap: 10px; padding: 0;
+}
+.view-switch[data-view="wall"] button {
+  width: 74px; height: 44px;
+  border-radius: 1px;
+  font-size: 12px; letter-spacing: .02em;
+  color: #6d6149;
+  background: #fdf6d8;
+  box-shadow: 0 2px 5px rgba(80,60,40,.16), 0 1px 2px rgba(80,60,40,.1);
+}
+.view-switch[data-view="wall"] button:nth-child(2) { background: #e8f4ee; color: #4e6a60; transform: rotate(1.4deg); }
+.view-switch[data-view="wall"] button:nth-child(3) { background: #fbeae4; color: #7a5b50; transform: rotate(-1deg); }
+.view-switch[data-view="wall"] button:nth-child(1) { transform: rotate(-1.8deg); }
+/* 胶带 */
+.view-switch[data-view="wall"] button::before {
+  content: ''; position: absolute; top: -5px; left: 50%; transform: translateX(-50%);
+  width: 28px; height: 9px;
+  background: rgba(255,255,255,.72);
+  border-left: 1px dashed rgba(150,130,100,.28);
+  border-right: 1px dashed rgba(150,130,100,.28);
+}
+.view-switch[data-view="wall"] button:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: 0 5px 12px rgba(80,60,40,.2);
+}
+.view-switch[data-view="wall"] button.on {
+  transform: rotate(0deg) translateY(-7px) scale(1.04);
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(80,60,40,.26);
+}
+
+/* ---------- 存档形态：红白机菜单，直角硬边，选中项带 ▶ ---------- */
+.view-switch[data-view="save"] {
+  background: rgba(20,18,43,.97);
+  border: 2px solid #fbbf24;
+  border-radius: 0;
+  gap: 0; padding: 3px;
+  box-shadow: 0 0 22px rgba(251,191,36,.28), 0 8px 26px rgba(0,0,0,.4);
+}
+.view-switch[data-view="save"] button {
+  border-radius: 0;
+  padding: 9px 16px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px; letter-spacing: .1em;
+  color: #8b83b8;
+}
+.view-switch[data-view="save"] button:hover { color: #e7e5e4; }
+.view-switch[data-view="save"] button.on {
+  background: #fbbf24; color: #14122b; font-weight: 700;
+  box-shadow: inset -2px -2px 0 rgba(0,0,0,.25), inset 2px 2px 0 rgba(255,255,255,.35);
+}
+.view-switch[data-view="save"] button.on::before {
+  content: '▶'; margin-right: 6px; font-size: 9px; vertical-align: 1px;
+}
+.view-switch[data-view="save"] button::before { content: ''; }
+
+/* ---------- 对话形态：三个气泡，选中那个带小尾巴 ---------- */
+.view-switch[data-view="chat"] {
+  background: #f7f4ef;
+  border: 1px solid #e8e3db;
+  border-radius: 20px;
+  gap: 7px; padding: 6px;
+  box-shadow: 0 6px 20px rgba(80,60,40,.1);
+}
+.view-switch[data-view="chat"] button {
+  background: #fff;
+  border: 1px solid #e8e3db;
+  border-radius: 13px;
+  padding: 7px 16px; font-size: 12px;
+  color: #a89a86;
+  box-shadow: 0 1px 2px rgba(80,60,40,.05);
+}
+.view-switch[data-view="chat"] button:hover { color: #7c5a2a; border-color: #ddd5c8; }
+.view-switch[data-view="chat"] button.on {
+  background: #d97706; border-color: #d97706; color: #fff; font-weight: 600;
+  border-radius: 13px 13px 13px 3px;
+  box-shadow: 0 3px 10px rgba(217,119,6,.3);
+}
+
+/* 系统深色模式：便签与气泡也转深（存档本来就是深的，不用管） */
+@media (prefers-color-scheme: dark) {
+  html:not([data-user-color-scheme="light"]) .view-switch[data-view="wall"] button {
+    background: #3a352e !important; color: #d6d3d1 !important;
   }
-  .notes-count { font-size: 13px; color: #868e96; white-space: nowrap; }
-  .notes-chips { margin-bottom: 18px; }
-  .note-chip {
-    font-size: 12px; padding: 3px 12px; margin: 0 8px 8px 0;
-    border: 1px solid var(--border-color, #dee2e6); border-radius: 999px;
-    background: transparent; color: inherit; cursor: pointer;
+  html:not([data-user-color-scheme="light"]) .view-switch[data-view="chat"] {
+    background: #262220; border-color: #44403c;
   }
-  .note-chip.active { background: #1e88e5; border-color: #1e88e5; color: #fff; }
-  .notes-day { font-size: 14px; font-weight: 600; color: #868e96; margin: 18px 0 10px; }
-  .note-card .note-time { font-size: 12px; color: #adb5bd; font-weight: 400; margin-left: 8px; }
-  .note-body { font-size: 15px; }
-  .note-body p:last-child { margin-bottom: 0; }
-  .note-tags { margin-top: 8px; font-size: 12px; }
-  .note-tag { color: #1e88e5; margin-right: 10px; text-decoration: none; }
-  .notes-empty { text-align: center; color: #adb5bd; padding: 48px 0; }
+  html:not([data-user-color-scheme="light"]) .view-switch[data-view="chat"] button {
+    background: #332e2a; border-color: #44403c; color: #a8a29e;
+  }
+}
+html[data-user-color-scheme="dark"] .view-switch[data-view="wall"] button,
+body[data-user-color-scheme="dark"] .view-switch[data-view="wall"] button {
+  background: #3a352e !important; color: #d6d3d1 !important;
+}
+html[data-user-color-scheme="dark"] .view-switch[data-view="chat"],
+body[data-user-color-scheme="dark"] .view-switch[data-view="chat"] {
+  background: #262220 !important; border-color: #44403c !important;
+}
+html[data-user-color-scheme="dark"] .view-switch[data-view="chat"] button,
+body[data-user-color-scheme="dark"] .view-switch[data-view="chat"] button {
+  background: #332e2a !important; border-color: #44403c !important; color: #a8a29e !important;
+}
+
+@media (max-width: 720px) {
+  #notes-stage[data-view="wall"] { padding: 24px 18px 20px; gap: 16px; }
+  #notes-stage[data-view="wall"] .note-card { width: 100%; }
+  #notes-stage[data-view="save"] { padding: 20px 16px; }
+  #notes-stage[data-view="save"] .note-card { grid-template-columns: 44px 1fr; gap: 12px; }
+  #notes-stage[data-view="save"] .note-card::before { width: 44px; height: 44px; font-size: 1rem; }
+  #notes-stage[data-view="chat"] { padding: 20px 16px 12px; }
+  #notes-stage[data-view="chat"] .nc-inner { max-width: 100%; }
+  .view-switch { bottom: 14px; }
+}
 </style>
 
 <script>
 (function () {
+  var stage = document.getElementById('notes-stage');
+  var sw = document.getElementById('view-switch');
+  var btns = sw ? Array.prototype.slice.call(sw.querySelectorAll('button')) : [];
   var cards = Array.prototype.slice.call(document.querySelectorAll('.note-card'));
   var chips = Array.prototype.slice.call(document.querySelectorAll('.note-chip'));
   var input = document.getElementById('note-search');
   var empty = document.getElementById('notes-empty');
   var activeTag = '';
+  var KEY = 'notes-view';
 
+  /* ---- 形态切换 ---- */
+  function setView(v) {
+    if (!stage) return;
+    stage.setAttribute('data-view', v);
+    if (sw) sw.setAttribute('data-view', v);
+    btns.forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-v') === v);
+    });
+    try { localStorage.setItem(KEY, v); } catch (e) {}
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () { setView(b.getAttribute('data-v')); });
+  });
+  var saved = 'wall';
+  try { saved = localStorage.getItem(KEY) || 'wall'; } catch (e) {}
+  if (['wall', 'save', 'chat'].indexOf(saved) === -1) saved = 'wall';
+  setView(saved);
+
+  /* ---- 搜索与标签筛选 ---- */
   function apply() {
     var q = (input.value || '').trim().toLowerCase();
     var shown = 0;
@@ -597,6 +1010,17 @@
       if (ok) shown++;
     });
     empty.style.display = shown ? 'none' : '';
+
+    /* 日期分隔条跟随：该天有可见笔记才显示 */
+    var days = Array.prototype.slice.call(document.querySelectorAll('.notes-day'));
+    days.forEach(function (d) {
+      var n = d.nextElementSibling, has = false;
+      while (n && !n.classList.contains('notes-day')) {
+        if (n.classList.contains('note-card') && n.style.display !== 'none') { has = true; break; }
+        n = n.nextElementSibling;
+      }
+      d.style.display = has ? '' : 'none';
+    });
   }
 
   chips.forEach(function (chip) {
@@ -607,9 +1031,9 @@
       apply();
     });
   });
-  input.addEventListener('input', apply);
+  if (input) input.addEventListener('input', apply);
 
-  // 支持 /notes/?tag=xxx 直接筛选
+  /* ?tag=xxx 直接筛选 */
   var t = new URLSearchParams(location.search).get('tag');
   if (t) {
     var target = chips.filter(function (c) { return c.getAttribute('data-tag') === t; })[0];
@@ -684,38 +1108,12 @@
 
   <!-- Scripts -->
   
-  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
-
-  <script>
-    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
-    NProgress.start()
-    window.addEventListener('load', function() {
-      NProgress.done();
-    })
-  </script>
-
 
 <script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
 <script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 

@@ -313,24 +313,34 @@
       });
 
       // 拖动：按住看板娘整体移动容器
-      var startX = 0, startY = 0, originX = 0, originY = 0, dragging = false;
+      // 2026-10-23 修：原来 mousedown 就置 dragging=true，鼠标稍微一动她就跟着跑（"一点就跑"）。
+      // 现在加 6px 移动阈值，单纯点一下不产生位移。
+      // 另外容器被 scale(0.6) 缩小，位移要按比例换算，否则拖起来跟手不齐。
+      var startX = 0, startY = 0, originX = 0, originY = 0, dragging = false, moved = false;
+      var CTL_SCALE = 0.6;
       canvas.addEventListener('mousedown', function (e) {
         e.preventDefault();
         dragging = true;
+        moved = false;
         startX = e.clientX; startY = e.clientY;
         var r = ctl.getBoundingClientRect();
         originX = r.left; originY = r.top;
-        ctl.style.left = originX + 'px';
-        ctl.style.top = originY + 'px';
-        ctl.style.bottom = 'auto';
-        ctl.style.right = 'auto';
       });
       document.addEventListener('mousemove', function (e) {
         if (!dragging) return;
-        ctl.style.left = (originX + e.clientX - startX) + 'px';
-        ctl.style.top = (originY + e.clientY - startY) + 'px';
+        var dx = e.clientX - startX, dy = e.clientY - startY;
+        if (!moved && Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        if (!moved) {
+          moved = true;
+          ctl.style.left = originX + 'px';
+          ctl.style.top = originY + 'px';
+          ctl.style.bottom = 'auto';
+          ctl.style.right = 'auto';
+        }
+        ctl.style.left = (originX + dx / CTL_SCALE) + 'px';
+        ctl.style.top = (originY + dy / CTL_SCALE) + 'px';
       });
-      document.addEventListener('mouseup', function () { dragging = false; });
+      document.addEventListener('mouseup', function () { dragging = false; moved = false; });
     }, 200);
   }
 
