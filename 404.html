@@ -577,6 +577,16 @@ body[data-user-color-scheme="dark"] .nf-btn {
   })();
 </script>
 
+<script>
+/* 旧站关服：任何 /oldweb/ 下的地址（含已不存在的文章页）统一送到关服页 */
+(function () {
+  var p = location.pathname;
+  if (p !== '/oldweb/' && /^\/oldweb(\/|$)/.test(p)) {
+    location.replace('/oldweb/');
+  }
+})();
+</script>
+
     
 
     
