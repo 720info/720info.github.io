@@ -2004,3 +2004,15 @@ body[data-user-color-scheme="dark"] .b-cork__note a{color:#a8a29e;border-bottom-
 html:not([data-user-color-scheme="dark"]) {
   --board-bg-color: #faf9f7;
 }
+
+/* 2026-11-01 修「短文章整体右移」
+   文字栏继承了 mx-auto（左右自动留白）+ 宽度自适应，
+   内容一短就收缩并被推到中间。这里让它始终占满整列、贴左。
+   ============================================================ */
+main .index-card > .index-info {
+  width: 100% !important;
+  max-width: none !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  justify-self: stretch !important;
+}
