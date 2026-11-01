@@ -1994,3 +1994,13 @@ html[data-user-color-scheme="dark"] .b-cork__note,
 body[data-user-color-scheme="dark"] .b-cork__note{color:#78716c;}
 html[data-user-color-scheme="dark"] .b-cork__note a,
 body[data-user-color-scheme="dark"] .b-cork__note a{color:#a8a29e;border-bottom-color:#44403c;}
+
+/* ============================================================
+   2026-11-01 修「大白边」
+   内容区和页面底色不同（#fff vs #faf9f7），两侧就露出色差带。
+   统一成同一个暖白，边就消失了。暗色模式不受影响（选择器优先级更高）。
+   ============================================================ */
+:root,
+html:not([data-user-color-scheme="dark"]) {
+  --board-bg-color: #faf9f7;
+}
